@@ -32,6 +32,15 @@ dependencies:
   firebase_analytics: ^5.0.16
   firebase_messaging: ^6.0.16
   firebase_core_web: ^0.1.1+2
+  firebase_auth: ^0.16.1
+  firebase_database: ^3.1.6
+
+  google_maps_webservice: ^0.0.17
+  google_maps_flutter: ^0.5.28+1
+  google_map_polyline: ^0.2.0+1
+  permission_handler: ^5.0.1+1
+  geolocator: ^5.3.2+2
+  map_launcher: ^0.8.2
 
 dev_dependencies:
   flutter_test:

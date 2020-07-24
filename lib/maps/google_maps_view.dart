@@ -1,0 +1,466 @@
+import 'dart:async';
+import 'dart:math' show cos, sqrt, asin;
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_map_polyline/google_map_polyline.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:map_launcher/map_launcher.dart' as maps;
+import 'package:postnow/core/service/firebase_service.dart';
+import 'package:postnow/core/service/model/driver.dart';
+import 'package:postnow/core/service/model/job.dart';
+
+const String GOOGLE_MAPS_URL = "https://www.google.com/maps/search/?api=1&query=";
+const String APPLE_MAPS_URL  = "https://maps.apple.com/?sll=";
+
+const double EURO_PER_KM = 0.96;
+const double EURO_START  = 5.00;
+const bool TEST = false;
+
+enum OnlineStatus {
+  ONLINE,
+  OFFLINE
+}
+
+enum MenuTyp {
+  WAITING,
+  JOB_REQUEST,
+  ON_JOB,
+  FINISHED
+}
+
+class GoogleMapsView extends StatefulWidget {
+  final String uid;
+  GoogleMapsView(this.uid);
+
+  @override
+  _GoogleMapsViewState createState() => _GoogleMapsViewState(uid);
+}
+
+class _GoogleMapsViewState extends State<GoogleMapsView> {
+  List<Driver> drivers = List();
+  OnlineStatus onlineStatus = OnlineStatus.OFFLINE;
+  Set<Polyline> polylines = {};
+  List<LatLng> routeCoords;
+  Set markers = Set<Marker>();
+  GoogleMapPolyline googleMapPolyline = new GoogleMapPolyline(apiKey: "AIzaSyDUr-GnemethAnyLSQZc6YPsT_lFeBXaI8");
+  Marker choosedMarker;
+  Driver driver;
+  DatabaseReference driverRef, jobsRef;
+  GoogleMapController _controller;
+  MenuTyp menuTyp;
+  double price = 0;
+  double totalDistance = 0.0;
+  String originAddress, destinationAddress;
+  Position myPosition;
+  LatLng origin, destination;
+  Job job;
+  Driver myDriver;
+  String uid;
+
+  _GoogleMapsViewState(uid) {
+    this.uid = uid;
+  }
+
+  getRoute(LatLng point, bool fromCurrentLoc) async {
+    polylines = {};
+    myPosition = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    LatLng current = LatLng(myPosition.latitude, myPosition.longitude);
+    origin = fromCurrentLoc ? current : point;
+    destination = fromCurrentLoc ? point : current;
+
+    setNewCameraPosition(origin, destination, false);
+
+    List<Placemark> destination_placemarks = await Geolocator().placemarkFromCoordinates(destination.latitude, destination.longitude);
+    List<Placemark> origin_placemarks = await Geolocator().placemarkFromCoordinates(origin.latitude, origin.longitude);
+
+    await setRoutePolyline(origin, destination, RouteMode.driving);
+
+    setState(() {
+
+        calculatePrice();
+
+        originAddress = origin_placemarks[0].name;
+        destinationAddress = destination_placemarks[0].name;
+      });
+
+  }
+
+  void onPositionChanged(Position position) {
+      myPosition = position;
+      if (onlineStatus == OnlineStatus.ONLINE)
+        sendMyLocToDB();
+  }
+
+  void sendMyLocToDB() {
+    var data = new Map<String, double>();
+    data['lat'] = myPosition.latitude;
+    data['long'] = myPosition.longitude;
+    driverRef.child(uid).update(data);
+  }
+
+  void calculateDistance () {
+    totalDistance = 0.0;
+    for (int i = 0; i < routeCoords.length - 1; i++) {
+      totalDistance += _coordinateDistance(
+        routeCoords[i],
+        routeCoords[i + 1]
+      );
+    }
+  }
+
+  void calculatePrice () {
+    calculateDistance();
+    double calcPrice = EURO_START;
+    calcPrice += totalDistance * EURO_PER_KM;;
+    setState(() {
+      price = num.parse(calcPrice.toStringAsFixed(2));
+    });
+  }
+
+  double _coordinateDistance(LatLng latLng1, LatLng latLng2) {
+    if (latLng1 == null || latLng2 == null)
+      return 0.0;
+    var p = 0.017453292519943295;
+    var c = cos;
+    var a = 0.5 -
+        c((latLng2.latitude - latLng1.latitude) * p) / 2 +
+        c(latLng1.latitude * p) * c(latLng2.latitude * p) * (1 - c((latLng2.longitude - latLng1.longitude) * p)) / 2;
+    return 12742 * asin(sqrt(a));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    menuTyp = MenuTyp.WAITING;
+    jobsRef = FirebaseDatabase.instance.reference().child('jobs');
+    driverRef = FirebaseDatabase.instance.reference().child('drivers');
+    jobsRef.onChildChanged.listen(_onJobsDataChanged);
+    driverRef.child(uid).child("isOnline").onValue.listen(_onOnlineStatusChanged);
+
+    var locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
+
+    Geolocator().getPositionStream(locationOptions).listen(onPositionChanged);
+  }
+
+  Future<void> _onOnlineStatusChanged(Event event) async {
+    setState(() {
+      onlineStatus = boolToOnlineStatus(event.snapshot.value);
+    });
+  }
+
+  void changeStatus (OnlineStatus value) async {
+    setState(() {
+        onlineStatus = value;
+        driverRef.child(uid).child("isOnline").set(onlineStatusToBool(value));
+    });
+  }
+
+  OnlineStatus boolToOnlineStatus(value) {
+    switch (value) {
+      case true:
+        return OnlineStatus.ONLINE;
+      case false:
+        return OnlineStatus.OFFLINE;
+    }
+    return OnlineStatus.OFFLINE;
+    throw new ErrorDescription("Value is not a bool: " + value.toString());
+  }
+
+  bool onlineStatusToBool(value) {
+    switch (value) {
+      case OnlineStatus.ONLINE:
+        return true;
+      case OnlineStatus.OFFLINE:
+        return false;
+    }
+    return null;
+  }
+
+  Future<void> _onJobsDataChanged(Event event) async {
+    Job snapshot = Job.fromSnapshot(event.snapshot);
+    if (snapshot.driverId == uid) {
+      job = snapshot;
+      switch (snapshot.status) {
+        case Status.WAITING:
+          setState(() {
+            menuTyp = MenuTyp.JOB_REQUEST;
+          });
+          break;
+        case Status.ON_ROAD:
+          setState(() {
+            menuTyp = MenuTyp.ON_JOB;
+          });
+          break;
+        case Status.FINISHED:
+          setState(() {
+            menuTyp = MenuTyp.FINISHED;
+          });
+          break;
+      }
+    } else {
+      setState(() {
+        menuTyp = MenuTyp.WAITING;
+      });
+    }
+  }
+
+  void onMapCreated(GoogleMapController controller) {
+    setState(() {
+      _controller = controller;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: AppBar(title: Text("Post Now Driver")),
+      body: Stack(
+          children: <Widget>[
+            SizedBox(
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width, // or use fixed size like 200
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height,
+              child: GoogleMap(
+                mapType: MapType.normal,
+                initialCameraPosition: CameraPosition(
+                    target: LatLng(47.823995, 13.023349),
+                    zoom: 9
+                ),
+                onMapCreated: onMapCreated,
+                myLocationEnabled: true,
+                polylines: polylines,
+                markers: markers,
+              ),
+            ),
+            getBottomMenu(),
+          ]
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              child: Text('Ayarlar', style: TextStyle(fontSize: 20, color: Colors.white)),
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+            ),
+            ListTile(
+              title: Text('Item 1'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text('Cikis Yap'),
+              onTap: () {
+                FirebaseService().signOut();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget getBottomMenu() {
+    switch (menuTyp) {
+      case MenuTyp.WAITING:
+        return goOnlineOfflineMenu();
+      case MenuTyp.JOB_REQUEST:
+        return jobRequestMenu();
+      case MenuTyp.ON_JOB:
+        return onJobMenu();
+    }
+    return Container();
+  }
+
+  Widget jobRequestMenu() => Positioned(
+          bottom: 0,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height/4,
+            child: Column(
+                children: <Widget>[
+                  RaisedButton(
+                    onPressed: () {
+                      job.setAcceptTime();
+                      job.status = Status.ON_ROAD;
+                      jobsRef.child(job.key).set(job.toMap());
+                    },
+                    child: const Text('Kabul et', style: TextStyle(fontSize: 20, color: Colors.white)),
+                    color: Colors.lightBlueAccent,
+                  ),
+                ]
+            )
+        )
+      );
+
+  Widget onJobMenu() => Positioned(
+          bottom: 0,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height/4,
+            child: Column(
+                children: <Widget>[
+                  RaisedButton(
+                    onPressed: () {
+                      launchNavigation(job);
+                    },
+                    child: const Text('Navigasyon Ac', style: TextStyle(fontSize: 20, color: Colors.white)),
+                    color: Colors.pink,
+                  ),
+                ]
+            )
+        )
+      );
+
+  void launchNavigation(Job job) async {
+    final availableMaps = await maps.MapLauncher.installedMaps;
+    print(availableMaps); // [AvailableMap { mapName: Google Maps, mapType: google }, ...]
+
+    /*await availableMaps.first.showMarker(
+        coords: maps.Coords(job.origin.latitude, job.origin.longitude),
+        title: job.name,
+        description: "${job.origin}'nin paketini ulastir",
+    );*/
+
+    if (await maps.MapLauncher.isMapAvailable(maps.MapType.google)) {
+      await maps.MapLauncher.launchMap(
+        mapType: maps.MapType.google,
+        coords: maps.Coords(job.origin.latitude, job.origin.longitude),
+        title: job.name,
+        description: "${job.origin}'nin paketini ulastir",
+      );
+    }
+  }
+
+  Widget goOnlineOfflineMenu() => Positioned(
+          bottom: 0,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height/4,
+            child: Column(
+                children: <Widget>[
+                  onlineStatus == OnlineStatus.OFFLINE ?
+                  RaisedButton(
+                    onPressed: () {
+                      setState(() {
+                        changeStatus(OnlineStatus.ONLINE);
+                      });
+                    },
+                    color: Colors.green,
+                    child: const Text('Online Ol', style: TextStyle(fontSize: 20, color: Colors.white)),
+                  ) :
+                  RaisedButton(
+                    onPressed: () {
+                      setState(() {
+                        changeStatus(OnlineStatus.OFFLINE);
+                      });
+                    },
+                    color: Colors.redAccent,
+                    child: const Text('Offline Ol', style: TextStyle(fontSize: 20, color: Colors.white)),
+                  )
+                ]
+            )
+        )
+      );
+
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
+  void setNewCameraPosition(LatLng first, LatLng second, bool centerFirst) {
+    if (first == null)
+      return;
+    CameraUpdate cameraUpdate;
+    if (second == null) {
+      // firsti ortala, zoom sabit
+      cameraUpdate = CameraUpdate.newCameraPosition(
+          CameraPosition(target: LatLng(first.latitude, first.longitude), zoom: 13));
+    } else if (centerFirst) {
+      // firsti ortala, secondu da sigdir
+      cameraUpdate = CameraUpdate.newCameraPosition(
+          CameraPosition(target: LatLng(first.latitude, first.longitude), zoom: 13));
+    } else {
+      // first second arasini ortala, ikisini de sigdir
+      cameraUpdate = CameraUpdate.newCameraPosition(
+          CameraPosition(target:
+            LatLng(
+              (first.latitude + second.latitude) / 2,
+              (first.longitude + second.longitude) / 2
+            ),
+            zoom: _coordinateDistance(first, second)));
+
+      LatLngBounds bound = _latLngBoundsCalculate(first, second);
+      cameraUpdate = CameraUpdate.newLatLngBounds(bound, 70);
+    }
+    _controller.moveCamera(cameraUpdate);
+  }
+   LatLngBounds _latLngBoundsCalculate(LatLng first, LatLng second) {
+    bool check = first.latitude < second.latitude;
+    return LatLngBounds(southwest: check ? first : second, northeast: check ? second : first);
+   }
+
+  Future<void> setRoutePolyline(LatLng origin, LatLng destination, RouteMode mode) async {
+    routeCoords = List();
+    if (TEST) {
+      routeCoords.add(origin);
+      routeCoords.add(destination);
+    } else {
+      routeCoords = await googleMapPolyline.getCoordinatesWithLocation(
+      origin: origin,
+      destination: destination,
+      mode: mode);
+    }
+
+    setState(() {
+      polylines = Set();
+      polylines.add(Polyline(
+          polylineId: PolylineId("Route"),
+          visible: true,
+          points: routeCoords,
+          width: 2,
+          color: Colors.deepPurpleAccent,
+          startCap: Cap.roundCap,
+          endCap: Cap.buttCap
+      ));
+    });
+  }
+
+  Future<void> addToRoutePolyline(LatLng origin, LatLng destination, RouteMode mode) async {
+    List<LatLng> newRouteCoords = List();
+
+    if (TEST) {
+      newRouteCoords.add(origin);
+      newRouteCoords.add(destination);
+    } else {
+      newRouteCoords.addAll(await googleMapPolyline.getCoordinatesWithLocation(
+      origin: origin,
+      destination: destination,
+      mode: mode));
+    }
+
+    newRouteCoords.addAll(routeCoords);
+
+    setState(() {
+      polylines.add(Polyline(
+          polylineId: PolylineId("Route"),
+          visible: true,
+          points: newRouteCoords,
+          width: 2,
+          color: Colors.redAccent,
+          startCap: Cap.roundCap,
+          endCap: Cap.buttCap
+      ));
+    });
+  }
+}
