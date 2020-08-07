@@ -1,18 +1,26 @@
 import 'dart:async';
 import 'dart:math' show cos, sqrt, asin;
+import 'dart:typed_data';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_map_polyline/google_map_polyline.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:map_launcher/map_launcher.dart' as maps;
+import 'package:postnow/chat_screen.dart';
 import 'package:postnow/core/service/firebase_service.dart';
 import 'package:postnow/core/service/model/driver.dart';
 import 'package:postnow/core/service/model/job.dart';
+import 'dart:ui' as ui;
+
+import 'package:postnow/core/service/model/job_chat.dart';
 
 const String GOOGLE_MAPS_URL = "https://www.google.com/maps/search/?api=1&query=";
 const String APPLE_MAPS_URL  = "https://maps.apple.com/?sll=";
+
+const double MAX_ARRIVE_DISTANCE_KM = 0.1;
 
 const double EURO_PER_KM = 0.96;
 const double EURO_START  = 5.00;
@@ -27,7 +35,8 @@ enum MenuTyp {
   WAITING,
   JOB_REQUEST,
   ON_JOB,
-  FINISHED
+  IN_ORIGIN_RANGE,
+  FINISHED,
 }
 
 class GoogleMapsView extends StatefulWidget {
@@ -39,15 +48,17 @@ class GoogleMapsView extends StatefulWidget {
 }
 
 class _GoogleMapsViewState extends State<GoogleMapsView> {
+  bool locationFocused = true;
+  BitmapDescriptor packageLocationIcon;
   List<Driver> drivers = List();
   OnlineStatus onlineStatus = OnlineStatus.OFFLINE;
   Set<Polyline> polylines = {};
   List<LatLng> routeCoords;
   Set markers = Set<Marker>();
   GoogleMapPolyline googleMapPolyline = new GoogleMapPolyline(apiKey: "AIzaSyDUr-GnemethAnyLSQZc6YPsT_lFeBXaI8");
-  Marker choosedMarker;
+  Marker chosenMarker;
   Driver driver;
-  DatabaseReference driverRef, jobsRef;
+  DatabaseReference driverRef, jobsRef, jobsChatRef;
   GoogleMapController _controller;
   MenuTyp menuTyp;
   double price = 0;
@@ -65,7 +76,7 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
 
   getRoute(LatLng point, bool fromCurrentLoc) async {
     polylines = {};
-    myPosition = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    setMyPosition(await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high));
     LatLng current = LatLng(myPosition.latitude, myPosition.longitude);
     origin = fromCurrentLoc ? current : point;
     destination = fromCurrentLoc ? point : current;
@@ -88,9 +99,16 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
   }
 
   void onPositionChanged(Position position) {
-      myPosition = position;
+      setMyPosition(position);
+      if (locationFocused)
+        setNewCameraPosition(LatLng(myPosition.latitude, myPosition.longitude), null, true);
       if (onlineStatus == OnlineStatus.ONLINE)
         sendMyLocToDB();
+      if (isInRange(job.origin)) {
+        setState(() {
+          menuTyp = MenuTyp.IN_ORIGIN_RANGE;
+        });
+      }
   }
 
   void sendMyLocToDB() {
@@ -133,8 +151,13 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
   @override
   void initState() {
     super.initState();
+    getBytesFromAsset('assets/package_map_marker.png', 180).then((value) => {
+      packageLocationIcon = BitmapDescriptor.fromBytes(value)
+    });
+    getMyPosition();
     menuTyp = MenuTyp.WAITING;
     jobsRef = FirebaseDatabase.instance.reference().child('jobs');
+    jobsChatRef = FirebaseDatabase.instance.reference().child('jobs_chat');
     driverRef = FirebaseDatabase.instance.reference().child('drivers');
     jobsRef.onChildChanged.listen(_onJobsDataChanged);
     driverRef.child(uid).child("isOnline").onValue.listen(_onOnlineStatusChanged);
@@ -185,6 +208,13 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
       switch (snapshot.status) {
         case Status.WAITING:
           setState(() {
+            markers.add(Marker(
+              markerId: MarkerId(job.key),
+              position: LatLng(job.origin.latitude, job.origin.longitude),
+              icon: packageLocationIcon,
+              infoWindow: InfoWindow(
+                title: job.name,
+              ),));
             menuTyp = MenuTyp.JOB_REQUEST;
           });
           break;
@@ -206,16 +236,31 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
     }
   }
 
+  bool isArrived(LatLng destination) {
+    return _coordinateDistance(LatLng(myPosition.latitude, myPosition.longitude), destination) <= MAX_ARRIVE_DISTANCE_KM;
+  }
+
   void onMapCreated(GoogleMapController controller) {
     setState(() {
       _controller = controller;
     });
   }
 
+  Future<Uint8List> getBytesFromAsset(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png)).buffer.asUint8List();
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: AppBar(title: Text("Post Now Driver")),
+      appBar: AppBar(
+          title: Text("Post Now Driver", style: TextStyle(color: Colors.white),),
+          brightness: Brightness.dark,
+          iconTheme:  IconThemeData( color: Colors.white)
+      ),
       body: Stack(
           children: <Widget>[
             SizedBox(
@@ -229,14 +274,17 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
                   .height,
               child: GoogleMap(
                 mapType: MapType.normal,
-                initialCameraPosition: CameraPosition(
-                    target: LatLng(47.823995, 13.023349),
-                    zoom: 9
-                ),
+                initialCameraPosition: CameraPosition(target: LatLng(0, 0)),
                 onMapCreated: onMapCreated,
                 myLocationEnabled: true,
                 polylines: polylines,
                 markers: markers,
+                myLocationButtonEnabled: false,
+                onCameraMoveStarted: () => {
+                  setState(() {
+                    locationFocused = locationFocused == null;
+                  })
+                },
               ),
             ),
             getBottomMenu(),
@@ -270,6 +318,7 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
           ],
         ),
       ),
+      floatingActionButton: getFloatingButton()
     );
   }
 
@@ -281,9 +330,30 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
         return jobRequestMenu();
       case MenuTyp.ON_JOB:
         return onJobMenu();
+      case MenuTyp.IN_ORIGIN_RANGE:
+        return inOriginRangeMenu();
     }
     return Container();
   }
+
+  Widget inOriginRangeMenu() => Positioned(
+          bottom: 0,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height/4,
+            child: Column(
+                children: <Widget>[
+                  RaisedButton(
+                    onPressed: () {
+                      takePackage();
+                    },
+                    child: const Text('Paketi al', style: TextStyle(fontSize: 20, color: Colors.white)),
+                    color: Colors.lightBlueAccent,
+                  ),
+                ]
+            )
+        )
+      );
 
   Widget jobRequestMenu() => Positioned(
           bottom: 0,
@@ -307,23 +377,38 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
       );
 
   Widget onJobMenu() => Positioned(
-          bottom: 0,
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height/4,
-            child: Column(
-                children: <Widget>[
-                  RaisedButton(
-                    onPressed: () {
-                      launchNavigation(job);
-                    },
-                    child: const Text('Navigasyon Ac', style: TextStyle(fontSize: 20, color: Colors.white)),
-                    color: Colors.pink,
+      bottom: 0,
+      child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height/4,
+          child: Column(
+              children: <Widget>[
+                Card(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      ListTile(
+                        leading: Icon(Icons.card_giftcard),
+                        title: Text('Müsteri: ${job.name}'),
+                        subtitle: Text("Paket Adressi: " + job.originAddress),
+                      ),
+                      ButtonBar(
+                        children: <Widget>[
+                          FlatButton(
+                            child: const Text('Paketi al'),
+                            onPressed: () {
+                              takePackage();
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                ]
-            )
-        )
-      );
+                ),
+              ]
+          )
+      )
+  );
 
   void launchNavigation(Job job) async {
     final availableMaps = await maps.MapLauncher.installedMaps;
@@ -379,7 +464,7 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   void setNewCameraPosition(LatLng first, LatLng second, bool centerFirst) {
-    if (first == null)
+    if (first == null || _controller == null)
       return;
     CameraUpdate cameraUpdate;
     if (second == null) {
@@ -403,7 +488,7 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
       LatLngBounds bound = _latLngBoundsCalculate(first, second);
       cameraUpdate = CameraUpdate.newLatLngBounds(bound, 70);
     }
-    _controller.moveCamera(cameraUpdate);
+    _controller.animateCamera(cameraUpdate);
   }
    LatLngBounds _latLngBoundsCalculate(LatLng first, LatLng second) {
     bool check = first.latitude < second.latitude;
@@ -462,5 +547,72 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
           endCap: Cap.buttCap
       ));
     });
+  }
+
+  Future<Position> getMyPosition() async {
+    if (myPosition != null)
+      return myPosition;
+
+    setMyPosition(await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.low));
+
+    Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high).then((value) => {
+      myPosition = value,
+    });
+
+    return myPosition;
+  }
+  bool isZoomed = false;
+  void setMyPosition(Position pos) {
+    if (!isZoomed && _controller != null) {
+      setNewCameraPosition(new LatLng(pos.latitude, pos.longitude), null, true);
+      isZoomed = true;
+    }
+    myPosition = pos;
+  }
+
+  FloatingActionButton getFloatingButton() {
+    if (locationFocused && !isOnJob())
+      return null;
+    else if (!locationFocused)
+      return currentPositionFButton();
+    else if (isOnJob())
+      return navigateFButton();
+    return null;
+  }
+
+  FloatingActionButton currentPositionFButton() => FloatingActionButton(
+    onPressed: () {
+      if (myPosition == null)
+        return;
+      locationFocused = null;
+      setNewCameraPosition(LatLng(myPosition.latitude, myPosition.longitude), null, true);
+    },
+    child: Icon(Icons.my_location, color: Colors.white,),
+    backgroundColor: Colors.lightBlueAccent,
+  );
+
+  FloatingActionButton navigateFButton() => FloatingActionButton(
+    onPressed: () {
+      launchNavigation(job);
+    },
+    child: Icon(Icons.navigation, color: Colors.white,),
+    backgroundColor: Colors.lightGreen,
+  );
+
+  bool isOnJob() {
+    return menuTyp == MenuTyp.ON_JOB;
+  }
+
+  bool isInRange(LatLng point) {
+    return _coordinateDistance(point, LatLng(myPosition.latitude, myPosition.longitude)) <= MAX_ARRIVE_DISTANCE_KM;
+  }
+
+  void takePackage() async {
+    final bool result = await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Chat_Screen(job.key, job.name))
+    );
+    if (result)
+      Navigator.pop(context, result);
   }
 }

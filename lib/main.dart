@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Post Now Driver',
       theme: ThemeData(
-        primarySwatch: Colors.grey,
+        primarySwatch: Colors.lightBlue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: FirebaseService().handleAuth(),
@@ -51,6 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    iOS_Permission();
   }
 
   @override
@@ -59,6 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
       home: Scaffold(
         appBar: AppBar(
           title: Text("Post Now Driver"),
+          brightness: Brightness.dark,
           leading: signIn != null ? IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () => { setState(() { signIn = null; }) },
@@ -69,6 +71,17 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  void iOS_Permission() {
+    _firebaseMessaging.requestNotificationPermissions(
+        IosNotificationSettings(sound: true, badge: true, alert: true)
+    );
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings)
+    {
+      print("Settings registered: $settings");
+    });
   }
 
   Widget signInPanel() => Padding(
@@ -168,8 +181,12 @@ class _MyHomePageState extends State<MyHomePage> {
   );
 
   Future<FirebaseUser> handleSignInEmail() async {
-    AuthResult result = await _auth.signInWithEmailAndPassword(
-        email: email, password: password);
+    errorField = null;
+    AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password).catchError(signUpError);
+
+    if (errorField != null)
+      return null;
+
     final FirebaseUser user = result.user;
 
     assert(user != null);
@@ -192,6 +209,10 @@ class _MyHomePageState extends State<MyHomePage> {
     return _firebaseMessaging.getToken();
   }
 
+  Future<String> onTokenRefresh() {
+    return _firebaseMessaging.getToken();
+  }
+
   signUpError(error) {
     setState(() {
       errorField = new ErrorField(error);
@@ -200,7 +221,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<FirebaseUser> handleSignUp() async {
-    print("user");
+
     errorField = null;
     AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password).catchError(signUpError);
     if (errorField != null)
@@ -297,7 +318,7 @@ class ErrorField {
         errorPoint = ErrorPoint.SIGN_UP_EMAIL;
         break;
       default:
-        errorMessage = "An undefined Error happened.";
+        errorMessage = error.message;
     }
   }
 

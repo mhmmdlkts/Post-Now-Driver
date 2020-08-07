@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:postnow/chat_screen.dart';
 import 'package:postnow/maps/google_maps_view.dart';
 
 import '../../main.dart';
