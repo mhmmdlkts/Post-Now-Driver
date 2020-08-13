@@ -29,9 +29,11 @@ class _Chat_ScreenState extends State<Chat_Screen> {
   bool isCameraOpen = false;
   bool showCapturedPhoto = false;
   var imagePath = "";
-  var imagePathTest = "/var/mobile/Containers/Data/Application/7589CF76-7454-461C-BE63-EB53F1AD8208/Library/Caches/2020-08-06 21:47:42.104487.png";
   List<CameraDescription> cameras;
   bool isBackCamera = true;
+
+  final FirebaseStorage _storage = FirebaseStorage(storageBucket: 'gs://post-now-f3c53.appspot.com');
+  StorageUploadTask _uploadTask;
 
   _Chat_ScreenState(this.jobId, this.name);
 
@@ -72,15 +74,19 @@ class _Chat_ScreenState extends State<Chat_Screen> {
 
   onNewMessage(event) {
     Message message = Message.fromSnapshot(event.snapshot);
-    listViewController.animateTo(
-      listViewController.position.maxScrollExtent + 20,
-      curve: Curves.easeOut,
-      duration: const Duration(milliseconds: 300),
-    );
 
     setState(() {
       messages.add(message);
     });
+
+    print("min: " + listViewController.position.minScrollExtent.toString());
+    print("max: " + listViewController.position.maxScrollExtent.toString());
+
+    listViewController.animateTo(
+      listViewController.position.maxScrollExtent + 60.0,
+      curve: Curves.easeOut,
+      duration: const Duration(milliseconds: 300),
+    );
   }
 
   @override
@@ -98,17 +104,12 @@ class _Chat_ScreenState extends State<Chat_Screen> {
           brightness: Brightness.dark,
           centerTitle: false,
         ),
-        body: Stack(
+        body: Column(
           children: <Widget>[
-            Positioned(
+            Expanded(
               child: isCameraOpen ? cameraOrImageField() : conversationField(),
             ),
-            Positioned(
-              child: new Align(
-                alignment: FractionalOffset.bottomCenter,
-                child: bottomTextInput()
-              )
-            )
+            bottomTextInput()
           ],
         ),
       )
@@ -124,7 +125,6 @@ class _Chat_ScreenState extends State<Chat_Screen> {
         return Stack(
             children: <Widget>[
               conversationBubble(messages[index].message, messages[index].img, messages[index].send_time.toString(), messages[index].from_driver),
-              Container(height: messages.length-1 == index?160:null,)
             ]
         );
       }
@@ -147,7 +147,7 @@ class _Chat_ScreenState extends State<Chat_Screen> {
         ),
         alignment: fromDriver ? Alignment.topRight : Alignment.topLeft,
         padding: imgPath == null ? EdgeInsets.all(12) : EdgeInsets.symmetric(vertical: 12, horizontal: 6),
-        margin: EdgeInsets.only(top: 15, right: 4, left: 4),
+        margin: EdgeInsets.only(top: 7, right: 4, left: 4, bottom: 8),
         child : Column(
           crossAxisAlignment: fromDriver ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: <Widget>[
@@ -221,21 +221,6 @@ class _Chat_ScreenState extends State<Chat_Screen> {
   cameraPrev() => Stack(
     children: <Widget>[
       CameraPreview(_cameraController,),
-      /*Positioned.fill(
-          top: 10,
-          right: 10,
-          child: Align(
-            alignment: Alignment.topRight,
-            child: IconButton(
-              icon: Icon(Icons.switch_camera, color: Colors.white,),
-              onPressed: () => {
-                setState(() {
-                  isBackCamera = !isBackCamera; // TODO ...
-                })
-              },
-            ),
-          )
-      ),*/
       Positioned.fill(
         bottom: 130,
         child: Align(
@@ -316,24 +301,15 @@ class _Chat_ScreenState extends State<Chat_Screen> {
     clearField();
   }
 
-  final FirebaseStorage _storage = FirebaseStorage(storageBucket: 'gs://post-now-f3c53.appspot.com');
-  StorageUploadTask _uploadTask;
-
   Future<String> startUpload(dbImagePath, imagePath) async {
-    print("nasii");
     if (imagePath == null) {
-      print("Ama null");
       return null;
     }
     if (dbImagePath == null) {
-      print("Ama bu null");
       return null;
     }
     setState(() {
-      print("aaa:" + imagePath);
-      print("bbb:" + dbImagePath);
       _uploadTask = _storage.ref().child(dbImagePath).putFile(i.File(imagePath));
-      print("ccc:" + i.File(imagePath).toString());
     });
     var snapshot = await _uploadTask.onComplete;
     setState(() {

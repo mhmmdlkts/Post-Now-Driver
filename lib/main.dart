@@ -205,11 +205,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return user;
   }
 
-  Future<String> getPushToken() {
-    return _firebaseMessaging.getToken();
-  }
-
-  Future<String> onTokenRefresh() {
+  Future<String> getPushToken() async {
     return _firebaseMessaging.getToken();
   }
 

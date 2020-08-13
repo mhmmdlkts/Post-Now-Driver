@@ -36,7 +36,8 @@ enum MenuTyp {
   JOB_REQUEST,
   ON_JOB,
   IN_ORIGIN_RANGE,
-  FINISHED,
+  PACKAGE_PICKED,
+  COMPLETED,
 }
 
 class GoogleMapsView extends StatefulWidget {
@@ -49,7 +50,7 @@ class GoogleMapsView extends StatefulWidget {
 
 class _GoogleMapsViewState extends State<GoogleMapsView> {
   bool locationFocused = true;
-  BitmapDescriptor packageLocationIcon;
+  BitmapDescriptor packageLocationIcon, homeLocationIcon;
   List<Driver> drivers = List();
   OnlineStatus onlineStatus = OnlineStatus.OFFLINE;
   Set<Polyline> polylines = {};
@@ -61,8 +62,6 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
   DatabaseReference driverRef, jobsRef, jobsChatRef;
   GoogleMapController _controller;
   MenuTyp menuTyp;
-  double price = 0;
-  double totalDistance = 0.0;
   String originAddress, destinationAddress;
   Position myPosition;
   LatLng origin, destination;
@@ -72,30 +71,6 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
 
   _GoogleMapsViewState(uid) {
     this.uid = uid;
-  }
-
-  getRoute(LatLng point, bool fromCurrentLoc) async {
-    polylines = {};
-    setMyPosition(await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high));
-    LatLng current = LatLng(myPosition.latitude, myPosition.longitude);
-    origin = fromCurrentLoc ? current : point;
-    destination = fromCurrentLoc ? point : current;
-
-    setNewCameraPosition(origin, destination, false);
-
-    List<Placemark> destination_placemarks = await Geolocator().placemarkFromCoordinates(destination.latitude, destination.longitude);
-    List<Placemark> origin_placemarks = await Geolocator().placemarkFromCoordinates(origin.latitude, origin.longitude);
-
-    await setRoutePolyline(origin, destination, RouteMode.driving);
-
-    setState(() {
-
-        calculatePrice();
-
-        originAddress = origin_placemarks[0].name;
-        destinationAddress = destination_placemarks[0].name;
-      });
-
   }
 
   void onPositionChanged(Position position) {
@@ -118,25 +93,6 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
     driverRef.child(uid).update(data);
   }
 
-  void calculateDistance () {
-    totalDistance = 0.0;
-    for (int i = 0; i < routeCoords.length - 1; i++) {
-      totalDistance += _coordinateDistance(
-        routeCoords[i],
-        routeCoords[i + 1]
-      );
-    }
-  }
-
-  void calculatePrice () {
-    calculateDistance();
-    double calcPrice = EURO_START;
-    calcPrice += totalDistance * EURO_PER_KM;;
-    setState(() {
-      price = num.parse(calcPrice.toStringAsFixed(2));
-    });
-  }
-
   double _coordinateDistance(LatLng latLng1, LatLng latLng2) {
     if (latLng1 == null || latLng2 == null)
       return 0.0;
@@ -153,6 +109,9 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
     super.initState();
     getBytesFromAsset('assets/package_map_marker.png', 180).then((value) => {
       packageLocationIcon = BitmapDescriptor.fromBytes(value)
+    });
+    getBytesFromAsset('assets/home_map_marker.png', 180).then((value) => {
+      homeLocationIcon = BitmapDescriptor.fromBytes(value)
     });
     getMyPosition();
     menuTyp = MenuTyp.WAITING;
@@ -223,9 +182,14 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
             menuTyp = MenuTyp.ON_JOB;
           });
           break;
+        case Status.PACKAGE_PICKED:
+          setState(() {
+            menuTyp = MenuTyp.PACKAGE_PICKED;
+          });
+          break;
         case Status.FINISHED:
           setState(() {
-            menuTyp = MenuTyp.FINISHED;
+            menuTyp = MenuTyp.COMPLETED;
           });
           break;
       }
@@ -332,6 +296,10 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
         return onJobMenu();
       case MenuTyp.IN_ORIGIN_RANGE:
         return inOriginRangeMenu();
+      case MenuTyp.PACKAGE_PICKED:
+        return packagePickedMenu();
+      case MenuTyp.COMPLETED:
+        return jobCompletedMenu();
     }
     return Container();
   }
@@ -344,9 +312,7 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
             child: Column(
                 children: <Widget>[
                   RaisedButton(
-                    onPressed: () {
-                      takePackage();
-                    },
+                    onPressed: takePackage,
                     child: const Text('Paketi al', style: TextStyle(fontSize: 20, color: Colors.white)),
                     color: Colors.lightBlueAccent,
                   ),
@@ -363,11 +329,7 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
             child: Column(
                 children: <Widget>[
                   RaisedButton(
-                    onPressed: () {
-                      job.setAcceptTime();
-                      job.status = Status.ON_ROAD;
-                      jobsRef.child(job.key).set(job.toMap());
-                    },
+                    onPressed: acceptJob,
                     child: const Text('Kabul et', style: TextStyle(fontSize: 20, color: Colors.white)),
                     color: Colors.lightBlueAccent,
                   ),
@@ -396,9 +358,70 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
                         children: <Widget>[
                           FlatButton(
                             child: const Text('Paketi al'),
-                            onPressed: () {
-                              takePackage();
-                            },
+                            onPressed: takePackage,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ]
+          )
+      )
+  );
+
+  Widget packagePickedMenu() => Positioned(
+      bottom: 0,
+      child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height/4,
+          child: Column(
+              children: <Widget>[
+                Card(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      ListTile(
+                        leading: Icon(Icons.card_giftcard),
+                        title: Text('Müsteri: ${job.name}'),
+                        subtitle: Text("Paket Adressi: " + job.originAddress),
+                      ),
+                      ButtonBar(
+                        children: <Widget>[
+                          FlatButton(
+                            child: const Text('Paketi Teslim Et'),
+                            onPressed: completeJob,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ]
+          )
+      )
+  );
+
+  Widget jobCompletedMenu() => Positioned(
+      bottom: 0,
+      child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height/4,
+          child: Column(
+              children: <Widget>[
+                Card(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      ListTile(
+                        leading: Icon(Icons.card_giftcard),
+                        title: Text('Tessekürler'),
+                      ),
+                      ButtonBar(
+                        children: <Widget>[
+                          FlatButton(
+                            child: const Text('Tamam'),
+                            onPressed: clearJob,
                           ),
                         ],
                       ),
@@ -607,12 +630,44 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
     return _coordinateDistance(point, LatLng(myPosition.latitude, myPosition.longitude)) <= MAX_ARRIVE_DISTANCE_KM;
   }
 
-  void takePackage() async {
+  void openMessageMenu() async {
     final bool result = await Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => Chat_Screen(job.key, job.name))
     );
     if (result)
       Navigator.pop(context, result);
+  }
+
+  void clearJob() {
+    setState(() {
+      routeCoords = null;
+      polylines = null;
+      myDriver = null;
+      originAddress = null;
+      destinationAddress = null;
+      destination = null;
+      origin = null;
+      job = null;
+      menuTyp = null;
+    });
+  }
+
+  void acceptJob() {
+    job.setAcceptTime();
+    job.status = Status.ON_ROAD;
+    jobsRef.child(job.key).set(job.toMap());
+  }
+
+  void takePackage() {
+    job.setStartTime();
+    job.status = Status.PACKAGE_PICKED;
+    jobsRef.child(job.key).set(job.toMap());
+  }
+
+  void completeJob() {
+    job.setFinishTime();
+    job.status = Status.FINISHED;
+    jobsRef.child(job.key).set(job.toMap());
   }
 }
