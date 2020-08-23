@@ -9,13 +9,13 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_map_polyline/google_map_polyline.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:map_launcher/map_launcher.dart' as maps;
+import 'package:pinput/pin_put/pin_put.dart';
 import 'package:postnow/chat_screen.dart';
 import 'package:postnow/core/service/firebase_service.dart';
 import 'package:postnow/core/service/model/driver.dart';
 import 'package:postnow/core/service/model/job.dart';
-import 'dart:ui' as ui;
 
-import 'package:postnow/core/service/model/job_chat.dart';
+import 'dart:ui' as ui;
 
 const String GOOGLE_MAPS_URL = "https://www.google.com/maps/search/?api=1&query=";
 const String APPLE_MAPS_URL  = "https://maps.apple.com/?sll=";
@@ -48,7 +48,9 @@ class GoogleMapsView extends StatefulWidget {
   _GoogleMapsViewState createState() => _GoogleMapsViewState(uid);
 }
 
-class _GoogleMapsViewState extends State<GoogleMapsView> {
+class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObserver {
+  final TextEditingController _pinPutController = TextEditingController();
+  final FocusNode _pinPutFocusNode = FocusNode();
   bool locationFocused = true;
   BitmapDescriptor packageLocationIcon, homeLocationIcon;
   List<Driver> drivers = List();
@@ -68,6 +70,26 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
   Job job;
   Driver myDriver;
   String uid;
+  String submitPin = "abcd";
+
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.detached)
+      changeStatus(OnlineStatus.OFFLINE);
+    print(state);
+  }
+
+  void dispose() {
+    super.dispose();
+  }
+
+  BoxDecoration get _pinPutDecoration {
+    return BoxDecoration(
+      border: Border.all(color: Colors.blue),
+      borderRadius: BorderRadius.circular(15),
+    );
+  }
 
   _GoogleMapsViewState(uid) {
     this.uid = uid;
@@ -79,7 +101,7 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
         setNewCameraPosition(LatLng(myPosition.latitude, myPosition.longitude), null, true);
       if (onlineStatus == OnlineStatus.ONLINE)
         sendMyLocToDB();
-      if (isInRange(job.origin)) {
+      if (job != null && isInRange(job.origin)) {
         setState(() {
           menuTyp = MenuTyp.IN_ORIGIN_RANGE;
         });
@@ -107,6 +129,7 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     getBytesFromAsset('assets/package_map_marker.png', 180).then((value) => {
       packageLocationIcon = BitmapDescriptor.fromBytes(value)
     });
@@ -132,10 +155,11 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
     });
   }
 
-  void changeStatus (OnlineStatus value) async {
+  changeStatus (OnlineStatus value) async {
+    print("aaaaaaaaaaaaaaaaaaaaaaaaaaa");
+    driverRef.child(uid).child("isOnline").set(onlineStatusToBool(value));
     setState(() {
         onlineStatus = value;
-        driverRef.child(uid).child("isOnline").set(onlineStatusToBool(value));
     });
   }
 
@@ -147,7 +171,6 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
         return OnlineStatus.OFFLINE;
     }
     return OnlineStatus.OFFLINE;
-    throw new ErrorDescription("Value is not a bool: " + value.toString());
   }
 
   bool onlineStatusToBool(value) {
@@ -237,6 +260,7 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
                   .size
                   .height,
               child: GoogleMap(
+                zoomControlsEnabled: false,
                 mapType: MapType.normal,
                 initialCameraPosition: CameraPosition(target: LatLng(0, 0)),
                 onMapCreated: onMapCreated,
@@ -312,6 +336,11 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
             child: Column(
                 children: <Widget>[
                   RaisedButton(
+                    onPressed: openMessageScreen,
+                    child: const Text('Mesaj Gönder', style: TextStyle(fontSize: 20, color: Colors.white)),
+                    color: Colors.lightBlueAccent,
+                  ),
+                  RaisedButton(
                     onPressed: takePackage,
                     child: const Text('Paketi al', style: TextStyle(fontSize: 20, color: Colors.white)),
                     color: Colors.lightBlueAccent,
@@ -357,6 +386,10 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
                       ButtonBar(
                         children: <Widget>[
                           FlatButton(
+                            child: const Text('Mesaj Gönder'),
+                            onPressed: openMessageScreen,
+                          ),
+                          FlatButton(
                             child: const Text('Paketi al'),
                             onPressed: takePackage,
                           ),
@@ -374,8 +407,8 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
       bottom: 0,
       child: SizedBox(
           width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height/4,
-          child: Column(
+          height: MediaQuery.of(context).size.height/3,
+          child: true ? Column(
               children: <Widget>[
                 Card(
                   child: Column(
@@ -386,18 +419,46 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
                         title: Text('Müsteri: ${job.name}'),
                         subtitle: Text("Paket Adressi: " + job.originAddress),
                       ),
-                      ButtonBar(
+                      (job.pin != null) ?
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          FlatButton(
-                            child: const Text('Paketi Teslim Et'),
-                            onPressed: completeJob,
+                          Container(
+                            color: Colors.white,
+                            margin: EdgeInsets.symmetric(horizontal: 20),
+                            padding: EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 20),
+                            child: PinPut(
+                              fieldsCount: job.pin.length,
+                              onSubmit: (String pin) => {
+                                if (pin == job.pin)
+                                  completeJob()
+                                else
+                                  print(pin)
+                              },
+                              focusNode: _pinPutFocusNode,
+                              controller: _pinPutController,
+                              submittedFieldDecoration: _pinPutDecoration.copyWith(
+                                  borderRadius: BorderRadius.circular(20)),
+                              selectedFieldDecoration: _pinPutDecoration,
+                              followingFieldDecoration: _pinPutDecoration.copyWith(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.blue.withOpacity(.5),
+                                ),
+                              ),
+                            ),
                           ),
+                          Text("Paketi teslim edebilmek icin müsteride bulunan " + job.pin.length.toString() + " haneli sifreyi girin")
                         ],
-                      ),
+                      ): Container(),
                     ],
                   ),
                 ),
               ]
+          ): Center(
+            child: SingleChildScrollView(
+              child: Container()
+            ),
           )
       )
   );
@@ -463,8 +524,8 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
                   onlineStatus == OnlineStatus.OFFLINE ?
                   RaisedButton(
                     onPressed: () {
+                      changeStatus(OnlineStatus.ONLINE);
                       setState(() {
-                        changeStatus(OnlineStatus.ONLINE);
                       });
                     },
                     color: Colors.green,
@@ -472,9 +533,7 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
                   ) :
                   RaisedButton(
                     onPressed: () {
-                      setState(() {
-                        changeStatus(OnlineStatus.OFFLINE);
-                      });
+                      changeStatus(OnlineStatus.OFFLINE);
                     },
                     color: Colors.redAccent,
                     child: const Text('Offline Ol', style: TextStyle(fontSize: 20, color: Colors.white)),
@@ -630,13 +689,11 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
     return _coordinateDistance(point, LatLng(myPosition.latitude, myPosition.longitude)) <= MAX_ARRIVE_DISTANCE_KM;
   }
 
-  void openMessageMenu() async {
-    final bool result = await Navigator.push(
+  void openMessageScreen() async {
+    await Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => Chat_Screen(job.key, job.name))
     );
-    if (result)
-      Navigator.pop(context, result);
   }
 
   void clearJob() {
