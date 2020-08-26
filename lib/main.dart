@@ -11,6 +11,7 @@ import 'package:postnow/core/service/model/driver_info.dart';
 import 'core/service/firebase_service.dart';
 
 void main() {
+  print('ssss');
   runApp(
     EasyLocalization(
         supportedLocales: [Locale('en', ''), Locale('de', ''), Locale('tr', '')],
@@ -29,13 +30,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     /* if (context.locale.languageCode != ui.window.locale.languageCode)
       context.locale = Locale(ui.window.locale.languageCode, ''); */
-    return MaterialApp(
-      title: 'APP_NAME'.tr(),
-      theme: ThemeData(
-        primarySwatch: Colors.lightBlue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: FirebaseService().handleAuth(),
+    return FutureBuilder(
+      future: Firebase.initializeApp(),
+      builder: (context, snapshot) {
+        return MaterialApp(
+          title: 'APP_NAME'.tr(),
+          theme: ThemeData(
+            primarySwatch: Colors.lightBlue,
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+          ),
+          home: FirebaseService().handleAuth(snapshot.connectionState),
+        );
+      },
     );
   }
 }
@@ -63,13 +69,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    print('foifnifeniefni');
     super.initState();
-    Firebase.initializeApp().then((value) => {
-      _auth = FirebaseAuth.instance,
-      _firebaseMessaging = FirebaseMessaging(),
-      iOS_Permission()
-    });
+    _auth = FirebaseAuth.instance;
+    _firebaseMessaging = FirebaseMessaging();
+    iOS_Permission();
   }
 
   @override

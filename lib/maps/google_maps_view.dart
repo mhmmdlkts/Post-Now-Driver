@@ -9,7 +9,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_map_polyline/google_map_polyline.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:map_launcher/map_launcher.dart' as maps;
-import 'package:pinput/pin_put/pin_put.dart';
 import 'package:postnow/chat_screen.dart';
 import 'package:postnow/core/service/firebase_service.dart';
 import 'package:postnow/core/service/model/driver.dart';
@@ -52,8 +51,6 @@ class GoogleMapsView extends StatefulWidget {
 }
 
 class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObserver {
-  final TextEditingController _pinPutController = TextEditingController();
-  final FocusNode _pinPutFocusNode = FocusNode();
   bool locationFocused = true;
   BitmapDescriptor packageLocationIcon, homeLocationIcon;
   List<Driver> drivers = List();
@@ -85,13 +82,6 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
 
   void dispose() {
     super.dispose();
-  }
-
-  BoxDecoration get _pinPutDecoration {
-    return BoxDecoration(
-      border: Border.all(color: Colors.blue),
-      borderRadius: BorderRadius.circular(15),
-    );
   }
 
   _GoogleMapsViewState(uid) {
@@ -412,45 +402,17 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
                         title: Text('MAPS.BOTTOM_MENUS.YOUR_CUSTOMER'.tr(namedArgs: {'name': job.name})),
                         subtitle: Text('MAPS.BOTTOM_MENUS.PACKAGE_ADDRESS'.tr(namedArgs: {'address': job.originAddress})),
                       ),
-                      (job.pin != null) ?
+                      (job.sign != null) ?
                       Column(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          Container(
-                            color: Colors.white,
-                            margin: EdgeInsets.symmetric(horizontal: 20),
-                            padding: EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 20),
-                            child: PinPut(
-                              fieldsCount: job.pin.length,
-                              onSubmit: (String pin) => {
-                                if (pin == job.pin)
-                                  completeJob()
-                                else
-                                  print(pin)
-                              },
-                              focusNode: _pinPutFocusNode,
-                              controller: _pinPutController,
-                              submittedFieldDecoration: _pinPutDecoration.copyWith(
-                                  borderRadius: BorderRadius.circular(20)),
-                              selectedFieldDecoration: _pinPutDecoration,
-                              followingFieldDecoration: _pinPutDecoration.copyWith(
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                  color: Colors.blue.withOpacity(.5),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Text('MAPS.PACKAGE_PICKED.FOR_FINISH_YOU_NEED_PIN_MESSAGE'.tr(namedArgs: {'length': job.pin.length.toString()}))
                         ],
                       ): Container(),
                       ButtonBar(
                         children: <Widget>[
                           FlatButton(
                             child: Text('MAPS.BOTTOM_MENUS.PACKAGE_PICKED.LET_HIM_SIGNING'.tr()),
-                            onPressed: () {
-                              openSignScreen();
-                            },
+                            onPressed: openSignScreen,
                           ),
                         ],
                       ),
@@ -701,10 +663,11 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
   }
 
   void openSignScreen() async {
-    await Navigator.push(
+    final result = await Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => SigningScreen())
     );
+    completeJob(result);
   }
 
   void clearJob() {
@@ -733,9 +696,10 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
     jobsRef.child(job.key).set(job.toMap());
   }
 
-  void completeJob() {
+  void completeJob(sign) {
     job.setFinishTime();
     job.status = Status.FINISHED;
+    job.sign = sign;
     jobsRef.child(job.key).set(job.toMap());
   }
 }

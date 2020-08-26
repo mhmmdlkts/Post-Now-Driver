@@ -35,7 +35,7 @@
   },
   "MAPS": {
     "GO_ONLINE" : "Online Ol",
-    "GO_OFFLINE" : "Online Ol",
+    "GO_OFFLINE" : "Offline Ol",
     "TAKE_PACKAGE" : "Paketi al",
     "SIDE_MENU": {
       "SIGN_OUT": "Cikis yap"

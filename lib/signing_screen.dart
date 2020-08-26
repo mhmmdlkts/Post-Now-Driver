@@ -15,7 +15,6 @@ class SigningScreen extends StatefulWidget {
 
 class _SigningScreen extends State<SigningScreen> {
   final signatureFieldKey = GlobalKey<SignatureState>();
-  String toText = '';
   bool check = false;
 
   Uint8List img;
@@ -38,31 +37,21 @@ class _SigningScreen extends State<SigningScreen> {
         centerTitle: false,
       ),
       body: Container(
-        alignment: Alignment.center,
         padding: EdgeInsets.all(20),
+        alignment: Alignment.center,
         child: Column(
           children: <Widget>[
             signingFieldWidget(),
-            RaisedButton(
-              onPressed: clear,
-              child: Text('SIGNING.CLEAR'.tr(), style: TextStyle(fontSize: 20, color: Colors.white)),
-              color: Colors.redAccent,
-            ),
             RaisedButton(
               onPressed: sign,
               child: Text('SIGNING.SIGN'.tr(), style: TextStyle(fontSize: 20, color: Colors.white)),
               color: Colors.lightBlueAccent,
             ),
-            Text(toText),
-            (check) ?
-            Container(
-                height: 200,
-                decoration: BoxDecoration(
-                    color: Colors.green,
-                    image: DecorationImage(
-                        image: MemoryImage(img)
-                    )
-                )) : Container()
+            RaisedButton(
+              onPressed: clear,
+              child: Text('SIGNING.CLEAR'.tr(), style: TextStyle(fontSize: 20, color: Colors.white)),
+              color: Colors.redAccent,
+            ),
           ],
         ),
       )
@@ -70,31 +59,30 @@ class _SigningScreen extends State<SigningScreen> {
   }
 
   sign() async {
-    print('ää');
-    var image = await signatureFieldKey.currentState.getData();
-
-    a(image);
-    print('äää');
-  }
-
-  a(image) {
-    img = base64Decode(image);
-    check = true;
-    print(check);
+    final sign = signatureFieldKey.currentState;
+    final image = await sign.getData();
+    var data = await image.toByteData(format: ui.ImageByteFormat.png);
+    final encoded = base64.encode(data.buffer.asUint8List());
+    Navigator.pop(context, encoded);
   }
 
   clear() {
     signatureFieldKey.currentState.clear();
   }
 
+  static Image decodeSign(encoded) {
+    return Image.memory(base64.decode(encoded).buffer.asUint8List());
+  }
+
   Widget signingFieldWidget() => Container(
-    height: (MediaQuery.of(context).size.width - 40) * 0.5,
+    margin: EdgeInsets.only(bottom: 20),
+    height: (MediaQuery.of(context).size.width - 40) * 0.55,
     decoration: BoxDecoration(
       border: Border.all(),
     ),
     child: Signature(
       color: Colors.black,// Color of the drawing path
-      strokeWidth: 4.0, // with,
+      strokeWidth: 2.4, // with,
       backgroundPainter: null, // Additional custom painter to draw stuff like watermark
       onSign: null, // Callback called on user pan drawing
       key: signatureFieldKey, // key that allow you to provide a GlobalKey that'll let you retrieve the image once user has signed
