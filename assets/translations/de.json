@@ -1,0 +1,63 @@
+{
+  "APP_NAME": "Post Now Driver",
+  "OK": "Tamam",
+  "CANCEL": "Iptal",
+  "ACCEPT": "Onayla",
+  "CLOSE": "Kapat",
+  "ERROR": "Hata",
+  "SETTINGS": "Ayarlar",
+  "THANKS": "Tessekürler",
+  "SEND_MESSAGE": "Mesaj Gönder",
+  "LOGIN": {
+    "EMAIL_FIELD_HINT": "E-posta adressinizi giriniz",
+    "EMAIL_FIELD_VALIDATOR_ENTER_NAME": "E-posta adressinizi dogru giriniz",
+    "PASSWORD_FIELD_HINT": "Sifrenizi Giriniz",
+    "PASSWORD_FIELD_VALIDATOR_ENTER_NAME": "Sifrenizi Dogru Giriniz",
+    "NAME_FIELD_HINT": "Isminizi giriniz",
+    "NAME_FIELD_VALIDATOR_ENTER_NAME": "Lütfen isminizi giriniz",
+    "SURNAME_FIELD_HINT": "Soyisminizi giriniz",
+    "SURNAME_FIELD_VALIDATOR_ENTER_NAME": "Lütfen soyisminizi giriniz",
+    "PHONE_FIELD_HINT": "Örnek: +436601231212",
+    "PHONE_FIELD_VALIDATOR_ENTER_NAME": "Lütfen telefon numaranizi dogru giriniz",
+    "SMS_CODE_FIELD_HINT": "Örnek: 123456",
+    "SMS_CODE_FIELD_VALIDATOR_ENTER_NAME": "Lütfen sms kodunu dogru giriniz",
+    "SIGN_IN": "Giris yap",
+    "SIGN_UP": "Kayit ol",
+    "ERROR_MESSAGES" : {
+      "ERROR_INVALID_EMAIL" : "Your email address appears to be malformed.",
+      "ERROR_WRONG_PASSWORD" : "Your password is wrong.",
+      "ERROR_USER_NOT_FOUND" : "User with this email doesn't exist.",
+      "ERROR_USER_DISABLED" : "User with this email has been disabled.",
+      "ERROR_TOO_MANY_REQUESTS" : "Too many requests. Try again later.",
+      "ERROR_OPERATION_NOT_ALLOWED" : "Signing in with Email and Password is not enabled.",
+      "ERROR_EMAIL_ALREADY_IN_USE" : "The email address is already in use by another account."
+    }
+  },
+  "MAPS": {
+    "GO_ONLINE" : "Online Ol",
+    "GO_OFFLINE" : "Online Ol",
+    "TAKE_PACKAGE" : "Paketi al",
+    "SIDE_MENU": {
+      "SIGN_OUT": "Cikis yap"
+    },
+    "BOTTOM_MENUS": {
+      "ON_JOB": {
+        "YOUR_CUSTOMER": "Müsteri: {name}",
+        "PACKAGE_ADDRESS": "Paket Adressi: {address}"
+      },
+      "PACKAGE_PICKED" : {
+        "FOR_FINISH_YOU_NEED_PIN_MESSAGE" : "Paketi teslim edebilmek icin müsteride bulunan {length} haneli sifreyi girin",
+        "LET_HIM_SIGNING" : "Teslim icin imzalattir"
+      }
+    }
+  },
+  "CHAT": {
+    "TYPE_MESSAGE_HERE": "Mesajinizi buraya giriniz..."
+  },
+  "SIGNING": {
+    "CLEAR": "Temizle",
+    "SIGN": "Imzala"
+  },
+  "MODELS": {
+  }
+}

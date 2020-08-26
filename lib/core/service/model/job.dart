@@ -21,6 +21,7 @@ class Job {
   String userId;
   String name;
   String pin;
+  double price;
   Status status;
   Vehicle vehicle;
   DateTime start_time;
@@ -54,6 +55,7 @@ class Job {
     driverId = snapshot.value["driver-id"];
     userId = snapshot.value["user-id"];
     pin = snapshot.value["pin"];
+    price = snapshot.value["price"] + 0.0;
     status = stringToStatus(snapshot.value["status"]);
     vehicle = stringToVehicle(snapshot.value["vehicle"]);
     origin = stringToLatLng(snapshot.value["origin"]);
@@ -160,6 +162,7 @@ class Job {
     if (driverId != null) toReturn['driver-id'] = driverId;
     if (userId != null) toReturn['user-id'] = userId;
     if (pin != null) toReturn['pin'] = pin;
+    if (price != null) toReturn['price'] = price;
     if (status != null) toReturn['status'] = statusToString(status);
     if (vehicle != null) toReturn['vehicle'] = vehicleToString(vehicle);
     if (origin != null) toReturn['origin'] = latLngToString(origin);

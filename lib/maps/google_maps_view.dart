@@ -14,16 +14,19 @@ import 'package:postnow/chat_screen.dart';
 import 'package:postnow/core/service/firebase_service.dart';
 import 'package:postnow/core/service/model/driver.dart';
 import 'package:postnow/core/service/model/job.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'dart:ui' as ui;
+
+import 'package:postnow/signing_screen.dart';
 
 const String GOOGLE_MAPS_URL = "https://www.google.com/maps/search/?api=1&query=";
 const String APPLE_MAPS_URL  = "https://maps.apple.com/?sll=";
 
 const double MAX_ARRIVE_DISTANCE_KM = 0.1;
-
 const double EURO_PER_KM = 0.96;
 const double EURO_START  = 5.00;
+
 const bool TEST = false;
 
 enum OnlineStatus {
@@ -156,7 +159,6 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
   }
 
   changeStatus (OnlineStatus value) async {
-    print("aaaaaaaaaaaaaaaaaaaaaaaaaaa");
     driverRef.child(uid).child("isOnline").set(onlineStatusToBool(value));
     setState(() {
         onlineStatus = value;
@@ -244,7 +246,7 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: AppBar(
-          title: Text("Post Now Driver", style: TextStyle(color: Colors.white),),
+          title: Text("APP_NAME".tr(), style: TextStyle(color: Colors.white),),
           brightness: Brightness.dark,
           iconTheme:  IconThemeData( color: Colors.white)
       ),
@@ -283,22 +285,13 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
-              child: Text('Ayarlar', style: TextStyle(fontSize: 20, color: Colors.white)),
+              child: Text('SETTINGS'.tr(), style: TextStyle(fontSize: 20, color: Colors.white)),
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
             ),
             ListTile(
-              title: Text('Item 1'),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Text('Cikis Yap'),
+              title: Text('MAPS.SIDE_MENU.SIGN_OUT'.tr()),
               onTap: () {
                 FirebaseService().signOut();
               },
@@ -337,12 +330,12 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
                 children: <Widget>[
                   RaisedButton(
                     onPressed: openMessageScreen,
-                    child: const Text('Mesaj Gönder', style: TextStyle(fontSize: 20, color: Colors.white)),
+                    child: Text('SEND_MESSAGE'.tr(), style: TextStyle(fontSize: 20, color: Colors.white)),
                     color: Colors.lightBlueAccent,
                   ),
                   RaisedButton(
                     onPressed: takePackage,
-                    child: const Text('Paketi al', style: TextStyle(fontSize: 20, color: Colors.white)),
+                    child: Text('MAPS.TAKE_PACKAGE'.tr(), style: TextStyle(fontSize: 20, color: Colors.white)),
                     color: Colors.lightBlueAccent,
                   ),
                 ]
@@ -359,7 +352,7 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
                 children: <Widget>[
                   RaisedButton(
                     onPressed: acceptJob,
-                    child: const Text('Kabul et', style: TextStyle(fontSize: 20, color: Colors.white)),
+                    child: Text('ACCEPT'.tr(), style: TextStyle(fontSize: 20, color: Colors.white)),
                     color: Colors.lightBlueAccent,
                   ),
                 ]
@@ -380,17 +373,17 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
                     children: <Widget>[
                       ListTile(
                         leading: Icon(Icons.card_giftcard),
-                        title: Text('Müsteri: ${job.name}'),
-                        subtitle: Text("Paket Adressi: " + job.originAddress),
+                        title: Text('MAPS.BOTTOM_MENUS.YOUR_CUSTOMER'.tr(namedArgs: {'name': job.name})),
+                        subtitle: Text('MAPS.BOTTOM_MENUS.PACKAGE_ADDRESS'.tr(namedArgs: {'address': job.originAddress})),
                       ),
                       ButtonBar(
                         children: <Widget>[
                           FlatButton(
-                            child: const Text('Mesaj Gönder'),
+                            child: Text('SEND_MESSAGE'.tr()),
                             onPressed: openMessageScreen,
                           ),
                           FlatButton(
-                            child: const Text('Paketi al'),
+                            child: Text('MAPS.TAKE_PACKAGE'.tr()),
                             onPressed: takePackage,
                           ),
                         ],
@@ -416,8 +409,8 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
                     children: <Widget>[
                       ListTile(
                         leading: Icon(Icons.card_giftcard),
-                        title: Text('Müsteri: ${job.name}'),
-                        subtitle: Text("Paket Adressi: " + job.originAddress),
+                        title: Text('MAPS.BOTTOM_MENUS.YOUR_CUSTOMER'.tr(namedArgs: {'name': job.name})),
+                        subtitle: Text('MAPS.BOTTOM_MENUS.PACKAGE_ADDRESS'.tr(namedArgs: {'address': job.originAddress})),
                       ),
                       (job.pin != null) ?
                       Column(
@@ -448,9 +441,19 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
                               ),
                             ),
                           ),
-                          Text("Paketi teslim edebilmek icin müsteride bulunan " + job.pin.length.toString() + " haneli sifreyi girin")
+                          Text('MAPS.PACKAGE_PICKED.FOR_FINISH_YOU_NEED_PIN_MESSAGE'.tr(namedArgs: {'length': job.pin.length.toString()}))
                         ],
                       ): Container(),
+                      ButtonBar(
+                        children: <Widget>[
+                          FlatButton(
+                            child: Text('MAPS.BOTTOM_MENUS.PACKAGE_PICKED.LET_HIM_SIGNING'.tr()),
+                            onPressed: () {
+                              openSignScreen();
+                            },
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -476,12 +479,12 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
                     children: <Widget>[
                       ListTile(
                         leading: Icon(Icons.card_giftcard),
-                        title: Text('Tessekürler'),
+                        title: Text('THANKS'.tr()),
                       ),
                       ButtonBar(
                         children: <Widget>[
                           FlatButton(
-                            child: const Text('Tamam'),
+                            child: Text('OK'.tr()),
                             onPressed: clearJob,
                           ),
                         ],
@@ -496,20 +499,14 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
 
   void launchNavigation(Job job) async {
     final availableMaps = await maps.MapLauncher.installedMaps;
-    print(availableMaps); // [AvailableMap { mapName: Google Maps, mapType: google }, ...]
-
-    /*await availableMaps.first.showMarker(
-        coords: maps.Coords(job.origin.latitude, job.origin.longitude),
-        title: job.name,
-        description: "${job.origin}'nin paketini ulastir",
-    );*/
+    print(availableMaps);
 
     if (await maps.MapLauncher.isMapAvailable(maps.MapType.google)) {
       await maps.MapLauncher.launchMap(
+        description: job.originAddress,
         mapType: maps.MapType.google,
-        coords: maps.Coords(job.origin.latitude, job.origin.longitude),
+        coords: maps.Coords(job.origin.latitude, job.origin.longitude), // TODO origin and destination
         title: job.name,
-        description: "${job.origin}'nin paketini ulastir",
       );
     }
   }
@@ -529,14 +526,21 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
                       });
                     },
                     color: Colors.green,
-                    child: const Text('Online Ol', style: TextStyle(fontSize: 20, color: Colors.white)),
+                    child: Text('MAPS.GO_ONLINE'.tr(), style: TextStyle(fontSize: 20, color: Colors.white)),
                   ) :
                   RaisedButton(
                     onPressed: () {
                       changeStatus(OnlineStatus.OFFLINE);
                     },
                     color: Colors.redAccent,
-                    child: const Text('Offline Ol', style: TextStyle(fontSize: 20, color: Colors.white)),
+                    child: Text('MAPS.GO_OFFLINE'.tr(), style: TextStyle(fontSize: 20, color: Colors.white)),
+                  ),
+                  RaisedButton(
+                    onPressed: () {
+                      openSignScreen();
+                    },
+                    color: Colors.lightBlue,
+                    child: Text('MAPS.BOTTOM_MENUS.PACKAGE_PICKED.LET_HIM_SIGNING'.tr(), style: TextStyle(fontSize: 20, color: Colors.white)),
                   )
                 ]
             )
@@ -692,7 +696,14 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
   void openMessageScreen() async {
     await Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => Chat_Screen(job.key, job.name))
+        MaterialPageRoute(builder: (context) => Chat_Screen(job.key, job.name, true))
+    );
+  }
+
+  void openSignScreen() async {
+    await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => SigningScreen())
     );
   }
 

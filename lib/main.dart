@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -9,15 +11,26 @@ import 'package:postnow/core/service/model/driver_info.dart';
 import 'core/service/firebase_service.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    EasyLocalization(
+        supportedLocales: [Locale('en', ''), Locale('de', ''), Locale('tr', '')],
+        path: 'assets/translations',
+        fallbackLocale: Locale('en', ''),
+        saveLocale: true,
+        useOnlyLangCode: true,
+        child: MyApp()
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    /* if (context.locale.languageCode != ui.window.locale.languageCode)
+      context.locale = Locale(ui.window.locale.languageCode, ''); */
     return MaterialApp(
-      title: 'Post Now Driver',
+      title: 'APP_NAME'.tr(),
       theme: ThemeData(
         primarySwatch: Colors.lightBlue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -37,7 +50,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  FirebaseMessaging _firebaseMessaging;
   static const double padding = 20.0;
   bool signIn;
   String email;
@@ -46,12 +59,17 @@ class _MyHomePageState extends State<MyHomePage> {
   String phone;
   String password;
   ErrorField errorField;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseAuth _auth;
 
   @override
   void initState() {
+    print('foifnifeniefni');
     super.initState();
-    iOS_Permission();
+    Firebase.initializeApp().then((value) => {
+      _auth = FirebaseAuth.instance,
+      _firebaseMessaging = FirebaseMessaging(),
+      iOS_Permission()
+    });
   }
 
   @override
@@ -59,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text("Post Now Driver"),
+          title: Text('APP_NAME'.tr()),
           brightness: Brightness.dark,
           leading: signIn != null ? IconButton(
             icon: Icon(Icons.arrow_back),
@@ -91,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
       children: <Widget>[
         TextFormField(
           decoration: InputDecoration(
-              labelText: 'E-posta adressinizi giriniz'
+              labelText: 'LOGIN.EMAIL_FIELD_HINT'.tr()
           ),
           keyboardType: TextInputType.emailAddress,
           onChanged: (String val) {
@@ -100,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         TextFormField(
           decoration: InputDecoration(
-              labelText: 'Sifrenizi Girin'
+              labelText: 'LOGIN.PASSWORD_FIELD_HINT'.tr()
           ),
           obscureText: true,
           onChanged: (String val) {
@@ -111,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
         SizedBox(
             width: double.infinity,
             child: RaisedButton(
-              child: Text("Giris Yap"),
+              child: Text("LOGIN.SIGN_IN".tr()),
               onPressed: () {
                 handleSignInEmail();
               },
@@ -127,7 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
         TextFormField(
           decoration: InputDecoration(
-              labelText: 'Isminizi Girin'
+              labelText: 'LOGIN.NAME_FIELD_HINT'.tr()
           ),
           onChanged: (String val) {
             name = val;
@@ -135,7 +153,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         TextFormField(
           decoration: InputDecoration(
-              labelText: 'Soyisminizi Girin'
+              labelText: 'LOGIN.SURNAME_FIELD_HINT'.tr()
           ),
           onChanged: (String val) {
             surname = val;
@@ -143,7 +161,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         TextFormField(
           decoration: InputDecoration(
-              labelText: 'Telefon Numaranizi Girin'
+              labelText: 'LOGIN.PHONE_FIELD_HINT'.tr()
           ),
           keyboardType: TextInputType.phone,
           onChanged: (String val) {
@@ -152,7 +170,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         TextFormField(
           decoration: InputDecoration(
-              labelText: 'E-posta adressinizi giriniz'
+              labelText: 'LOGIN.EMAIL_FIELD_HINT'.tr()
           ),
           keyboardType: TextInputType.emailAddress,
           onChanged: (String val) {
@@ -161,7 +179,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         TextFormField(
           decoration: InputDecoration(
-              labelText: 'Sifrenizi Girin'
+              labelText: 'LOGIN.PASSWORD_FIELD_HINT'.tr()
           ),
           obscureText: true,
           onChanged: (String val) {
@@ -171,7 +189,7 @@ class _MyHomePageState extends State<MyHomePage> {
         SizedBox(
         width: double.infinity,
         child: RaisedButton(
-            child: Text("Üye Ol"),
+            child: Text("LOGIN.SIGN_UP".tr()),
             onPressed: () {
               handleSignUp();
             },
@@ -180,20 +198,20 @@ class _MyHomePageState extends State<MyHomePage> {
       ]
   );
 
-  Future<FirebaseUser> handleSignInEmail() async {
+  Future<User> handleSignInEmail() async {
     errorField = null;
-    AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password).catchError(signUpError);
+    UserCredential result = await _auth.signInWithEmailAndPassword(email: email, password: password).catchError(signUpError);
 
     if (errorField != null)
       return null;
 
-    final FirebaseUser user = result.user;
+    final User user = result.user;
 
     assert(user != null);
-    IdTokenResult token = await user.getIdToken();
+    String token = await user.getIdToken();
     assert(token != null);
 
-    final FirebaseUser currentUser = await _auth.currentUser();
+    final User currentUser = _auth.currentUser;
     assert(user.uid == currentUser.uid);
 
     print('signInEmail succeeded: $user');
@@ -216,20 +234,20 @@ class _MyHomePageState extends State<MyHomePage> {
     errorField.getAlertDialog(context);
   }
 
-  Future<FirebaseUser> handleSignUp() async {
+  Future<User> handleSignUp() async {
 
     errorField = null;
-    AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password).catchError(signUpError);
+    UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: password).catchError(signUpError);
     if (errorField != null)
       return null;
 
     assert (result != null);
 
-    final FirebaseUser user = result.user;
+    final User user = result.user;
 
     assert (user != null);
 
-    IdTokenResult token = await user.getIdToken();
+    String token = user.uid;
     assert (token != null);
 
     print(user);
@@ -251,7 +269,7 @@ class _MyHomePageState extends State<MyHomePage> {
         SizedBox(
         width: double.infinity,
         child: RaisedButton(
-            child: Text("Giris Yap"),
+            child: Text("LOGIN.SIGN_IN".tr()),
             onPressed: () { setState(() { signIn = true; }); },
           ),
         ),
@@ -259,7 +277,7 @@ class _MyHomePageState extends State<MyHomePage> {
         width: double.infinity,
         child:
           RaisedButton(
-            child: Text("Üye Ol"),
+            child: Text("LOGIN.SIGN_UP".tr()),
             onPressed: () { setState(() { signIn = false; }); },
           )
         )
@@ -288,29 +306,29 @@ class ErrorField {
     errorCode = error.code;
     switch (errorCode) {
       case "ERROR_INVALID_EMAIL":
-        errorMessage = "Your email address appears to be malformed.";
+        errorMessage = "LOGIN.ERROR_MESSAGES.ERROR_INVALID_EMAIL".tr();
         errorPoint = ErrorPoint.SIGN_UP_EMAIL;
         break;
       case "ERROR_WRONG_PASSWORD":
-        errorMessage = "Your password is wrong.";
+        errorMessage = "LOGIN.ERROR_MESSAGES.ERROR_WRONG_PASSWORD".tr();
         errorPoint = ErrorPoint.SIGN_IN_PASSWORD;
         break;
       case "ERROR_USER_NOT_FOUND":
-        errorMessage = "User with this email doesn't exist.";
+        errorMessage = "LOGIN.ERROR_MESSAGES.ERROR_USER_NOT_FOUND".tr();
         errorPoint = ErrorPoint.SIGN_IN_EMAIL;
         break;
       case "ERROR_USER_DISABLED":
-        errorMessage = "User with this email has been disabled.";
+        errorMessage = "LOGIN.ERROR_MESSAGES.ERROR_USER_DISABLED".tr();
         errorPoint = ErrorPoint.SIGN_IN_EMAIL;
         break;
       case "ERROR_TOO_MANY_REQUESTS":
-        errorMessage = "Too many requests. Try again later.";
+        errorMessage = "LOGIN.ERROR_MESSAGES.ERROR_TOO_MANY_REQUESTS".tr();
         break;
       case "ERROR_OPERATION_NOT_ALLOWED":
-        errorMessage = "Signing in with Email and Password is not enabled.";
+        errorMessage = "LOGIN.ERROR_MESSAGES.ERROR_OPERATION_NOT_ALLOWED".tr();
         break;
       case "ERROR_EMAIL_ALREADY_IN_USE":
-        errorMessage = "The email address is already in use by another account.";
+        errorMessage = "LOGIN.ERROR_MESSAGES.ERROR_EMAIL_ALREADY_IN_USE".tr();
         errorPoint = ErrorPoint.SIGN_UP_EMAIL;
         break;
       default:
@@ -322,7 +340,7 @@ class ErrorField {
 
     // set up the button
     Widget okButton = FlatButton(
-      child: Text("Tamam"),
+      child: Text("OK".tr()),
       onPressed: () {
         Navigator.of(context).pop(); // dismiss dialo
       },
@@ -330,7 +348,7 @@ class ErrorField {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("Hata"),
+      title: Text("ERROR".tr()),
       content: Text(errorMessage),
       actions: [
         okButton,

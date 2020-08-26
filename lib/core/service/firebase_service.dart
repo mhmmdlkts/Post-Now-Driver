@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:postnow/chat_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:postnow/maps/google_maps_view.dart';
 
 import '../../main.dart';
@@ -8,12 +8,12 @@ import '../../main.dart';
 class FirebaseService {
   handleAuth() {
     return StreamBuilder(
-      stream: FirebaseAuth.instance.onAuthStateChanged,
+      stream: FirebaseAuth.instance.authStateChanges(),
       builder: (BuildContext context, snapshot) {
         if (snapshot.hasData) {
           return GoogleMapsView(snapshot.data.uid);
         } else {
-          return MyHomePage(title: 'Post Now Driver');
+          return MyHomePage(title: 'APP_NAME'.tr());
         }
       },
     );
@@ -28,7 +28,7 @@ class FirebaseService {
   }
 
   signInWithOTP(smsCode, verId) {
-    AuthCredential authCredential = PhoneAuthProvider.getCredential(
+    AuthCredential authCredential = PhoneAuthProvider.credential(
         verificationId: verId, smsCode: smsCode);
     signIn(authCredential);
   }
