@@ -37,6 +37,7 @@
     "GO_ONLINE" : "Online Ol",
     "GO_OFFLINE" : "Offline Ol",
     "TAKE_PACKAGE" : "Paketi al",
+    "NO_LOCATION_INFORMATION_MESSAGE" : "Konum bilgisine ulasilamiyor",
     "SIDE_MENU": {
       "SIGN_OUT": "Cikis yap"
     },
@@ -59,5 +60,10 @@
     "SIGN": "Imzala"
   },
   "MODELS": {
+  },
+  "DIALOGS": {
+    "JOB_REQUEST": {
+      "TITLE": "Yeni paket istegi"
+    }
   }
 }

@@ -69,6 +69,25 @@ class Job {
     finish_time = stringToDateTime(snapshot.value["finish-time"]);
   }
 
+  Job.fromJson(Map json, key) {
+    this.key = key;
+    name = json["name"];
+    driverId = json["driver-id"];
+    userId = json["user-id"];
+    sign = json["sign"];
+    transactionId = json["transactionId"];
+    price = json["price"] + 0.0;
+    status = stringToStatus(json["status"]);
+    vehicle = stringToVehicle(json["vehicle"]);
+    origin = stringToLatLng(json["origin"]);
+    destination = stringToLatLng(json["destination"]);
+    originAddress = json["origin-address"];
+    destinationAddress = json["destination-address"];
+    start_time = stringToDateTime(json["start-time"]);
+    accept_time = stringToDateTime(json["accept-time"]);
+    finish_time = stringToDateTime(json["finish-time"]);
+  }
+
   static Status stringToStatus(String status_string) {
     switch (status_string) {
       case "waiting":
@@ -176,6 +195,14 @@ class Job {
     if (accept_time != null) toReturn['accept-time'] = dateTimeToString(accept_time);
     if (finish_time != null) toReturn['finish-time'] = dateTimeToString(finish_time);
     return toReturn;
+  }
+
+  bool isJobForMe(String uid) {
+    return this.driverId == uid;
+  }
+
+  bool isJobAccepted() {
+    return this.accept_time != null;
   }
 
   @override

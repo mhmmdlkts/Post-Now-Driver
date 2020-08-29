@@ -15,13 +15,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.4.2"
-  background_geolocation_firebase:
-    dependency: "direct main"
-    description:
-      name: background_geolocation_firebase
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.0"
   boolean_selector:
     dependency: transitive
     description:
