@@ -1,69 +1,69 @@
 {
   "APP_NAME": "Post Now Driver",
-  "OK": "Tamam",
-  "CANCEL": "Iptal",
-  "ACCEPT": "Onayla",
-  "CLOSE": "Kapat",
-  "ERROR": "Hata",
-  "SETTINGS": "Ayarlar",
-  "THANKS": "Tessekürler",
-  "SEND_MESSAGE": "Mesaj Gönder",
+  "OK": "OK",
+  "CANCEL": "Cancel",
+  "ACCEPT": "Accep",
+  "CLOSE": "Close",
+  "ERROR": "Error",
+  "SETTINGS": "Settings",
+  "THANKS": "Thanks",
+  "SEND_MESSAGE": "Send a message",
   "LOGIN": {
-    "EMAIL_FIELD_HINT": "E-posta adressinizi giriniz",
-    "EMAIL_FIELD_VALIDATOR_ENTER_NAME": "E-posta adressinizi dogru giriniz",
-    "PASSWORD_FIELD_HINT": "Sifrenizi Giriniz",
-    "PASSWORD_FIELD_VALIDATOR_ENTER_NAME": "Sifrenizi Dogru Giriniz",
-    "NAME_FIELD_HINT": "Isminizi giriniz",
-    "NAME_FIELD_VALIDATOR_ENTER_NAME": "Lütfen isminizi giriniz",
-    "SURNAME_FIELD_HINT": "Soyisminizi giriniz",
-    "SURNAME_FIELD_VALIDATOR_ENTER_NAME": "Lütfen soyisminizi giriniz",
-    "PHONE_FIELD_HINT": "Örnek: +436601231212",
-    "PHONE_FIELD_VALIDATOR_ENTER_NAME": "Lütfen telefon numaranizi dogru giriniz",
-    "SMS_CODE_FIELD_HINT": "Örnek: 123456",
-    "SMS_CODE_FIELD_VALIDATOR_ENTER_NAME": "Lütfen sms kodunu dogru giriniz",
-    "SIGN_IN": "Giris yap",
-    "SIGN_UP": "Kayit ol",
+    "EMAIL_FIELD_HINT": "E-mail",
+    "EMAIL_FIELD_VALIDATOR_ENTER_NAME": "Please enter your e-mail adress.",
+    "PASSWORD_FIELD_HINT": "Password",
+    "PASSWORD_FIELD_VALIDATOR_ENTER_NAME": "Please enter your password.",
+    "NAME_FIELD_HINT": "Namez",
+    "NAME_FIELD_VALIDATOR_ENTER_NAME": "Enter your name.",
+    "SURNAME_FIELD_HINT": "Surname",
+    "SURNAME_FIELD_VALIDATOR_ENTER_NAME": "Enter your surname.",
+    "PHONE_FIELD_HINT": "Example: +436601231212",
+    "PHONE_FIELD_VALIDATOR_ENTER_NAME": "Enter your phone number.",
+    "SMS_CODE_FIELD_HINT": "Example: 123456",
+    "SMS_CODE_FIELD_VALIDATOR_ENTER_NAME": "Enter your validation code",
+    "SIGN_IN": "Sign in",
+    "SIGN_UP": "Sign up",
     "ERROR_MESSAGES" : {
-      "ERROR_INVALID_EMAIL" : "Your email address appears to be malformed.",
+      "ERROR_INVALID_EMAIL" : "Your e-mail address appears to be invalid.",
       "ERROR_WRONG_PASSWORD" : "Your password is wrong.",
-      "ERROR_USER_NOT_FOUND" : "User with this email doesn't exist.",
-      "ERROR_USER_DISABLED" : "User with this email has been disabled.",
+      "ERROR_USER_NOT_FOUND" : "User with this e-mail adress doesn't exist.",
+      "ERROR_USER_DISABLED" : "User with this e-mail adress has been disabled.",
       "ERROR_TOO_MANY_REQUESTS" : "Too many requests. Try again later.",
-      "ERROR_OPERATION_NOT_ALLOWED" : "Signing in with Email and Password is not enabled.",
-      "ERROR_EMAIL_ALREADY_IN_USE" : "The email address is already in use by another account."
+      "ERROR_OPERATION_NOT_ALLOWED" : "Signing in with e-mail and password is not enabled.",
+      "ERROR_EMAIL_ALREADY_IN_USE" : "The email address is already in use by another user."
     }
   },
   "MAPS": {
-    "GO_ONLINE" : "Online Ol",
-    "GO_OFFLINE" : "Offline Ol",
-    "TAKE_PACKAGE" : "Paketi al",
-    "NO_LOCATION_INFORMATION_MESSAGE" : "Konum bilgisine ulasilamiyor",
+    "GO_ONLINE" : "Go Onine",
+    "GO_OFFLINE" : "Go Offline",
+    "TAKE_PACKAGE" : "Pick up package",
+    "NO_LOCATION_INFORMATION_MESSAGE" : "Location information is not available.",
     "SIDE_MENU": {
-      "SIGN_OUT": "Cikis yap"
+      "SIGN_OUT": "Sign out"
     },
     "BOTTOM_MENUS": {
       "ON_JOB": {
-        "YOUR_CUSTOMER": "Müsteri: {name}",
-        "PACKAGE_ADDRESS": "Paket Adressi: {address}"
+        "YOUR_CUSTOMER": "Customer: {name}",
+        "PACKAGE_ADDRESS": "Sender adress: {address}"
       },
       "PACKAGE_PICKED" : {
-        "FOR_FINISH_YOU_NEED_PIN_MESSAGE" : "Paketi teslim edebilmek icin müsteride bulunan {length} haneli sifreyi girin",
-        "LET_HIM_SIGNING" : "Teslim icin imzalattir"
+        "FOR_FINISH_YOU_NEED_PIN_MESSAGE" : "To complete delivery please enter the {length} digit PIN code of the receiver customer.",
+        "LET_HIM_SIGNING" : "Customer Signature"
       }
     }
   },
   "CHAT": {
-    "TYPE_MESSAGE_HERE": "Mesajinizi buraya giriniz..."
+    "TYPE_MESSAGE_HERE": "Enter your message..."
   },
   "SIGNING": {
-    "CLEAR": "Temizle",
-    "SIGN": "Imzala"
+    "CLEAR": "Clear",
+    "SIGN": "Sign"
   },
   "MODELS": {
   },
   "DIALOGS": {
     "JOB_REQUEST": {
-      "TITLE": "Yeni paket istegi"
+      "TITLE": "New Delivery!"
     }
   }
 }
