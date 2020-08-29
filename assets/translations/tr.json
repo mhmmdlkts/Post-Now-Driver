@@ -25,7 +25,7 @@
     "SIGN_UP": "Kayıt ol",
     "ERROR_MESSAGES" : {
       "ERROR_INVALID_EMAIL" : "E-posta adresiniz geçersiz.",
-      "ERROR_WRONG_PASSWORD" : "Hatalı şifre.",
+      "ERROR_WRONG_PASSWORD" : "Girdiğiniz şifre yanlış.",
       "ERROR_USER_NOT_FOUND" : "Bu e-posta adresiyle kayıtlı bir kullanıcı bulunmamaktadır.",
       "ERROR_USER_DISABLED" : "Bu e-posta adresiyle kayıtlı kullanıcı hizmet dışı edilmiştir.",
       "ERROR_TOO_MANY_REQUESTS" : "Çok fazla deneme yaptınız. Sonra tekrar deneyiniz.",

@@ -9,11 +9,11 @@
   "THANKS": "Thanks",
   "SEND_MESSAGE": "Send a message",
   "LOGIN": {
-    "EMAIL_FIELD_HINT": "E-mail",
-    "EMAIL_FIELD_VALIDATOR_ENTER_NAME": "Please enter your e-mail adress.",
+    "EMAIL_FIELD_HINT": "Email",
+    "EMAIL_FIELD_VALIDATOR_ENTER_NAME": "Please enter your Email adress.",
     "PASSWORD_FIELD_HINT": "Password",
     "PASSWORD_FIELD_VALIDATOR_ENTER_NAME": "Please enter your password.",
-    "NAME_FIELD_HINT": "Namez",
+    "NAME_FIELD_HINT": "Name",
     "NAME_FIELD_VALIDATOR_ENTER_NAME": "Enter your name.",
     "SURNAME_FIELD_HINT": "Surname",
     "SURNAME_FIELD_VALIDATOR_ENTER_NAME": "Enter your surname.",
@@ -24,12 +24,12 @@
     "SIGN_IN": "Sign in",
     "SIGN_UP": "Sign up",
     "ERROR_MESSAGES" : {
-      "ERROR_INVALID_EMAIL" : "Your e-mail address appears to be invalid.",
-      "ERROR_WRONG_PASSWORD" : "Your password is wrong.",
-      "ERROR_USER_NOT_FOUND" : "User with this e-mail adress doesn't exist.",
-      "ERROR_USER_DISABLED" : "User with this e-mail adress has been disabled.",
-      "ERROR_TOO_MANY_REQUESTS" : "Too many requests. Try again later.",
-      "ERROR_OPERATION_NOT_ALLOWED" : "Signing in with e-mail and password is not enabled.",
+      "ERROR_INVALID_EMAIL" : "Your Email address appears to be invalid.",
+      "ERROR_WRONG_PASSWORD" : "The password you entered is incorrect.",
+      "ERROR_USER_NOT_FOUND" : "A user with this email address does not exist.",
+      "ERROR_USER_DISABLED" : "User with this Email adress has been disabled.",
+      "ERROR_TOO_MANY_REQUESTS" : "Too many requests try again later.",
+      "ERROR_OPERATION_NOT_ALLOWED" : "Signing in with Email and password is not enabled.",
       "ERROR_EMAIL_ALREADY_IN_USE" : "The email address is already in use by another user."
     }
   },

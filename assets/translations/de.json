@@ -1,69 +1,69 @@
 {
   "APP_NAME": "Post Now Driver",
-  "OK": "Tamam",
-  "CANCEL": "Iptal",
-  "ACCEPT": "Onayla",
-  "CLOSE": "Kapat",
-  "ERROR": "Hata",
-  "SETTINGS": "Ayarlar",
-  "THANKS": "Tessekürler",
-  "SEND_MESSAGE": "Mesaj Gönder",
+  "OK": "OK",
+  "CANCEL": "Abbrechen",
+  "ACCEPT": "Akzeptieren",
+  "CLOSE": "Schlißen",
+  "ERROR": "Fehler",
+  "SETTINGS": "Einstellungen",
+  "THANKS": "Danke",
+  "SEND_MESSAGE": "Nachricht senden",
   "LOGIN": {
-    "EMAIL_FIELD_HINT": "E-posta adressinizi giriniz",
-    "EMAIL_FIELD_VALIDATOR_ENTER_NAME": "E-posta adressinizi dogru giriniz",
-    "PASSWORD_FIELD_HINT": "Sifrenizi Giriniz",
-    "PASSWORD_FIELD_VALIDATOR_ENTER_NAME": "Sifrenizi Dogru Giriniz",
-    "NAME_FIELD_HINT": "Isminizi giriniz",
-    "NAME_FIELD_VALIDATOR_ENTER_NAME": "Lütfen isminizi giriniz",
-    "SURNAME_FIELD_HINT": "Soyisminizi giriniz",
-    "SURNAME_FIELD_VALIDATOR_ENTER_NAME": "Lütfen soyisminizi giriniz",
-    "PHONE_FIELD_HINT": "Örnek: +436601231212",
-    "PHONE_FIELD_VALIDATOR_ENTER_NAME": "Lütfen telefon numaranizi dogru giriniz",
-    "SMS_CODE_FIELD_HINT": "Örnek: 123456",
-    "SMS_CODE_FIELD_VALIDATOR_ENTER_NAME": "Lütfen sms kodunu dogru giriniz",
-    "SIGN_IN": "Giris yap",
-    "SIGN_UP": "Kayit ol",
+    "EMAIL_FIELD_HINT": "Email",
+    "EMAIL_FIELD_VALIDATOR_ENTER_NAME": "Geben Sie bitte Ihre Email-Adresse ein.",
+    "PASSWORD_FIELD_HINT": "Passwort",
+    "PASSWORD_FIELD_VALIDATOR_ENTER_NAME": "Bitte geben Sie Ihr Passwort ein.",
+    "NAME_FIELD_HINT": "Name",
+    "NAME_FIELD_VALIDATOR_ENTER_NAME": "Geben Sie Ihren Namen ein.",
+    "SURNAME_FIELD_HINT": "Surname",
+    "SURNAME_FIELD_VALIDATOR_ENTER_NAME": "Geben Sie Ihren Nachnamen ein.",
+    "PHONE_FIELD_HINT": "zB: +436601231212",
+    "PHONE_FIELD_VALIDATOR_ENTER_NAME": "Geben Sie Ihre Telefonnummer ein.",
+    "SMS_CODE_FIELD_HINT": "zB: 123456",
+    "SMS_CODE_FIELD_VALIDATOR_ENTER_NAME": "Geben Sie Ihren Validierungscode ein.",
+    "SIGN_IN": "Einloggen",
+    "SIGN_UP": "Registrieren",
     "ERROR_MESSAGES" : {
-      "ERROR_INVALID_EMAIL" : "Your email address appears to be malformed.",
-      "ERROR_WRONG_PASSWORD" : "Your password is wrong.",
-      "ERROR_USER_NOT_FOUND" : "User with this email doesn't exist.",
-      "ERROR_USER_DISABLED" : "User with this email has been disabled.",
-      "ERROR_TOO_MANY_REQUESTS" : "Too many requests. Try again later.",
-      "ERROR_OPERATION_NOT_ALLOWED" : "Signing in with Email and Password is not enabled.",
-      "ERROR_EMAIL_ALREADY_IN_USE" : "The email address is already in use by another account."
+      "ERROR_INVALID_EMAIL" : "Ihre E-Mail-Adresse scheint ungültig zu sein.",
+      "ERROR_WRONG_PASSWORD" : "Das eingegebene Passwort ist falsch.",
+      "ERROR_USER_NOT_FOUND" : "Ein Benutzer mit dieser E-Mail-Adresse existiert nicht.",
+      "ERROR_USER_DISABLED" : "Benutzer mit dieser E-Mail-Adresse wurde deaktiviert.",
+      "ERROR_TOO_MANY_REQUESTS" : "Zu viele Anfragen versuchen Sie es später erneut.",
+      "ERROR_OPERATION_NOT_ALLOWED" : "Die Anmeldung mit Email und Passwort ist nicht aktiviert.",
+      "ERROR_EMAIL_ALREADY_IN_USE" : "Die Email-Adresse wird bereits von einem anderen Benutzer verwendet."
     }
   },
   "MAPS": {
-    "GO_ONLINE" : "Online Ol",
-    "GO_OFFLINE" : "Offline Ol",
-    "TAKE_PACKAGE" : "Paketi al",
-    "NO_LOCATION_INFORMATION_MESSAGE" : "Konum bilgisine ulasilamiyor",
+    "GO_ONLINE" : "Online gehen",
+    "GO_OFFLINE" : "Offline gehen",
+    "TAKE_PACKAGE" : "Paket abholen",
+    "NO_LOCATION_INFORMATION_MESSAGE" : "Standortinformationen sind nicht verfügbar.",
     "SIDE_MENU": {
-      "SIGN_OUT": "Cikis yap"
+      "SIGN_OUT": "Ausloggen"
     },
     "BOTTOM_MENUS": {
       "ON_JOB": {
-        "YOUR_CUSTOMER": "Müsteri: {name}",
-        "PACKAGE_ADDRESS": "Paket Adressi: {address}"
+        "YOUR_CUSTOMER": "Kunde: {name}",
+        "PACKAGE_ADDRESS": "Absenderadresse: {address}"
       },
       "PACKAGE_PICKED" : {
-        "FOR_FINISH_YOU_NEED_PIN_MESSAGE" : "Paketi teslim edebilmek icin müsteride bulunan {length} haneli sifreyi girin",
-        "LET_HIM_SIGNING" : "Teslim icin imzalattir"
+        "FOR_FINISH_YOU_NEED_PIN_MESSAGE" : "Um die Lieferung abzuschließen, geben Sie bitte den {length}-Ziffern-PIN-Code des Empfängers ein.",
+        "LET_HIM_SIGNING" : "Empfänger Unterschrift"
       }
     }
   },
   "CHAT": {
-    "TYPE_MESSAGE_HERE": "Mesajinizi buraya giriniz..."
+    "TYPE_MESSAGE_HERE": "eben Sie Ihre Nachricht ein..."
   },
   "SIGNING": {
-    "CLEAR": "Temizle",
-    "SIGN": "Imzala"
+    "CLEAR": "Löschen",
+    "SIGN": "Unterschrift"
   },
   "MODELS": {
   },
   "DIALOGS": {
     "JOB_REQUEST": {
-      "TITLE": "Yeni paket istegi"
+      "TITLE": "Neue Lieferung!"
     }
   }
 }
