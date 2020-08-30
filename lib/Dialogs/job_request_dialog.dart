@@ -54,22 +54,12 @@ class JobRequestDialog extends StatelessWidget {
               fontSize: 16.0,
             ),
           ),
-          ButtonBar(
-            children: [
-              FlatButton(
-                child: Text("CANCEL".tr()),
-                onPressed: () {
-                  Navigator.pop(context, false);
-                },
-              ),
-              FlatButton(
-                child: Text("ACCEPT".tr()),
-                onPressed: () {
-                  Navigator.pop(context, true);
-                },
-              ),
-            ],
-          )
+          FlatButton(
+            child: Text("ACCEPT".tr()),
+            onPressed: () {
+              Navigator.pop(context, true);
+            },
+          ),
         ],
       ),
     );

@@ -9,14 +9,15 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_map_polyline/google_map_polyline.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:map_launcher/map_launcher.dart' as maps;
+import 'package:oktoast/oktoast.dart';
 import 'package:postnow/Dialogs/job_request_dialog.dart';
+import 'package:postnow/Dialogs/message_toast.dart';
 import 'package:postnow/chat_screen.dart';
 import 'package:postnow/core/service/firebase_service.dart';
 import 'package:postnow/core/service/model/driver.dart';
 import 'package:postnow/core/service/model/job.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-import 'dart:io' show Platform;
 import 'dart:ui' as ui;
 
 import 'package:postnow/signing_screen.dart';
@@ -55,6 +56,7 @@ class GoogleMapsView extends StatefulWidget {
 class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObserver {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  BuildContext jobDialogCtx;
   bool locationFocused = true;
   BitmapDescriptor packageLocationIcon, homeLocationIcon;
   List<Driver> drivers = List();
@@ -185,7 +187,12 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
     }
 
     _onOnlineStatusChanged(Event event) {
-      onlineStatus = boolToOnlineStatus(event.snapshot.value);
+      OnlineStatus status = boolToOnlineStatus(event.snapshot.value);
+      if (onlineStatus != status) {
+        setState(() {
+          onlineStatus = status;
+        });
+      }
     }
 
     changeStatus (OnlineStatus value) {
@@ -275,7 +282,8 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
 
     @override
     Widget build(BuildContext context) {
-      return new Scaffold(
+      return OKToast(
+          child: Scaffold(
           key: _scaffoldKey,
           appBar: AppBar(
               title: Text("APP_NAME".tr(), style: TextStyle(color: Colors.white),),
@@ -332,6 +340,7 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
             ),
           ),
           floatingActionButton: getFloatingButton()
+        )
       );
     }
 
@@ -361,7 +370,9 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
             child: Column(
                 children: <Widget>[
                   RaisedButton(
-                    onPressed: openMessageScreen,
+                    onPressed: () {
+                      openMessageScreen(job.key, job.name);
+                    },
                     child: Text('SEND_MESSAGE'.tr(), style: TextStyle(fontSize: 20, color: Colors.white)),
                     color: Colors.lightBlueAccent,
                   ),
@@ -408,7 +419,7 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
                           children: <Widget>[
                             FlatButton(
                               child: Text('SEND_MESSAGE'.tr()),
-                              onPressed: openMessageScreen,
+                              onPressed: () { openMessageScreen(job.key, job.name); },
                             ),
                             FlatButton(
                               child: Text('MAPS.TAKE_PACKAGE'.tr()),
@@ -645,7 +656,6 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
 
     FloatingActionButton currentPositionFButton() => FloatingActionButton(
       onPressed: () {
-        showMessageToast("key", "name", "message");
         if (myPosition == null)
           return;
         locationFocused = null;
@@ -671,10 +681,10 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
       return _coordinateDistance(point, LatLng(myPosition.latitude, myPosition.longitude)) <= MAX_ARRIVE_DISTANCE_KM;
     }
 
-    void openMessageScreen() async {
+    void openMessageScreen(key, name) async {
       await Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Chat_Screen(job.key, job.name, true))
+          MaterialPageRoute(builder: (context) => Chat_Screen(key, name, true))
       );
     }
 
@@ -688,6 +698,7 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
 
     void clearJob() {
       setState(() {
+        Navigator.pop(jobDialogCtx);
         markers.clear();
         routeCoords = null;
         polylines = null;
@@ -754,19 +765,34 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
   showJobRequestDialog(String address) {
     showDialog(
       context: context,
-      builder: (BuildContext context) => JobRequestDialog(
-        originAddress: address,
-      ),
+      builder: (BuildContext context) {
+        jobDialogCtx = context;
+        return JobRequestDialog(
+          originAddress: address,
+        );
+      }
     ).then((value) => {
-      if (value) {
-        acceptJob()
-      } else {
+      if (value == null || !value) {
         clearJob()
+      } else {
+        acceptJob()
       }
     });
   }
 
   showMessageToast(key, name, message) {
 
+    showToastWidget(
+      MessageToast(
+        message: message,
+        name: name,
+        onPressed: () {
+          openMessageScreen(key, name);
+        },
+      ),
+      duration: Duration(seconds: 5),
+      position: ToastPosition.top,
+      handleTouch: true
+    );
   }
 }
