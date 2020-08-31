@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:screen/screen.dart';
 import 'dart:math' show cos, sqrt, asin;
 import 'dart:typed_data';
 import 'package:firebase_database/firebase_database.dart';
@@ -17,6 +18,7 @@ import 'package:postnow/core/service/firebase_service.dart';
 import 'package:postnow/core/service/model/driver.dart';
 import 'package:postnow/core/service/model/job.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:http/http.dart' as http;
 
 import 'dart:ui' as ui;
 
@@ -131,6 +133,7 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
     @override
     void initState() {
       super.initState();
+      Screen.keepOn(true);
       // Timer.periodic(Duration(seconds: 2), (Timer t) => changeStatus(t.tick%2==0?OnlineStatus.ONLINE:OnlineStatus.OFFLINE));
       WidgetsBinding.instance.addObserver(this);
       getBytesFromAsset('assets/package_map_marker.png', 180).then((value) => {
@@ -171,15 +174,20 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
 
       jobsRef.once().then((DataSnapshot snapshot){
         snapshot.value.forEach((key,values) {
-          Job j = Job.fromJson(values, key);
+          Job j = Job.fromJson(values, key: key);
           if (j.isJobForMe(uid) && !j.isJobAccepted()) {
             setJob(j);
           }
         });
       });
 
-      jobsRef.onChildChanged.listen(_onJobsDataChanged);
+      jobsRef.onChildChanged.listen((Event e) {
+        Job j = Job.fromSnapshot(e.snapshot);
+        _onJobsDataChanged(j);
+      });
       driverRef.child(uid).child("isOnline").onValue.listen(_onOnlineStatusChanged);
+
+      setJobIfExist();
 
       var locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
 
@@ -203,10 +211,10 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
         _scaffoldKey.currentState.showSnackBar(snackBar);
         return;
       }
+      onlineStatus = value;
 
       setState(() {
         driverRef.child(uid).child("isOnline").set(onlineStatusToBool(value));
-        onlineStatus = value;
       });
     }
 
@@ -230,12 +238,14 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
       return null;
     }
 
-    Future<void> _onJobsDataChanged(Event event) async {
-      Job j = Job.fromSnapshot(event.snapshot);
+    Future<void> _onJobsDataChanged(Job j) async {
       if (j.isJobForMe(uid)) {
         switch (j.status) {
           case Status.WAITING:
-            setJob(j);
+            setState(() {
+              setJob(j);
+              menuTyp = MenuTyp.JOB_REQUEST;
+            });
             break;
           case Status.ON_ROAD:
             setState(() {
@@ -448,8 +458,8 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
                       children: <Widget>[
                         ListTile(
                           leading: Icon(Icons.card_giftcard),
-                          title: Text('MAPS.BOTTOM_MENUS.YOUR_CUSTOMER'.tr(namedArgs: {'name': job.name})),
-                          subtitle: Text('MAPS.BOTTOM_MENUS.PACKAGE_ADDRESS'.tr(namedArgs: {'address': job.originAddress})),
+                          title: Text('MAPS.BOTTOM_MENUS.PACKAGE_PICKED.YOUR_CUSTOMER'.tr(namedArgs: {'name': job.name})),
+                          subtitle: Text('MAPS.BOTTOM_MENUS.PACKAGE_PICKED.PACKAGE_ADDRESS'.tr(namedArgs: {'address': job.originAddress})),
                         ),
                         (job.sign != null) ?
                         Column(
@@ -696,9 +706,11 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
       completeJob(result);
     }
 
-    void clearJob() {
+    void clearJob({withDialog = false}) {
       setState(() {
-        Navigator.pop(jobDialogCtx);
+        if (withDialog) {
+          Navigator.pop(jobDialogCtx);
+        }
         markers.clear();
         routeCoords = null;
         polylines = null;
@@ -729,6 +741,12 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
       job.status = Status.FINISHED;
       job.sign = sign;
       jobsRef.child(job.key).set(job.toMap());
+      final url = "https://europe-west1-post-now-f3c53.cloudfunctions.net/finishJob?jobId=" + job.key;
+      try {
+        http.get(url);
+      } catch (e) {
+        print(e.message);
+      }
     }
 
     getBoxButton(String path, onPressed, color) =>
@@ -758,7 +776,6 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
           title: j.name,
         ),
       ));
-      menuTyp = MenuTyp.JOB_REQUEST;
     });
   }
 
@@ -773,7 +790,7 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
       }
     ).then((value) => {
       if (value == null || !value) {
-        clearJob()
+        clearJob(withDialog: true)
       } else {
         acceptJob()
       }
@@ -790,9 +807,22 @@ class _GoogleMapsViewState extends State<GoogleMapsView> with WidgetsBindingObse
           openMessageScreen(key, name);
         },
       ),
-      duration: Duration(seconds: 5),
+      duration: Duration(seconds: 50),
       position: ToastPosition.top,
-      handleTouch: true
+      handleTouch: false
     );
+  }
+
+  void setJobIfExist() {
+    driverRef.child(uid).child("currentJob").once().then((DataSnapshot snapshot){
+      final jobId = snapshot.value.toString();
+      if (jobId != null) {
+        jobsRef.child(jobId).once().then((DataSnapshot snapshot){
+          Job j = Job.fromJson(snapshot.value, key: snapshot.key);
+          setJob(j);
+          _onJobsDataChanged(j);
+        });
+      }
+    });
   }
 }

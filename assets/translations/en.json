@@ -47,8 +47,9 @@
         "PACKAGE_ADDRESS": "Sender adress: {address}"
       },
       "PACKAGE_PICKED" : {
-        "FOR_FINISH_YOU_NEED_PIN_MESSAGE" : "To complete delivery please enter the {length} digit PIN code of the receiver customer.",
-        "LET_HIM_SIGNING" : "Customer Signature"
+        "YOUR_CUSTOMER": "Customer: {name}",
+        "PACKAGE_ADDRESS": "Sender adress: {address}",
+        "LET_HIM_SIGNING": "Sign"
       }
     }
   },

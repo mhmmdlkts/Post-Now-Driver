@@ -47,8 +47,9 @@
         "PACKAGE_ADDRESS": "Gönderici Adresi: {address}"
       },
       "PACKAGE_PICKED": {
-        "FOR_FINISH_YOU_NEED_PIN_MESSAGE" : "Paketi teslim edebilmek icin müşteride bulunan {length} haneli PIN kodunu girin.",
-        "LET_HIM_SIGNING": "Paketin teslimi icin imzalattırın."
+        "YOUR_CUSTOMER": "Müşteri: {name}",
+        "PACKAGE_ADDRESS": "Gönderici Adresi: {address}",
+        "LET_HIM_SIGNING": "İmzala"
       }
     }
   },

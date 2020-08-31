@@ -11,7 +11,6 @@ import 'package:postnow/core/service/model/driver_info.dart';
 import 'core/service/firebase_service.dart';
 
 void main() {
-  print('ssss');
   runApp(
     EasyLocalization(
         supportedLocales: [Locale('en', ''), Locale('de', ''), Locale('tr', '')],

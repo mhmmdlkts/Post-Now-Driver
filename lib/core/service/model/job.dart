@@ -69,8 +69,11 @@ class Job {
     finish_time = stringToDateTime(snapshot.value["finish-time"]);
   }
 
-  Job.fromJson(Map json, key) {
-    this.key = key;
+  Job.fromJson(Map json, {key}) {
+    if (key == null)
+      this.key = json["key"];
+    else
+      this.key = key;
     name = json["name"];
     driverId = json["driver-id"];
     userId = json["user-id"];

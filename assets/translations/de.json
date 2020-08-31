@@ -47,8 +47,9 @@
         "PACKAGE_ADDRESS": "Absenderadresse: {address}"
       },
       "PACKAGE_PICKED" : {
-        "FOR_FINISH_YOU_NEED_PIN_MESSAGE" : "Um die Lieferung abzuschließen, geben Sie bitte den {length}-Ziffern-PIN-Code des Empfängers ein.",
-        "LET_HIM_SIGNING" : "Empfänger Unterschrift"
+        "YOUR_CUSTOMER": "Kunde: {name}",
+        "PACKAGE_ADDRESS": "Absenderadresse: {address}",
+        "LET_HIM_SIGNING": "Unterschreiben"
       }
     }
   },

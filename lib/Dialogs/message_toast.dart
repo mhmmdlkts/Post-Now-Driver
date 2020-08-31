@@ -52,7 +52,7 @@ class MessageToast extends StatelessWidget {
                   Text(
                     name,
                     style: TextStyle(
-                      fontSize: 24.0,
+                      fontSize: 16.0,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
