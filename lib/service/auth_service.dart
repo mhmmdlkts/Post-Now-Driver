@@ -1,11 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:postnow/maps/google_maps_view.dart';
-
-import '../../main.dart';
+import 'package:flutter/material.dart';
+import 'package:postnow/screens/auth_screen.dart';
+import 'package:postnow/screens/maps_screen.dart';
 
 class FirebaseService {
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
   handleAuth(connectionState) {
     if (connectionState == ConnectionState.done) {
       return StreamBuilder(
@@ -14,12 +16,12 @@ class FirebaseService {
           if (snapshot.hasData) {
             return GoogleMapsView(snapshot.data.uid);
           } else {
-            return MyHomePage(title: 'APP_NAME'.tr());
+            return AuthScreen();
           }
         },
       );
     }
-    return Container(); // TODO
+    return Container();
   }
 
   signOut() {
@@ -34,5 +36,24 @@ class FirebaseService {
     AuthCredential authCredential = PhoneAuthProvider.credential(
         verificationId: verId, smsCode: smsCode);
     signIn(authCredential);
+  }
+
+  FirebaseAuth getAuth() {
+    return FirebaseAuth.instance;
+  }
+
+  iOSPermission() {
+    _firebaseMessaging.requestNotificationPermissions(
+        IosNotificationSettings(sound: true, badge: true, alert: true)
+    );
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings)
+    {
+      print("Settings registered: $settings");
+    });
+  }
+
+  Future<String> getToken() async {
+    return await _firebaseMessaging.getToken();
   }
 }

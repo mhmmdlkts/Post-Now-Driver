@@ -39,6 +39,7 @@ dependencies:
   flutter_svg: ^0.18.1
   oktoast: ^2.3.2
   screen: ^0.0.5
+  rxdart: ^0.24.1
 
 dev_dependencies:
   flutter_test:

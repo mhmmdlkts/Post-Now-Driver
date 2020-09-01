@@ -1,0 +1,8 @@
+enum MenuTyp {
+  WAITING,
+  JOB_REQUEST,
+  ON_JOB,
+  IN_ORIGIN_RANGE,
+  PACKAGE_PICKED,
+  COMPLETED,
+}
