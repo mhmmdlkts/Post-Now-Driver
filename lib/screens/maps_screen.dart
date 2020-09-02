@@ -1,25 +1,24 @@
-import 'dart:async';
-import 'package:postnow/enums/menu-typ-enum.dart';
-import 'package:postnow/enums/online-status-enum.dart';
-import 'package:postnow/models/job.dart';
-import 'package:postnow/screens/signing_screen.dart';
-import 'package:postnow/service/auth_service.dart';
-import 'package:postnow/service/maps_service.dart';
-import 'package:screen/screen.dart';
-import 'package:firebase_database/firebase_database.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:postnow/Dialogs/job_request_dialog.dart';
+import 'package:map_launcher/map_launcher.dart' as maps;
+import 'package:postnow/enums/job_status_enum.dart';
+import 'package:postnow/enums/online_status_enum.dart';
+import 'package:postnow/screens/signing_screen.dart';
+import 'package:postnow/Dialogs/message_toast.dart';
+import 'package:postnow/service/maps_service.dart';
+import 'package:postnow/service/auth_service.dart';
+import 'package:postnow/enums/menu_typ_enum.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:postnow/models/job.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:map_launcher/map_launcher.dart' as maps;
 import 'package:oktoast/oktoast.dart';
-import 'package:postnow/Dialogs/job_request_dialog.dart';
-import 'package:postnow/Dialogs/message_toast.dart';
-import 'package:easy_localization/easy_localization.dart';
-
-
+import 'package:screen/screen.dart';
 import 'chat_screen.dart';
+import 'dart:async';
 
 class MapsScreen extends StatefulWidget {
   final String uid;
@@ -55,9 +54,9 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     Screen.keepOn(true);
     // Timer.periodic(Duration(seconds: 2), (Timer t) => changeStatus(t.tick%2==0?OnlineStatus.ONLINE:OnlineStatus.OFFLINE));
     WidgetsBinding.instance.addObserver(this);
-    _mapsService.getBytesFromAsset('assets/package_map_marker.png', 180).then((value) => {
-      _packageLocationIcon = BitmapDescriptor.fromBytes(value)
-    });
+    _mapsService.getBytesFromAsset('assets/package_map_marker.png', 130).then((value) => { setState((){
+      _packageLocationIcon = BitmapDescriptor.fromBytes(value);
+    })});
     _getMyPosition();
     _menuTyp = MenuTyp.WAITING;
 
@@ -610,9 +609,9 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
 
   _setJobIfExist() {
     _mapsService.driverRef.child(uid).child("currentJob").once().then((DataSnapshot snapshot){
-      final jobId = snapshot.value.toString();
+      final jobId = snapshot.value;
       if (jobId != null) {
-        _mapsService.jobsRef.child(jobId).once().then((DataSnapshot snapshot){
+        _mapsService.jobsRef.child(jobId.toString()).once().then((DataSnapshot snapshot){
           Job j = Job.fromJson(snapshot.value, key: snapshot.key);
           _setJob(j);
           _onJobsDataChanged(j);

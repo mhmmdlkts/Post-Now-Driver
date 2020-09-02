@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:postnow/enums/online-status-enum.dart';
+import 'package:postnow/enums/online_status_enum.dart';
 import 'package:http/http.dart' as http;
 import 'dart:ui' as ui;
 
@@ -14,9 +14,9 @@ import 'dart:ui' as ui;
 const double MAX_ARRIVE_DISTANCE_KM = 0.1;
 
 class MapsService with WidgetsBindingObserver {
-  DatabaseReference jobsRef = FirebaseDatabase.instance.reference().child('jobs');
-  DatabaseReference jobsChatRef = FirebaseDatabase.instance.reference().child('jobs_chat');
-  DatabaseReference driverRef = FirebaseDatabase.instance.reference().child('drivers');
+  final DatabaseReference jobsRef = FirebaseDatabase.instance.reference().child('jobs');
+  final DatabaseReference jobsChatRef = FirebaseDatabase.instance.reference().child('jobs_chat');
+  final DatabaseReference driverRef = FirebaseDatabase.instance.reference().child('drivers');
   final String uid;
   MapsService(this.uid);
 

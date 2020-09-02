@@ -1,39 +1,28 @@
-import 'package:firebase_database/firebase_database.dart';
 import 'package:google_map_polyline/google_map_polyline.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
-enum Vehicle {
-  CAR,
-  BIKE
-}
-
-enum Status {
-  WAITING,
-  ON_ROAD,
-  PACKAGE_PICKED,
-  FINISHED,
-  CANCELLED
-}
+import 'package:firebase_database/firebase_database.dart';
+import 'package:postnow/enums/job_status_enum.dart';
+import 'package:postnow/enums/job_vehicle_enum.dart';
 
 class Job {
-  String key;
-  String driverId;
-  String userId;
-  String name;
-  String sign;
+  String destinationAddress;
   String transactionId;
-  double price;
-  Status status;
-  Vehicle vehicle;
-  DateTime startTime;
+  String originAddress;
   DateTime acceptTime;
   DateTime finishTime;
-  LatLng origin;
+  DateTime startTime;
   LatLng destination;
-  String originAddress;
-  String destinationAddress;
+  Vehicle vehicle;
+  String driverId;
+  String userId;
+  Status status;
+  LatLng origin;
+  double price;
+  String name;
+  String sign;
+  String key;
 
-  Job({this.name, this.userId, this.driverId, this.vehicle, this.transactionId, this.origin, this.destination, this.originAddress, this.destinationAddress}) {
+  Job({this.name, this.userId, this.price, this.driverId, this.vehicle, this.transactionId, this.origin, this.destination, this.originAddress, this.destinationAddress}) {
     setStartTime();
     status = Status.WAITING;
   }
@@ -67,28 +56,6 @@ class Job {
     startTime = stringToDateTime(snapshot.value["start-time"]);
     acceptTime = stringToDateTime(snapshot.value["accept-time"]);
     finishTime = stringToDateTime(snapshot.value["finish-time"]);
-  }
-
-  Job.fromJson(Map json, {key}) {
-    if (key == null)
-      this.key = json["key"];
-    else
-      this.key = key;
-    name = json["name"];
-    driverId = json["driver-id"];
-    userId = json["user-id"];
-    sign = json["sign"];
-    transactionId = json["transactionId"];
-    price = json["price"] + 0.0;
-    status = stringToStatus(json["status"]);
-    vehicle = stringToVehicle(json["vehicle"]);
-    origin = stringToLatLng(json["origin"]);
-    destination = stringToLatLng(json["destination"]);
-    originAddress = json["origin-address"];
-    destinationAddress = json["destination-address"];
-    startTime = stringToDateTime(json["start-time"]);
-    acceptTime = stringToDateTime(json["accept-time"]);
-    finishTime = stringToDateTime(json["finish-time"]);
   }
 
   static Status stringToStatus(String statusString) {
@@ -136,19 +103,19 @@ class Job {
   static String vehicleToString(Vehicle vehicle) {
     switch (vehicle) {
       case Vehicle.CAR:
-    return "car";
+        return "car";
       case Vehicle.BIKE:
-    return "bike";
+        return "bike";
     }
     return null;
   }
 
-  static LatLng stringToLatLng(String latlngString) {
-    if (latlngString == null)
+  static LatLng stringToLatLng(String latLngString) {
+    if (latLngString == null)
       return null;
-    List<String> latlng = latlngString.split(",");
-    double lat = double.parse(latlng[0]);
-    double lng = double.parse(latlng[1]);
+    List<String> latLng = latLngString.split(",");
+    double lat = double.parse(latLng[0]);
+    double lng = double.parse(latLng[1]);
     return LatLng(lat, lng);
   }
 
@@ -180,6 +147,47 @@ class Job {
     return null;
   }
 
+  Map<String, dynamic> toJson() => {
+    'key': key,
+    'name': name,
+    'driver-id': driverId,
+    'user-id': userId,
+    'sign': sign,
+    'transactionId': transactionId,
+    'price': price,
+    'status': statusToString(status),
+    'vehicle': vehicleToString(vehicle),
+    'origin': latLngToString(origin),
+    'destination': latLngToString(destination),
+    'origin-address': originAddress,
+    'destination-address': destinationAddress,
+    'start-time': dateTimeToString(startTime),
+    'accept-time': dateTimeToString(acceptTime),
+    'finish-time': dateTimeToString(finishTime),
+  };
+
+  Job.fromJson(Map json, {key}) {
+    if (key == null)
+      this.key = json["key"];
+    else
+      this.key = key;
+    name = json["name"];
+    driverId = json["driver-id"];
+    userId = json["user-id"];
+    sign = json["sign"];
+    transactionId = json["transactionId"];
+    price = json["price"] + 0.0;
+    status = stringToStatus(json["status"]);
+    vehicle = stringToVehicle(json["vehicle"]);
+    origin = stringToLatLng(json["origin"]);
+    destination = stringToLatLng(json["destination"]);
+    originAddress = json["origin-address"];
+    destinationAddress = json["destination-address"];
+    startTime = stringToDateTime(json["start-time"]);
+    acceptTime = stringToDateTime(json["accept-time"]);
+    finishTime = stringToDateTime(json["finish-time"]);
+  }
+
   Map toMap() {
     Map toReturn = new Map();
     if (name != null) toReturn['name'] = name;
@@ -206,6 +214,14 @@ class Job {
 
   bool isJobAccepted() {
     return this.acceptTime != null;
+  }
+
+  getDriverId() {
+    return driverId == null ? "No Driver" : driverId;
+  }
+
+  String getStatusMessageKey() {
+    return "MODELS.JOB." + Status.WAITING.toString().split('.')[1];
   }
 
   @override

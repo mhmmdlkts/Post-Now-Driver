@@ -14,12 +14,16 @@ class Driver implements Comparable{
   Driver({this.name, this.isOnline, this.lat, this.long, this.token});
 
   Driver.fromSnapshot(DataSnapshot snapshot) {
-    key = snapshot.key;
-    name = snapshot.value["name"];
-    token = snapshot.value["token"];
-    isOnline = snapshot.value["isOnline"];
-    lat = snapshot.value["lat"] + 0.0;
-    long = snapshot.value["long"] + 0.0;
+    try {
+      key = snapshot.key;
+      name = snapshot.value["name"];
+      token = snapshot.value["token"];
+      isOnline = snapshot.value["isOnline"];
+      lat = snapshot.value["lat"] + 0.0;
+      long = snapshot.value["long"] + 0.0;
+    } catch (e) {
+      print("Driver can't tranform from snapshot");
+    }
   }
 
   Driver.fromJson(Map<String, dynamic> json) {
@@ -45,11 +49,14 @@ class Driver implements Comparable{
     return data;
   }
 
-  Marker getMarker() {
+  Marker getMarker(BitmapDescriptor bitmapDescriptor) {
     return Marker(
-        markerId: MarkerId(key),
-        position: LatLng(lat, long),
-        icon: BitmapDescriptor.defaultMarkerWithHue(isMyDriver ? BitmapDescriptor.hueGreen : BitmapDescriptor.hueRose)
+      markerId: MarkerId(key),
+      position: LatLng(lat, long),
+      icon: bitmapDescriptor,
+      infoWindow: InfoWindow(
+        title: name,
+      ),
     );
   }
 
