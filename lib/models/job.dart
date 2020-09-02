@@ -25,9 +25,9 @@ class Job {
   double price;
   Status status;
   Vehicle vehicle;
-  DateTime start_time;
-  DateTime accept_time;
-  DateTime finish_time;
+  DateTime startTime;
+  DateTime acceptTime;
+  DateTime finishTime;
   LatLng origin;
   LatLng destination;
   String originAddress;
@@ -39,15 +39,15 @@ class Job {
   }
 
   setStartTime() {
-    start_time = DateTime.now();
+    startTime = DateTime.now();
   }
 
   setAcceptTime() {
-    accept_time = DateTime.now();
+    acceptTime = DateTime.now();
   }
 
   setFinishTime() {
-    finish_time = DateTime.now();
+    finishTime = DateTime.now();
   }
 
   Job.fromSnapshot(DataSnapshot snapshot) {
@@ -64,9 +64,9 @@ class Job {
     destination = stringToLatLng(snapshot.value["destination"]);
     originAddress = snapshot.value["origin-address"];
     destinationAddress = snapshot.value["destination-address"];
-    start_time = stringToDateTime(snapshot.value["start-time"]);
-    accept_time = stringToDateTime(snapshot.value["accept-time"]);
-    finish_time = stringToDateTime(snapshot.value["finish-time"]);
+    startTime = stringToDateTime(snapshot.value["start-time"]);
+    acceptTime = stringToDateTime(snapshot.value["accept-time"]);
+    finishTime = stringToDateTime(snapshot.value["finish-time"]);
   }
 
   Job.fromJson(Map json, {key}) {
@@ -86,13 +86,13 @@ class Job {
     destination = stringToLatLng(json["destination"]);
     originAddress = json["origin-address"];
     destinationAddress = json["destination-address"];
-    start_time = stringToDateTime(json["start-time"]);
-    accept_time = stringToDateTime(json["accept-time"]);
-    finish_time = stringToDateTime(json["finish-time"]);
+    startTime = stringToDateTime(json["start-time"]);
+    acceptTime = stringToDateTime(json["accept-time"]);
+    finishTime = stringToDateTime(json["finish-time"]);
   }
 
-  static Status stringToStatus(String status_string) {
-    switch (status_string) {
+  static Status stringToStatus(String statusString) {
+    switch (statusString) {
       case "waiting":
         return Status.WAITING;
       case "on_the_road":
@@ -123,8 +123,8 @@ class Job {
     return null;
   }
 
-  static Vehicle stringToVehicle(String vehicle_string) {
-    switch (vehicle_string) {
+  static Vehicle stringToVehicle(String vehicleString) {
+    switch (vehicleString) {
       case "car":
         return Vehicle.CAR;
       case "bike":
@@ -143,10 +143,10 @@ class Job {
     return null;
   }
 
-  static LatLng stringToLatLng(String latlng_string) {
-    if (latlng_string == null)
+  static LatLng stringToLatLng(String latlngString) {
+    if (latlngString == null)
       return null;
-    List<String> latlng = latlng_string.split(",");
+    List<String> latlng = latlngString.split(",");
     double lat = double.parse(latlng[0]);
     double lng = double.parse(latlng[1]);
     return LatLng(lat, lng);
@@ -158,10 +158,10 @@ class Job {
     return "${latLng.latitude},${latLng.longitude}";
   }
 
-  static DateTime stringToDateTime(String dateTime_string) {
-    if (dateTime_string == null)
+  static DateTime stringToDateTime(String dateTimeString) {
+    if (dateTimeString == null)
       return null;
-    return DateTime.parse(dateTime_string);
+    return DateTime.parse(dateTimeString);
   }
 
   static String dateTimeToString(DateTime dateTime) {
@@ -194,9 +194,9 @@ class Job {
     if (destination != null) toReturn['destination'] = latLngToString(destination);
     if (originAddress != null) toReturn['origin-address'] = originAddress;
     if (destinationAddress != null) toReturn['destination-address'] = destinationAddress;
-    if (start_time != null) toReturn['start-time'] = dateTimeToString(start_time);
-    if (accept_time != null) toReturn['accept-time'] = dateTimeToString(accept_time);
-    if (finish_time != null) toReturn['finish-time'] = dateTimeToString(finish_time);
+    if (startTime != null) toReturn['start-time'] = dateTimeToString(startTime);
+    if (acceptTime != null) toReturn['accept-time'] = dateTimeToString(acceptTime);
+    if (finishTime != null) toReturn['finish-time'] = dateTimeToString(finishTime);
     return toReturn;
   }
 
@@ -205,7 +205,7 @@ class Job {
   }
 
   bool isJobAccepted() {
-    return this.accept_time != null;
+    return this.acceptTime != null;
   }
 
   @override

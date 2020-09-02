@@ -14,7 +14,7 @@ class FirebaseService {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (BuildContext context, snapshot) {
           if (snapshot.hasData) {
-            return GoogleMapsView(snapshot.data.uid);
+            return MapsScreen(snapshot.data.uid);
           } else {
             return AuthScreen();
           }

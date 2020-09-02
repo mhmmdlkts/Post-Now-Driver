@@ -18,7 +18,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   // Add two variables to the state class to store the CameraController and
   // the Future.
   CameraController _controller;
-  Future<void> _initializeControllerFuture;
+  // Future<void> _initializeControllerFuture;
 
   @override
   void initState() {
@@ -33,7 +33,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
     );
 
     // Next, initialize the controller. This returns a Future.
-    _initializeControllerFuture = _controller.initialize();
+    // _initializeControllerFuture = _controller.initialize();
   }
 
   @override
@@ -45,6 +45,6 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Fill this out in the next steps.
+    return Container();
   }
 }

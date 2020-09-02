@@ -10,7 +10,4 @@ class JobChat {
     key = snapshot.key;
     print(snapshot.value);
   }
-
-  Map<String, dynamic> toJson() {
-  }
 }

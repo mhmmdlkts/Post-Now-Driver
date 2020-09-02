@@ -26,7 +26,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   final ScrollController _listViewController = new ScrollController();
   final bool _isDriverApp;
   ChatService _chatService;
-  Future<void> _initializeControllerFuture;
+  // Future<void> _initializeControllerFuture;
   DatabaseReference _chatRef;
   List<Message> _messages = [];
   List<CameraDescription> _cameras;
@@ -55,10 +55,8 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      _cameraController != null
-          ? _initializeControllerFuture = _cameraController.initialize()
-          : null; //on pause camera is disposed, so we need to call again "issue is only for android"
+    if (state == AppLifecycleState.resumed && _cameraController != null) {
+      // _initializeControllerFuture = _cameraController.initialize();
     }
   }
 
@@ -72,7 +70,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
     if (_cameras == null)
       _cameras = await availableCameras();
     _cameraController = CameraController(_isBackCamera ? _cameras.first : _cameras.last,ResolutionPreset.high);
-    _initializeControllerFuture = _cameraController.initialize();
+    // _initializeControllerFuture = _cameraController.initialize();
     if (!mounted)
       return;
   }
