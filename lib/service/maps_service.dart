@@ -105,6 +105,15 @@ class MapsService with WidgetsBindingObserver {
     }
   }
 
+  void acceptJob(String key) {
+    final url = "https://europe-west1-post-now-f3c53.cloudfunctions.net/acceptJob?jobId=" + key;
+    try {
+      http.get(url);
+    } catch (e) {
+      print(e.message);
+    }
+  }
+
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
     ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);

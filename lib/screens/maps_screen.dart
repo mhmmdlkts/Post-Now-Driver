@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -8,6 +9,7 @@ import 'package:postnow/enums/job_status_enum.dart';
 import 'package:postnow/enums/online_status_enum.dart';
 import 'package:postnow/screens/signing_screen.dart';
 import 'package:postnow/Dialogs/message_toast.dart';
+import 'package:postnow/screens/slpash_screen.dart';
 import 'package:postnow/service/maps_service.dart';
 import 'package:postnow/service/auth_service.dart';
 import 'package:postnow/enums/menu_typ_enum.dart';
@@ -21,42 +23,48 @@ import 'chat_screen.dart';
 import 'dart:async';
 
 class MapsScreen extends StatefulWidget {
-  final String uid;
-  MapsScreen(this.uid);
+  final User user;
+  MapsScreen(this.user);
 
   @override
-  _MapsScreenState createState() => _MapsScreenState(uid);
+  _MapsScreenState createState() => _MapsScreenState(user);
 }
 
 class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   final Set markers = new Set<Marker>();
-  final String uid;
+  final User user;
+  bool isInitialized = false;
+  int initCount = 0;
+  int initDone = 0;
   MapsService _mapsService;
   BuildContext _jobDialogCtx;
   bool _isZoomed = false;
   bool _locationFocused = true;
   BitmapDescriptor _packageLocationIcon;
   OnlineStatus _onlineStatus = OnlineStatus.OFFLINE;
-  GoogleMapController _controller;
+  GoogleMapController _mapController;
   MenuTyp _menuTyp;
   Position _myPosition;
   Job _job;
 
-  _MapsScreenState(this.uid) {
-    _mapsService = MapsService(uid);
+  _MapsScreenState(this.user) {
+    _mapsService = MapsService(user.uid);
   }
 
   @override
   void initState() {
+    initCount++;
     super.initState();
     Screen.keepOn(true);
-    // Timer.periodic(Duration(seconds: 2), (Timer t) => changeStatus(t.tick%2==0?OnlineStatus.ONLINE:OnlineStatus.OFFLINE));
     WidgetsBinding.instance.addObserver(this);
-    _mapsService.getBytesFromAsset('assets/package_map_marker.png', 130).then((value) => { setState((){
-      _packageLocationIcon = BitmapDescriptor.fromBytes(value);
-    })});
+
+    initCount++;
+    _mapsService.getBytesFromAsset('assets/package_map_marker.png', 130).then((value) => {
+      _packageLocationIcon = BitmapDescriptor.fromBytes(value),
+      nextInitializeDone()
+    });
     _getMyPosition();
     _menuTyp = MenuTyp.WAITING;
 
@@ -84,103 +92,132 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     });
 
 
+    initCount++;
     _mapsService.jobsRef.once().then((DataSnapshot snapshot){
       snapshot.value.forEach((key,values) {
         Job j = Job.fromJson(values, key: key);
-        if (j.isJobForMe(uid) && !j.isJobAccepted()) {
+        if (j.isJobForMe(user.uid) && !j.isJobAccepted()) {
           _setJob(j);
         }
       });
+      nextInitializeDone();
     });
 
     _mapsService.jobsRef.onChildChanged.listen((Event e) {
       Job j = Job.fromSnapshot(e.snapshot);
       _onJobsDataChanged(j);
     });
-    _mapsService.driverRef.child(uid).child("isOnline").onValue.listen(_onOnlineStatusChanged);
+    _mapsService.driverRef.child(user.uid).child("isOnline").onValue.listen(_onOnlineStatusChanged);
 
-    _setJobIfExist();
+    initCount++;
+    _setJobIfExist().then((value) => {
+      nextInitializeDone()
+    });
 
     var locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
 
     Geolocator().getPositionStream(locationOptions).listen(_onPositionChanged);
+    nextInitializeDone();
   }
 
   @override
   Widget build(BuildContext context) {
-    return OKToast(
-        child: Scaffold(
-            key: _scaffoldKey,
-            appBar: AppBar(
-                title: Text("APP_NAME".tr(), style: TextStyle(color: Colors.white),),
-                brightness: Brightness.dark,
-                iconTheme:  IconThemeData( color: Colors.white)
-            ),
-            body: Stack(
-                children: <Widget>[
-                  SizedBox(
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width, // or use fixed size like 200
-                    height: MediaQuery
-                        .of(context)
-                        .size
-                        .height,
-                    child: GoogleMap(
-                      zoomControlsEnabled: false,
-                      mapType: MapType.normal,
-                      initialCameraPosition: CameraPosition(target: LatLng(0, 0)),
-                      onMapCreated: onMapCreated,
-                      myLocationEnabled: true,
-                      markers: markers,
-                      myLocationButtonEnabled: false,
-                      onCameraMoveStarted: () => {
-                        setState(() {
-                          _locationFocused = _locationFocused == null;
-                        })
-                      },
-                    ),
-                  ),
-                  getBottomMenu(),
-                ]
-            ),
-            drawer: Drawer(
-              child: ListView(
-                padding: EdgeInsets.zero,
-                children: <Widget>[
-                  DrawerHeader(
-                    child: Text('SETTINGS'.tr(), style: TextStyle(fontSize: 20, color: Colors.white)),
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
-                    ),
-                  ),
-                  ListTile(
-                    title: Text('MAPS.SIDE_MENU.SIGN_OUT'.tr()),
-                    onTap: () {
-                      FirebaseService().signOut();
-                    },
-                  ),
-                ],
-              ),
-            ),
-            floatingActionButton: _getFloatingButton()
-        )
+    return Stack(
+      children: [
+        _content(),
+        isInitialized ? Container() : SplashScreen(),
+      ],
     );
   }
+
+  Widget _content() => new OKToast(
+      child: Scaffold(
+          key: _scaffoldKey,
+          appBar: AppBar(
+              title: Text("APP_NAME".tr(), style: TextStyle(color: Colors.white),),
+              brightness: Brightness.dark,
+              iconTheme:  IconThemeData( color: Colors.white)
+          ),
+          body: Stack(
+              children: <Widget>[
+                SizedBox(
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width, // or use fixed size like 200
+                  height: MediaQuery
+                      .of(context)
+                      .size
+                      .height,
+                  child: GoogleMap(
+                    zoomControlsEnabled: false,
+                    mapType: MapType.normal,
+                    initialCameraPosition: CameraPosition(target: LatLng(0, 0)),
+                    onMapCreated: onMapCreated,
+                    myLocationEnabled: true,
+                    markers: markers,
+                    myLocationButtonEnabled: false,
+                    onCameraMoveStarted: () => {
+                      setState(() {
+                        _locationFocused = _locationFocused == null;
+                      })
+                    },
+                  ),
+                ),
+                getBottomMenu(),
+              ]
+          ),
+          drawer: Drawer(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                DrawerHeader(
+                  child: Text('SETTINGS'.tr(), style: TextStyle(fontSize: 20, color: Colors.white)),
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                  ),
+                ),
+                ListTile(
+                  title: Text('MAPS.SIDE_MENU.SIGN_OUT'.tr()),
+                  onTap: () {
+                    FirebaseService().signOut();
+                  },
+                ),
+              ],
+            ),
+          ),
+          floatingActionButton: _getFloatingButton()
+      )
+  );
 
   @override
   didChangeAppLifecycleState(AppLifecycleState state) async {
     var data = new Map<String, String>();
     data['status'] = state.toString();
     data['time'] = DateTime.now().toString();
-    _mapsService.driverRef.child(uid).child("appStatus").update(data);
+    _mapsService.driverRef.child(user.uid).child("appStatus").update(data);
+  }
+
+  nextInitializeDone() {
+    initDone++;
+    if (initCount == initDone) {
+      _getMyPosition().then((value) => {
+        _mapController.moveCamera(CameraUpdate.newCameraPosition(
+            CameraPosition(target: LatLng(value.latitude, value.longitude), zoom: 13)
+        )),
+        Future.delayed(Duration(milliseconds: 500), () =>
+            setState((){
+              isInitialized = true;
+            })
+        )
+      });
+    }
   }
   
   _onPositionChanged(Position position) {
     setMyPosition(position);
     if (_locationFocused)
-      _mapsService.setNewCameraPosition(_controller, LatLng(_myPosition.latitude, _myPosition.longitude), null, true);
+      _mapsService.setNewCameraPosition(_mapController, LatLng(_myPosition.latitude, _myPosition.longitude), null, true);
     if (_onlineStatus == OnlineStatus.ONLINE)
       _mapsService.sendMyLocToDB(_myPosition);
     if (_job != null && _isInRange(_job.origin)) {
@@ -193,9 +230,8 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   _onOnlineStatusChanged(Event event) {
     OnlineStatus status = _mapsService.boolToOnlineStatus(event.snapshot.value);
     if (_onlineStatus != status) {
-      setState(() {
-        _onlineStatus = status;
-      });
+      _onlineStatus = status;
+      if (mounted) setState(() {});
     }
   }
 
@@ -210,13 +246,13 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     _onlineStatus = value;
 
     setState(() {
-      _mapsService.driverRef.child(uid).child("isOnline").set(_mapsService.onlineStatusToBool(value));
+      _mapsService.driverRef.child(user.uid).child("isOnline").set(_mapsService.onlineStatusToBool(value));
     });
   }
 
-  Future<void> _onJobsDataChanged(Job j) async {
+  _onJobsDataChanged(Job j) {
     setState(() {
-      if (!j.isJobForMe(uid)) {
+      if (!j.isJobForMe(user.uid)) {
         markers.clear();
         _menuTyp = MenuTyp.WAITING;
         return;
@@ -243,7 +279,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
 
   onMapCreated(GoogleMapController controller) {
     setState(() {
-      _controller = controller;
+      _mapController = controller;
     });
   }
 
@@ -454,8 +490,8 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   }
   
   setMyPosition(Position pos) {
-    if (!_isZoomed && _controller != null) {
-      _mapsService.setNewCameraPosition(_controller, new LatLng(pos.latitude, pos.longitude), null, true);
+    if (!_isZoomed && _mapController != null) {
+      _mapsService.setNewCameraPosition(_mapController, new LatLng(pos.latitude, pos.longitude), null, true);
       _isZoomed = true;
     }
     _myPosition = pos;
@@ -476,7 +512,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
       if (_myPosition == null)
         return;
       _locationFocused = null;
-      _mapsService.setNewCameraPosition(_controller, LatLng(_myPosition.latitude, _myPosition.longitude), null, true);
+      _mapsService.setNewCameraPosition(_mapController, LatLng(_myPosition.latitude, _myPosition.longitude), null, true);
     },
     child: Icon(Icons.my_location, color: Colors.white,),
     backgroundColor: Colors.lightBlueAccent,
@@ -525,18 +561,31 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   }
 
   _acceptJob() {
+    if (_job == null) {
+      print("No Job");
+      return;
+    }
     _job.setAcceptTime();
     _job.status = Status.ON_ROAD;
     _mapsService.jobsRef.child(_job.key).set(_job.toMap());
+    _mapsService.acceptJob(_job.key);
   }
 
   _takePackage() {
+    if (_job == null) {
+      print("No Job");
+      return;
+    }
     _job.setStartTime();
     _job.status = Status.PACKAGE_PICKED;
     _mapsService.jobsRef.child(_job.key).set(_job.toMap());
   }
 
   _completeJob(sign) {
+    if (_job == null) {
+      print("No Job");
+      return;
+    }
     _job.setFinishTime();
     _job.status = Status.FINISHED;
     _job.sign = sign;
@@ -561,17 +610,16 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
       );
 
   _setJob(Job j) {
-    setState(() {
-      _job = j;
-      markers.add(Marker(
-        markerId: MarkerId(j.key),
-        position: LatLng(j.origin.latitude, j.origin.longitude),
-        icon: _packageLocationIcon,
-        infoWindow: InfoWindow(
-          title: j.name,
-        ),
-      ));
-    });
+    _job = j;
+    markers.add(Marker(
+      markerId: MarkerId(j.key),
+      position: LatLng(j.origin.latitude, j.origin.longitude),
+      icon: _packageLocationIcon,
+      infoWindow: InfoWindow(
+        title: j.name,
+      ),
+    ));
+    if (mounted) setState(() {});
   }
 
   _showJobRequestDialog(String address) {
@@ -601,21 +649,25 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
             _openMessageScreen(key, name);
           },
         ),
-        duration: Duration(seconds: 50),
+        duration: Duration(seconds: 5),
         position: ToastPosition.top,
         handleTouch: false
     );
   }
 
-  _setJobIfExist() {
-    _mapsService.driverRef.child(uid).child("currentJob").once().then((DataSnapshot snapshot){
+  Future<void> _setJobIfExist() async {
+    initCount++;
+    _mapsService.driverRef.child(user.uid).child("currentJob").once().then((DataSnapshot snapshot){
       final jobId = snapshot.value;
       if (jobId != null) {
         _mapsService.jobsRef.child(jobId.toString()).once().then((DataSnapshot snapshot){
           Job j = Job.fromJson(snapshot.value, key: snapshot.key);
           _setJob(j);
           _onJobsDataChanged(j);
+          nextInitializeDone();
         });
+      } else {
+        nextInitializeDone();
       }
     });
   }

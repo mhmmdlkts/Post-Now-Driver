@@ -3,21 +3,18 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:postnow/screens/auth_screen.dart';
+import 'package:postnow/screens/first_screen.dart';
 import 'package:postnow/screens/maps_screen.dart';
 
 class FirebaseService {
-  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   handleAuth(connectionState) {
     if (connectionState == ConnectionState.done) {
       return StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (BuildContext context, snapshot) {
-          if (snapshot.hasData) {
-            return MapsScreen(snapshot.data.uid);
-          } else {
-            return AuthScreen();
-          }
+          return FirstScreen(snapshot);
         },
       );
     }

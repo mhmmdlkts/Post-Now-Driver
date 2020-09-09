@@ -65,6 +65,11 @@
   "DIALOGS": {
     "JOB_REQUEST": {
       "TITLE": "Yeni sipariş!"
+    },
+    "UPDATE_AVAILABLE": {
+      "TITLE": "Yeni Güncelleme Mevcut",
+      "BODY": "Uyulamayi kullanabilmek icin en güncel sürümü kullaniyor olmaniz gerek.",
+      "BUTTON": "Güncelle"
     }
   }
 }
