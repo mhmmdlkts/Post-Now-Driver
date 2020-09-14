@@ -2,9 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:postnow/screens/auth_screen.dart';
 import 'package:postnow/screens/first_screen.dart';
-import 'package:postnow/screens/maps_screen.dart';
 
 class FirebaseService {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -7,6 +9,7 @@ import 'package:postnow/Dialogs/job_request_dialog.dart';
 import 'package:map_launcher/map_launcher.dart' as maps;
 import 'package:postnow/enums/job_status_enum.dart';
 import 'package:postnow/enums/online_status_enum.dart';
+import 'package:postnow/models/address.dart';
 import 'package:postnow/screens/signing_screen.dart';
 import 'package:postnow/Dialogs/message_toast.dart';
 import 'package:postnow/screens/slpash_screen.dart';
@@ -63,22 +66,19 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     initCount++;
     _mapsService.getBytesFromAsset('assets/package_map_marker.png', 130).then((value) => {
       _packageLocationIcon = BitmapDescriptor.fromBytes(value),
-      nextInitializeDone()
+      nextInitializeDone('1')
     });
     _getMyPosition();
     _menuTyp = MenuTyp.WAITING;
 
     _firebaseMessaging.configure(onMessage: (Map<String, dynamic> message) {
       print('onResume: $message');
-      final data = message["data"];
-      if (data == null)
-        return;
-      switch (data["typ"]) {
+      switch (message["typ"]) {
         case "jobRequest":
-          _showJobRequestDialog(data["originAddress"]);
+          _showJobRequestDialog(Address.fromJson(json.decode(message["originAddress"])));
           break;
         case "message":
-          _showMessageToast(data["key"], data["name"], data["message"]);
+          _showMessageToast(message["key"], message["name"], message["message"]);
           break;
       }
 
@@ -94,16 +94,19 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
 
     initCount++;
     _mapsService.jobsRef.once().then((DataSnapshot snapshot){
-      snapshot.value.forEach((key,values) {
-        Job j = Job.fromJson(values, key: key);
-        if (j.isJobForMe(user.uid) && !j.isJobAccepted()) {
-          _setJob(j);
-        }
-      });
-      nextInitializeDone();
+      if (snapshot.value != null) {
+        snapshot.value.forEach((key, values) {
+          Job j = Job.fromJson(values, key: key);
+          if (j.isJobForMe(user.uid) && !j.isJobAccepted()) { // TODO remove the for each
+            _setJob(j);
+          }
+        });
+      }
+      nextInitializeDone('2');
     });
 
     _mapsService.jobsRef.onChildChanged.listen((Event e) {
+      print('eee');
       Job j = Job.fromSnapshot(e.snapshot);
       _onJobsDataChanged(j);
     });
@@ -111,13 +114,13 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
 
     initCount++;
     _setJobIfExist().then((value) => {
-      nextInitializeDone()
+      nextInitializeDone('3')
     });
 
     var locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
 
     Geolocator().getPositionStream(locationOptions).listen(_onPositionChanged);
-    nextInitializeDone();
+    nextInitializeDone('4');
   }
 
   @override
@@ -198,7 +201,8 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     _mapsService.driverRef.child(user.uid).child("appStatus").update(data);
   }
 
-  nextInitializeDone() {
+  nextInitializeDone(String code) {
+    // print(code);
     initDone++;
     if (initCount == initDone) {
       _getMyPosition().then((value) => {
@@ -220,7 +224,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
       _mapsService.setNewCameraPosition(_mapController, LatLng(_myPosition.latitude, _myPosition.longitude), null, true);
     if (_onlineStatus == OnlineStatus.ONLINE)
       _mapsService.sendMyLocToDB(_myPosition);
-    if (_job != null && _isInRange(_job.origin)) {
+    if (_job != null && _isInRange(_job.getOrigin())) {
       setState(() {
         _menuTyp = MenuTyp.IN_ORIGIN_RANGE;
       });
@@ -352,7 +356,9 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
                       ListTile(
                         leading: Icon(Icons.card_giftcard),
                         title: Text('MAPS.BOTTOM_MENUS.ON_JOB.YOUR_CUSTOMER'.tr(namedArgs: {'name': _job.name})),
-                        subtitle: Text('MAPS.BOTTOM_MENUS.ON_JOB.PACKAGE_ADDRESS'.tr(namedArgs: {'address': _job.originAddress})),
+                        subtitle: Text((_job.originAddress.hasDoorNumber()?
+                        'MAPS.BOTTOM_MENUS.ON_JOB.PACKAGE_ADDRESS_EXTRA_SERVICE':'MAPS.BOTTOM_MENUS.ON_JOB.PACKAGE_ADDRESS')
+                            .tr(namedArgs: {'address': _job.getOriginAddress(), 'name': _job.originAddress.doorName})),
                       ),
                       ButtonBar(
                         children: <Widget>[
@@ -388,7 +394,10 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
                       ListTile(
                         leading: Icon(Icons.card_giftcard),
                         title: Text('MAPS.BOTTOM_MENUS.PACKAGE_PICKED.YOUR_CUSTOMER'.tr(namedArgs: {'name': _job.name})),
-                        subtitle: Text('MAPS.BOTTOM_MENUS.PACKAGE_PICKED.PACKAGE_ADDRESS'.tr(namedArgs: {'address': _job.originAddress})),
+                        subtitle:
+                        Text((_job.destinationAddress.hasDoorNumber()?
+                            'MAPS.BOTTOM_MENUS.PACKAGE_PICKED.PACKAGE_ADDRESS_EXTRA_SERVICE':'MAPS.BOTTOM_MENUS.PACKAGE_PICKED.PACKAGE_ADDRESS')
+                            .tr(namedArgs: {'address': _job.getDestinationAddress(), 'name': _job.destinationAddress.doorName})),
                       ),
                       (_job.sign != null) ?
                       Column(
@@ -399,7 +408,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
                       ButtonBar(
                         children: <Widget>[
                           FlatButton(
-                            child: Text('MAPS.BOTTOM_MENUS.PACKAGE_PICKED.LET_HIM_SIGNING'.tr()),
+                            child: Text('MAPS.BOTTOM_MENUS.PACKAGE_PICKED.LET_HIM_SIGNING'.tr(namedArgs: {'name': _job.destinationAddress.doorName})),
                             onPressed: _openSignScreen,
                           ),
                         ],
@@ -451,11 +460,13 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     final availableMaps = await maps.MapLauncher.installedMaps;
     print(availableMaps);
 
-    if (await maps.MapLauncher.isMapAvailable(maps.MapType.google)) {
+    LatLng currentTarget = _menuTyp == MenuTyp.PACKAGE_PICKED? job.getDestination() : job.getOrigin();
+
+    if (await maps.MapLauncher.isMapAvailable(maps.MapType.google) && currentTarget != null) {
       await maps.MapLauncher.launchMap(
-        description: job.originAddress,
+        description: job.getOriginAddress(),
         mapType: maps.MapType.google,
-        coords: maps.Coords(job.origin.latitude, job.origin.longitude), // TODO origin and destination
+        coords: maps.Coords(currentTarget.latitude, currentTarget.longitude),
         title: job.name,
       );
     }
@@ -613,7 +624,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     _job = j;
     markers.add(Marker(
       markerId: MarkerId(j.key),
-      position: LatLng(j.origin.latitude, j.origin.longitude),
+      position: j.getOrigin(),
       icon: _packageLocationIcon,
       infoWindow: InfoWindow(
         title: j.name,
@@ -622,13 +633,13 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     if (mounted) setState(() {});
   }
 
-  _showJobRequestDialog(String address) {
+  _showJobRequestDialog(Address address) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
           _jobDialogCtx = context;
           return JobRequestDialog(
-            originAddress: address,
+            originAddress: address.getAddress(),
           );
         }
     ).then((value) => {
@@ -664,10 +675,10 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
           Job j = Job.fromJson(snapshot.value, key: snapshot.key);
           _setJob(j);
           _onJobsDataChanged(j);
-          nextInitializeDone();
+          nextInitializeDone('5');
         });
       } else {
-        nextInitializeDone();
+        nextInitializeDone('6');
       }
     });
   }

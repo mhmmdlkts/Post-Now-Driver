@@ -44,12 +44,14 @@
     "BOTTOM_MENUS": {
       "ON_JOB": {
         "YOUR_CUSTOMER": "Customer: {name}",
-        "PACKAGE_ADDRESS": "Sender adress: {address}"
+        "PACKAGE_ADDRESS": "Sender adress: {address}\nAsagi gelecek\nPacket will gived by Name: {name}",
+        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Sender adress: {address}\nPacket will gived by Name: {name}"
       },
       "PACKAGE_PICKED" : {
         "YOUR_CUSTOMER": "Customer: {name}",
-        "PACKAGE_ADDRESS": "Sender adress: {address}",
-        "LET_HIM_SIGNING": "Sign"
+        "PACKAGE_ADDRESS": "Sender adress: {address}\nAsagi gelecek\nPacket will picked by Name: {name}",
+        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Sender adress: {address}\nPacket will picked by Name: {name}",
+        "LET_HIM_SIGNING": "Let {name} sign"
       }
     }
   },
