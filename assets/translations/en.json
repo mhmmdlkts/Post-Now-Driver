@@ -41,6 +41,7 @@
     "NO_LOCATION_INFORMATION_MESSAGE" : "Location information is not available.",
     "SIDE_MENU": {
       "OVERVIEW": "Gecmis auftraglar",
+      "LEGAL": "Legal",
       "SIGN_OUT": "Sign out"
     },
     "BOTTOM_MENUS": {
@@ -58,8 +59,10 @@
     }
   },
   "LEGAL": {
+    "TITLE": "Legal",
     "LegalTyp": {
-      "PRIVACY_POLICY": "Privacy Policy"
+      "PRIVACY_POLICY": "Privacy Policy",
+      "SOFTWARE_LICENCES": "Software Licences"
     }
   },
   "CHAT": {

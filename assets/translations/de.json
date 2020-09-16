@@ -40,6 +40,7 @@
     "NO_LOCATION_INFORMATION_MESSAGE" : "Standortinformationen sind nicht verfügbar.",
     "SIDE_MENU": {
       "OVERVIEW": "Gecmis auftraglar",
+      "LEGAL": "Legal",
       "SIGN_OUT": "Ausloggen"
     },
     "BOTTOM_MENUS": {
@@ -52,6 +53,12 @@
         "PACKAGE_ADDRESS": "Absenderadresse: {address}",
         "LET_HIM_SIGNING": "Unterschreiben"
       }
+    }
+  },
+  "LEGAL": {
+    "TITLE": "Legal",
+    "LegalTyp": {
+      "PRIVACY_POLICY": "Privacy Policy"
     }
   },
   "CHAT": {

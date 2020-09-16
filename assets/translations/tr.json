@@ -40,6 +40,7 @@
     "NO_LOCATION_INFORMATION_MESSAGE" : "Konum bilgisine ulaşılamıyor",
     "SIDE_MENU": {
       "OVERVIEW": "Gecmis auftraglar",
+      "LEGAL": "Legal",
       "SIGN_OUT": "Çıkış yap"
     },
     "BOTTOM_MENUS": {
@@ -52,6 +53,13 @@
         "PACKAGE_ADDRESS": "Gönderici Adresi: {address}",
         "LET_HIM_SIGNING": "İmzala"
       }
+    }
+  },
+  "LEGAL": {
+    "TITLE": "Legal",
+    "LegalTyp": {
+      "PRIVACY_POLICY": "Privacy Policy",
+      "SOFTWARE_LICENCES": "Software Licences"
     }
   },
   "CHAT": {

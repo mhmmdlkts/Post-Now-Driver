@@ -28,6 +28,8 @@ import 'package:screen/screen.dart';
 import 'chat_screen.dart';
 import 'dart:async';
 
+import 'legal_menu_screen.dart';
+
 class MapsScreen extends StatefulWidget {
   final User user;
   MapsScreen(this.user);
@@ -202,7 +204,16 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
                   },
                 ),
                 ListTile(
-                  title: Text('MAPS.SIDE_MENU.SIGN_OUT'.tr()),
+                  title: Text('MAPS.SIDE_MENU.LEGAL'.tr()),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LegalMenu()),
+                    );
+                  },
+                ),
+                ListTile(
+                  title: Text('MAPS.SIDE_MENU.SIGN_OUT'.tr(), style: TextStyle(color: Colors.redAccent),),
                   onTap: () {
                     FirebaseService().signOut();
                   },

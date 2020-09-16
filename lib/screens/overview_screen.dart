@@ -33,7 +33,6 @@ class _OverviewScreen extends State<OverviewScreen> {
     super.initState();
     initializeDateFormatting();
     _chosenWeek = _overviewService.currentWeek();
-    print(_chosenWeek);
     _pageController = PageController(initialPage: _chosenWeek);
 
     _initOverview();
@@ -60,7 +59,6 @@ class _OverviewScreen extends State<OverviewScreen> {
               extraWeek++;
             int year = _pageToYear(index);
             _chosenWeek = _pageToWeek(index);
-            print(_chosenWeek);
             _initOverview(year: year, week: _chosenWeek);
           },
           itemBuilder: (context, index) {
@@ -75,7 +73,7 @@ class _OverviewScreen extends State<OverviewScreen> {
       Container(height: 15,),
       Text('OVERVIEW.TH_WEEK'.tr(namedArgs: {'week': _chosenWeek.toString()}), style: TextStyle(fontSize: 36), textAlign: TextAlign.center),
       Container(height: 15,),
-      !_isInitialized? Container(child: CircularProgressIndicator(), padding: EdgeInsets.symmetric(horizontal: 40),):
+      !_isInitialized? Container(child: LinearProgressIndicator(minHeight: 12), padding: EdgeInsets.all(20),):
       Text(_overviewService.getTotalIncome().toString() + " €", style: TextStyle(fontSize: 36), textAlign: TextAlign.center),
       Container(height: 15,),
       SizedBox(
