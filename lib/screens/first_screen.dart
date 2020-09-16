@@ -50,9 +50,8 @@ class _FirstScreen extends State<FirstScreen> {
     final onlineVersion = remoteConfig.getInt(FIREBASE_REMOTE_CONFIG_VERSION_KEY);
     final int localVersion = int.parse((await PackageInfo.fromPlatform()).buildNumber);
 
-    setState(() {
-      needsUpdate = localVersion < onlineVersion;
-    });
+    needsUpdate = localVersion < onlineVersion;
+    if (mounted) setState(() { });
 
     if (needsUpdate)
       _firstScreenService.showUpdateAvailableDialog(context);

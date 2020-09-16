@@ -33,6 +33,7 @@ class _OverviewScreen extends State<OverviewScreen> {
     super.initState();
     initializeDateFormatting();
     _chosenWeek = _overviewService.currentWeek();
+    print(_chosenWeek);
     _pageController = PageController(initialPage: _chosenWeek);
 
     _initOverview();
@@ -52,9 +53,14 @@ class _OverviewScreen extends State<OverviewScreen> {
         body: PageView.builder(
           controller: _pageController,
           onPageChanged: (index) {
+            int extraWeek = 0;
+              if (index < _chosenWeek)
+              extraWeek--;
+              if (index < _chosenWeek)
+              extraWeek++;
             int year = _pageToYear(index);
             _chosenWeek = _pageToWeek(index);
-
+            print(_chosenWeek);
             _initOverview(year: year, week: _chosenWeek);
           },
           itemBuilder: (context, index) {
@@ -66,9 +72,10 @@ class _OverviewScreen extends State<OverviewScreen> {
   _getContent() => ListView(
     padding: EdgeInsets.only(left: 8, right: 8, top: 10),
     children: [
-      Container(height: 15,), // TODO Localizate the week if need
+      Container(height: 15,),
       Text('OVERVIEW.TH_WEEK'.tr(namedArgs: {'week': _chosenWeek.toString()}), style: TextStyle(fontSize: 36), textAlign: TextAlign.center),
       Container(height: 15,),
+      !_isInitialized? Container(child: CircularProgressIndicator(), padding: EdgeInsets.symmetric(horizontal: 40),):
       Text(_overviewService.getTotalIncome().toString() + " €", style: TextStyle(fontSize: 36), textAlign: TextAlign.center),
       Container(height: 15,),
       SizedBox(
@@ -79,7 +86,26 @@ class _OverviewScreen extends State<OverviewScreen> {
             child: WeeklyIncomeChart(_overviewService.weeklyIncome),
           )
       ),
-      Container(height: 15,),
+      Container(
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              children: [
+                Text(_overviewService.getTotalTripsCount().toString(), style: TextStyle(fontSize: 36), textAlign: TextAlign.center),
+                Text("OVERVIEW.TOTAL_TRIP_COUNT".tr(), style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
+              ],
+            ),
+            Column(
+              children: [
+                Text(_overviewService.getTotalDriveTime(), style: TextStyle(fontSize: 36), textAlign: TextAlign.center),
+                Text("OVERVIEW.TOTAL_DRIVE_TIME".tr(), style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
+              ],
+            ),
+          ],
+        ),
+      ),
       ListView.builder(
         shrinkWrap: true,
         itemCount: _overviewService.getTotalTripsCount(),
@@ -87,19 +113,25 @@ class _OverviewScreen extends State<OverviewScreen> {
       )
     ],
   );
-  
+
   Widget _getSingleJobWidget(Job j) {
     if (j == null)
       return null;
     return Column(
       children: [
-        Divider(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(getReadableFinishDay(j.finishTime)),
-            Text(j.price.toString() + " €")
-          ],
+        Divider(
+          height: 45,
+          thickness: 1,
+        ),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(getReadableFinishDay(j.finishTime)),
+              Text(j.price.toString() + " €")
+            ],
+          ),
         )
       ],
     );
@@ -115,14 +147,14 @@ class _OverviewScreen extends State<OverviewScreen> {
   }
 
   int _pageToWeek(page) {
-    return (page % (proYearWeekCount)) + 1;
+    return (page % (proYearWeekCount));
   }
 
-  _initOverview({int year, int week}) {
+  _initOverview({int year, int week, isNext = false, isPrev = false}) {
     setState(() {
       _isInitialized = false;
     });
-    _overviewService.getCompletedJobs(year, week).then((value) {
+    _overviewService.initCompletedJobs(year: year, week: week).then((value) {
       setState(() {
         _isInitialized = true;
       });

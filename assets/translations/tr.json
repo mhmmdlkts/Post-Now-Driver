@@ -63,7 +63,9 @@
   },
   "OVERVIEW": {
     "TITLE": "Gecmis auftraglar",
-    "TH_WEEK": "{week}. Hafta"
+    "TH_WEEK": "{week}. Hafta",
+    "TOTAL_TRIP_COUNT": "Total Trip Count",
+    "TOTAL_DRIVE_TIME": "Total Drive Time"
   },
   "MODELS": {
   },

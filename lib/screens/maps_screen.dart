@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -22,6 +23,7 @@ import 'package:postnow/models/job.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:postnow/service/overview_service.dart';
 import 'package:screen/screen.dart';
 import 'chat_screen.dart';
 import 'dart:async';
@@ -37,12 +39,13 @@ class MapsScreen extends StatefulWidget {
 class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-  final Set markers = new Set<Marker>();
-  final User user;
-  bool isInitialized = false;
-  int initCount = 0;
-  int initDone = 0;
+  final Set _markers = new Set<Marker>();
+  final User _user;
+  bool _isInitialized = false;
+  int _initCount = 0;
+  int _initDone = 0;
   MapsService _mapsService;
+  OverviewService _overviewService;
   BuildContext _jobDialogCtx;
   bool _isZoomed = false;
   bool _locationFocused = true;
@@ -53,18 +56,24 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   Position _myPosition;
   Job _job;
 
-  _MapsScreenState(this.user) {
-    _mapsService = MapsService(user.uid);
+  _MapsScreenState(this._user) {
+    _mapsService = MapsService(_user.uid);
+    _overviewService = OverviewService(_user);
   }
 
   @override
   void initState() {
-    initCount++;
+    _initCount++;
     super.initState();
     Screen.keepOn(true);
     WidgetsBinding.instance.addObserver(this);
 
-    initCount++;
+    _initCount++;
+    _overviewService.initCompletedJobs().then((value) => {
+      nextInitializeDone('0')
+    });
+
+    _initCount++;
     _mapsService.getBytesFromAsset('assets/package_map_marker.png', 130).then((value) => {
       _packageLocationIcon = BitmapDescriptor.fromBytes(value),
       nextInitializeDone('1')
@@ -93,12 +102,12 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     });
 
 
-    initCount++;
+    _initCount++;
     _mapsService.jobsRef.once().then((DataSnapshot snapshot){
       if (snapshot.value != null) {
         snapshot.value.forEach((key, values) {
           Job j = Job.fromJson(values, key: key);
-          if (j.isJobForMe(user.uid) && !j.isJobAccepted()) { // TODO remove the for each
+          if (j.isJobForMe(_user.uid) && !j.isJobAccepted()) { // TODO remove the for each
             _setJob(j);
           }
         });
@@ -111,9 +120,9 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
       Job j = Job.fromSnapshot(e.snapshot);
       _onJobsDataChanged(j);
     });
-    _mapsService.driverRef.child(user.uid).child("isOnline").onValue.listen(_onOnlineStatusChanged);
+    _mapsService.driverRef.child(_user.uid).child("isOnline").onValue.listen(_onOnlineStatusChanged);
 
-    initCount++;
+    _initCount++;
     _setJobIfExist().then((value) => {
       nextInitializeDone('3')
     });
@@ -129,7 +138,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     return Stack(
       children: [
         _content(),
-        isInitialized ? Container() : SplashScreen(),
+        _isInitialized ? Container() : SplashScreen(),
       ],
     );
   }
@@ -159,7 +168,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
                     initialCameraPosition: CameraPosition(target: LatLng(0, 0)),
                     onMapCreated: onMapCreated,
                     myLocationEnabled: true,
-                    markers: markers,
+                    markers: _markers,
                     myLocationButtonEnabled: false,
                     onCameraMoveStarted: () => {
                       setState(() {
@@ -169,7 +178,9 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
                   ),
                 ),
                 getBottomMenu(),
-              ]
+                getTopIncomePanel(),
+              ],
+            alignment: Alignment.center,
           ),
           drawer: Drawer(
             child: ListView(
@@ -186,7 +197,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
                   onTap: () {
                     Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => OverviewScreen(user))
+                        MaterialPageRoute(builder: (context) => OverviewScreen(_user))
                     );
                   },
                 ),
@@ -208,20 +219,20 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     var data = new Map<String, String>();
     data['status'] = state.toString();
     data['time'] = DateTime.now().toString();
-    _mapsService.driverRef.child(user.uid).child("appStatus").update(data);
+    _mapsService.driverRef.child(_user.uid).child("appStatus").update(data);
   }
 
   nextInitializeDone(String code) {
     // print(code);
-    initDone++;
-    if (initCount == initDone) {
+    _initDone++;
+    if (_initCount == _initDone) {
       _getMyPosition().then((value) => {
         _mapController.moveCamera(CameraUpdate.newCameraPosition(
             CameraPosition(target: LatLng(value.latitude, value.longitude), zoom: 13)
         )),
         Future.delayed(Duration(milliseconds: 500), () =>
             setState((){
-              isInitialized = true;
+              _isInitialized = true;
             })
         )
       });
@@ -260,14 +271,14 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     _onlineStatus = value;
 
     setState(() {
-      _mapsService.driverRef.child(user.uid).child("isOnline").set(_mapsService.onlineStatusToBool(value));
+      _mapsService.driverRef.child(_user.uid).child("isOnline").set(_mapsService.onlineStatusToBool(value));
     });
   }
 
   _onJobsDataChanged(Job j) {
     setState(() {
-      if (!j.isJobForMe(user.uid)) {
-        markers.clear();
+      if (!j.isJobForMe(_user.uid)) {
+        _markers.clear();
         _menuTyp = MenuTyp.WAITING;
         return;
       }
@@ -482,6 +493,33 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     }
   }
 
+  Widget getTopIncomePanel() => Positioned(
+      top: 25,
+      child: Opacity(
+        opacity: 0.9,
+        child: FlatButton(
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => OverviewScreen(_user))
+            );
+          },
+          shape: new RoundedRectangleBorder(side: BorderSide(
+              color: Colors.black,
+              width: 1,
+              style: BorderStyle.solid
+          ), borderRadius: new BorderRadius.circular(25.0)),
+          color: Colors.green,
+
+          child: Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+            child: Text(_overviewService.getIncomeOfToday().toString() + " €", textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 20),),
+          ),
+        ),
+      )
+  );
+
   Widget goOnlineOfflineMenu() => Positioned(
       bottom: 0,
       child: SizedBox(
@@ -575,9 +613,9 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
       if (withDialog) {
         Navigator.pop(_jobDialogCtx);
       }
-      markers.clear();
+      _markers.clear();
       _job = null;
-      _menuTyp = null;
+      _menuTyp = MenuTyp.WAITING;
     });
   }
 
@@ -632,7 +670,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
 
   _setJob(Job j) {
     _job = j;
-    markers.add(Marker(
+    _markers.add(Marker(
       markerId: MarkerId(j.key),
       position: j.getOrigin(),
       icon: _packageLocationIcon,
@@ -677,8 +715,8 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   }
 
   Future<void> _setJobIfExist() async {
-    initCount++;
-    _mapsService.driverRef.child(user.uid).child("currentJob").once().then((DataSnapshot snapshot){
+    _initCount++;
+    _mapsService.driverRef.child(_user.uid).child("currentJob").once().then((DataSnapshot snapshot){
       final jobId = snapshot.value;
       if (jobId != null) {
         _mapsService.jobsRef.child(jobId.toString()).once().then((DataSnapshot snapshot){

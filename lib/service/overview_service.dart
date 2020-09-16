@@ -9,7 +9,7 @@ class OverviewService {
   final WeeklyIncome weeklyIncome = WeeklyIncome();
   OverviewService(this.user);
 
-  Future<void> getCompletedJobs(int year, int week) async {
+  Future<void> initCompletedJobs({int year, int week}) async {
     weeklyIncome.reset();
     await _jobsRef.child(_getChildKey(year, week)).child(user.uid).orderByChild("finished-time").once().then((DataSnapshot snapshot) => {
       if (snapshot.value != null) {
@@ -26,7 +26,19 @@ class OverviewService {
       year = currentYear();
     if (week == null) 
       week = currentWeek();
+    if (week < 0) {
+      year--;
+      week = 52;
+    }
+    if (week > 52) {
+      year++;
+      week = 0;
+    }
     return year.toString() + "-" + week.toString();
+  }
+
+  int currentDayOfWeek() {
+    return DateTime.now().weekday;
   }
 
   int currentYear() {
@@ -53,7 +65,9 @@ class OverviewService {
     return weekNumber.ceil();
   }
 
+  String getTotalDriveTime() => weeklyIncome.getTotalDriveTime();
   double getTotalIncome() => weeklyIncome.getTotalIncome();
   int getTotalTripsCount() => weeklyIncome.getTotalTripsCount();
   Job getJob(int index) => weeklyIncome.getJob(index);
+  double getIncomeOfToday() => weeklyIncome.dailyIncomes[currentDayOfWeek()].income;
 }

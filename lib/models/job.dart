@@ -237,6 +237,12 @@ class Job {
     return destinationAddress.getAddress();
   }
 
+  Duration getDriveTime() {
+    if (acceptTime == null || finishTime == null)
+      return Duration();
+    return finishTime.difference(acceptTime);
+  }
+
   @override
   bool operator == (covariant Job other) {
     if (key != null)

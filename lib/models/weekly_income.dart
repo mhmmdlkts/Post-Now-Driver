@@ -32,6 +32,14 @@ class WeeklyIncome {
     return income;
   }
 
+  String getTotalDriveTime() {
+    Duration driveTime = Duration();
+    jobs.forEach((element) {driveTime = Duration(milliseconds: driveTime.inMilliseconds + element.getDriveTime().inMilliseconds);});
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    String twoDigitMinutes = twoDigits(driveTime.inMinutes.remainder(60));
+    return "${twoDigits(driveTime.inHours)}:$twoDigitMinutes";
+  }
+
   int getTotalTripsCount() {
     return jobs.length;
   }
