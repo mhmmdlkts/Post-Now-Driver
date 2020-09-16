@@ -39,6 +39,7 @@
     "TAKE_PACKAGE" : "Paketi al",
     "NO_LOCATION_INFORMATION_MESSAGE" : "Konum bilgisine ulaşılamıyor",
     "SIDE_MENU": {
+      "OVERVIEW": "Gecmis auftraglar",
       "SIGN_OUT": "Çıkış yap"
     },
     "BOTTOM_MENUS": {
@@ -60,7 +61,22 @@
     "CLEAR": "Temizle",
     "SIGN": "İmzala"
   },
+  "OVERVIEW": {
+    "TITLE": "Gecmis auftraglar",
+    "TH_WEEK": "{week}. Hafta"
+  },
   "MODELS": {
+  },
+  "ENUMS": {
+    "DAYS": { "COMMENT": "---IM a comment don't translate me--- The Day shorted days should primary",
+      "MONDAY": "Pa",
+      "TUESDAY": "Sa",
+      "WEDNESDAY": "Ça",
+      "THURSDAY": "Pe",
+      "FRIDAY": "Cu",
+      "SATURDAY": "Ct",
+      "SUNDAY": "Pz"
+    }
   },
   "DIALOGS": {
     "JOB_REQUEST": {

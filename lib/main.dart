@@ -7,6 +7,7 @@ import 'service/auth_service.dart';
 import 'dart:ui' as ui;
 
 void main() {
+
   runApp(
     EasyLocalization(
         supportedLocales: [Locale('en', ''), Locale('de', ''), Locale('tr', '')],
@@ -23,15 +24,23 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StatefulWrapper(
-      onInit: () { context.locale = Locale(ui.window.locale.languageCode, ''); },
+      onInit: () {
+        context.locale = Locale(ui.window.locale.languageCode, '');
+        Intl.defaultLocale = ui.window.locale.languageCode;
+        },
       child: FutureBuilder(
         future: Firebase.initializeApp(),
         builder: (context, snapshot) {
           return MaterialApp(
             title: 'APP_NAME'.tr(),
             theme: ThemeData(
-              primarySwatch: Colors.lightBlue,
-              visualDensity: VisualDensity.adaptivePlatformDensity,
+                primarySwatch: Colors.lightBlue,
+                visualDensity: VisualDensity.adaptivePlatformDensity,
+                primaryTextTheme: TextTheme(
+                    headline6: TextStyle(
+                        color: Colors.white
+                    )
+                )
             ),
             home: FirebaseService().handleAuth(snapshot.connectionState),
           );

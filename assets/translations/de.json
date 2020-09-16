@@ -39,6 +39,7 @@
     "TAKE_PACKAGE" : "Paket abholen",
     "NO_LOCATION_INFORMATION_MESSAGE" : "Standortinformationen sind nicht verfügbar.",
     "SIDE_MENU": {
+      "OVERVIEW": "Gecmis auftraglar",
       "SIGN_OUT": "Ausloggen"
     },
     "BOTTOM_MENUS": {
@@ -60,7 +61,22 @@
     "CLEAR": "Löschen",
     "SIGN": "Unterschrift"
   },
+  "OVERVIEW": {
+    "TITLE": "Gecmis auftraglar",
+    "TH_WEEK": "{week}. Woche"
+  },
   "MODELS": {
+  },
+  "ENUMS": {
+    "DAYS": { "COMMENT": "---IM a comment don't translate me--- The Day shorted days should primary",
+      "MONDAY": "Mo",
+      "TUESDAY": "Di",
+      "WEDNESDAY": "Mi",
+      "THURSDAY": "Do",
+      "FRIDAY": "Fr",
+      "SATURDAY": "Sam",
+      "SUNDAY": "So"
+    }
   },
   "DIALOGS": {
     "JOB_REQUEST": {

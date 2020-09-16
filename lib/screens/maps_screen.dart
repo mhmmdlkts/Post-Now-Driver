@@ -10,6 +10,7 @@ import 'package:map_launcher/map_launcher.dart' as maps;
 import 'package:postnow/enums/job_status_enum.dart';
 import 'package:postnow/enums/online_status_enum.dart';
 import 'package:postnow/models/address.dart';
+import 'package:postnow/screens/overview_screen.dart';
 import 'package:postnow/screens/signing_screen.dart';
 import 'package:postnow/Dialogs/message_toast.dart';
 import 'package:postnow/screens/slpash_screen.dart';
@@ -179,6 +180,15 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
                   decoration: BoxDecoration(
                     color: Colors.blue,
                   ),
+                ),
+                ListTile(
+                  title: Text('MAPS.SIDE_MENU.OVERVIEW'.tr()),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => OverviewScreen(user))
+                    );
+                  },
                 ),
                 ListTile(
                   title: Text('MAPS.SIDE_MENU.SIGN_OUT'.tr()),

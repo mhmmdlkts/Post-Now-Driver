@@ -3,7 +3,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:postnow/enums/job_status_enum.dart';
 import 'package:postnow/enums/job_vehicle_enum.dart';
-
 import 'address.dart';
 
 class Job {

@@ -17,10 +17,11 @@
     "NAME_FIELD_VALIDATOR_ENTER_NAME": "Enter your name.",
     "SURNAME_FIELD_HINT": "Surname",
     "SURNAME_FIELD_VALIDATOR_ENTER_NAME": "Enter your surname.",
-    "PHONE_FIELD_HINT": "Example: +436601231212",
+    "PHONE_FIELD_HINT": "Phone Number Example: +436601231212",
     "PHONE_FIELD_VALIDATOR_ENTER_NAME": "Enter your phone number.",
     "SMS_CODE_FIELD_HINT": "Example: 123456",
     "SMS_CODE_FIELD_VALIDATOR_ENTER_NAME": "Enter your validation code",
+    "AGREE_TERMS_AND_POLICY": "By signing up, you agree to our Terms & Privacy Policy",
     "SIGN_IN": "Sign in",
     "SIGN_UP": "Sign up",
     "ERROR_MESSAGES" : {
@@ -34,11 +35,12 @@
     }
   },
   "MAPS": {
-    "GO_ONLINE" : "Go Onine",
+    "GO_ONLINE" : "Go Online",
     "GO_OFFLINE" : "Go Offline",
     "TAKE_PACKAGE" : "Pick up package",
     "NO_LOCATION_INFORMATION_MESSAGE" : "Location information is not available.",
     "SIDE_MENU": {
+      "OVERVIEW": "Gecmis auftraglar",
       "SIGN_OUT": "Sign out"
     },
     "BOTTOM_MENUS": {
@@ -55,6 +57,11 @@
       }
     }
   },
+  "LEGAL": {
+    "LegalTyp": {
+      "PRIVACY_POLICY": "Privacy Policy"
+    }
+  },
   "CHAT": {
     "TYPE_MESSAGE_HERE": "Enter your message..."
   },
@@ -62,7 +69,22 @@
     "CLEAR": "Clear",
     "SIGN": "Sign"
   },
+  "OVERVIEW": {
+    "TITLE": "Gecmis auftraglar",
+    "TH_WEEK": "{week}. Week"
+  },
   "MODELS": {
+  },
+  "ENUMS": {
+    "DAYS": { "COMMENT": "---IM a comment don't translate me--- The Day shorted days should primary",
+      "MONDAY": "Mo",
+      "TUESDAY": "Tu",
+      "WEDNESDAY": "We",
+      "THURSDAY": "Th",
+      "FRIDAY": "Fr",
+      "SATURDAY": "Sa",
+      "SUNDAY": "Su"
+    }
   },
   "DIALOGS": {
     "JOB_REQUEST": {
