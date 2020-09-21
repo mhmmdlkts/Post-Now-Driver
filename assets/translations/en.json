@@ -2,7 +2,7 @@
   "APP_NAME": "Post Now Driver",
   "OK": "OK",
   "CANCEL": "Cancel",
-  "ACCEPT": "Accep",
+  "ACCEPT": "Accept",
   "CLOSE": "Close",
   "ERROR": "Error",
   "SETTINGS": "Settings",
@@ -52,8 +52,8 @@
       },
       "PACKAGE_PICKED" : {
         "YOUR_CUSTOMER": "Customer: {name}",
-        "PACKAGE_ADDRESS": "Sender adress: {address}\nAsagi gelecek\nPacket will picked by Name: {name}",
-        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Sender adress: {address}\nPacket will picked by Name: {name}",
+        "PACKAGE_ADDRESS": "Receiver adress: {address}\nAsagi gelecek\nPacket will picked by Name: {name}",
+        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Receiver adress: {address}\nPacket will picked by Name: {name}",
         "LET_HIM_SIGNING": "Let {name} sign"
       }
     }
@@ -70,7 +70,8 @@
   },
   "SIGNING": {
     "CLEAR": "Clear",
-    "SIGN": "Sign"
+    "SIGN": "Sign",
+    "SIGN_TERMS": "Through this signature I hereby acknowledge that I have received the delivery safely and without any damage."
   },
   "OVERVIEW": {
     "TITLE": "Gecmis auftraglar",

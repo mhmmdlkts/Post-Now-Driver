@@ -4,8 +4,8 @@ import 'package:package_info/package_info.dart';
 import 'package:postnow/environment/global_variables.dart';
 import 'package:postnow/screens/maps_screen.dart';
 import 'package:postnow/screens/slpash_screen.dart';
-import 'package:postnow/service/auth_service.dart';
-import 'package:postnow/service/first_screen_service.dart';
+import 'package:postnow/services/auth_service.dart';
+import 'package:postnow/services/first_screen_service.dart';
 import 'auth_screen.dart';
 
 

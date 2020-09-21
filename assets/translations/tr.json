@@ -44,14 +44,16 @@
       "SIGN_OUT": "Çıkış yap"
     },
     "BOTTOM_MENUS": {
-      "ON_JOB": {
+      "ON_JOB": {^
         "YOUR_CUSTOMER": "Müşteri: {name}",
-        "PACKAGE_ADDRESS": "Gönderici Adresi: {address}"
+        "PACKAGE_ADDRESS": "Gönderici Adresi: {address}\nAsagi gelecek\nPacket will gived by Name: {name}",
+        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Gönderici Adresi: {address}\nPacket will gived by Name: {name}"
       },
       "PACKAGE_PICKED": {
         "YOUR_CUSTOMER": "Müşteri: {name}",
-        "PACKAGE_ADDRESS": "Gönderici Adresi: {address}",
-        "LET_HIM_SIGNING": "İmzala"
+        "PACKAGE_ADDRESS": "Alici Adresi: {address}\nAsagi gelecek\nPacket will picked by Name: {name}",
+        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Alici Adresi: {address}\nPacket will picked by Name: {name}",
+        "LET_HIM_SIGNING": "İmzala {name}"
       }
     }
   },
@@ -67,7 +69,8 @@
   },
   "SIGNING": {
     "CLEAR": "Temizle",
-    "SIGN": "İmzala"
+    "SIGN": "İmzala",
+    "SIGN_TERMS": "Through this signature I hereby acknowledge that I have received the delivery safely and without any damage.”"
   },
   "OVERVIEW": {
     "TITLE": "Gecmis auftraglar",

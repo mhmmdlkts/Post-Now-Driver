@@ -7,8 +7,21 @@ class OverviewService {
   final User user;
   final DatabaseReference _jobsRef = FirebaseDatabase.instance.reference().child('completed-jobs');
   final WeeklyIncome weeklyIncome = WeeklyIncome();
+  
   OverviewService(this.user);
 
+  subscribe(func, {int year, int week}) {
+    if (week == null)
+      week = currentWeek();
+    if (year == null)
+      year = currentYear();
+    _jobsRef.child(_getChildKey(year, week)).child(user.uid).onChildAdded.listen((Event e) {
+      initCompletedJobs(year: year, week: week).then((value) {
+        func.call();
+      });
+    });
+  }
+  
   Future<void> initCompletedJobs({int year, int week}) async {
     weeklyIncome.reset();
     await _jobsRef.child(_getChildKey(year, week)).child(user.uid).orderByChild("finished-time").once().then((DataSnapshot snapshot) => {
@@ -38,7 +51,7 @@ class OverviewService {
   }
 
   int currentDayOfWeek() {
-    return DateTime.now().weekday;
+    return DateTime.now().weekday-1;
   }
 
   int currentYear() {

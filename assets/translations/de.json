@@ -46,12 +46,14 @@
     "BOTTOM_MENUS": {
       "ON_JOB": {
         "YOUR_CUSTOMER": "Kunde: {name}",
-        "PACKAGE_ADDRESS": "Absenderadresse: {address}"
+        "PACKAGE_ADDRESS": "Sender adress: {address}\nAsagi gelecek\nPacket will gived by Name: {name}",
+        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Sender adress: {address}\nPacket will gived by Name: {name}"
       },
       "PACKAGE_PICKED" : {
         "YOUR_CUSTOMER": "Kunde: {name}",
-        "PACKAGE_ADDRESS": "Absenderadresse: {address}",
-        "LET_HIM_SIGNING": "Unterschreiben"
+        "PACKAGE_ADDRESS": "Receiver adress: {address}\nAsagi gelecek\nPacket will picked by Name: {name}",
+        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Receiver adress: {address}\nPacket will picked by Name: {name}",
+        "LET_HIM_SIGNING": "Unterschreiben {name}"
       }
     }
   },
@@ -66,7 +68,8 @@
   },
   "SIGNING": {
     "CLEAR": "Löschen",
-    "SIGN": "Unterschrift"
+    "SIGN": "Unterschrift",
+    "SIGN_TERMS": "Through this signature I hereby acknowledge that I have received the delivery safely and without any damage."
   },
   "OVERVIEW": {
     "TITLE": "Gecmis auftraglar",

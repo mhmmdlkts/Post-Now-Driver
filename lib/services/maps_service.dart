@@ -10,10 +10,13 @@ import 'package:postnow/enums/online_status_enum.dart';
 import 'package:http/http.dart' as http;
 import 'dart:ui' as ui;
 
+import 'package:postnow/models/job.dart';
+
 
 const double MAX_ARRIVE_DISTANCE_KM = 0.1;
 
 class MapsService with WidgetsBindingObserver {
+  final DatabaseReference userRef = FirebaseDatabase.instance.reference().child('users');
   final DatabaseReference jobsRef = FirebaseDatabase.instance.reference().child('jobs');
   final DatabaseReference jobsChatRef = FirebaseDatabase.instance.reference().child('jobs_chat');
   final DatabaseReference driverRef = FirebaseDatabase.instance.reference().child('drivers');
@@ -119,6 +122,14 @@ class MapsService with WidgetsBindingObserver {
     ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
     ui.FrameInfo fi = await codec.getNextFrame();
     return (await fi.image.toByteData(format: ui.ImageByteFormat.png)).buffer.asUint8List();
+  }
+
+  Future<String> getPhoneNumberFromUser(Job j) async {
+    String phone;
+    await userRef.child(j.userId).child("phone").once().then((value) => {
+      phone = value.value
+    });
+    return phone;
   }
 
 }

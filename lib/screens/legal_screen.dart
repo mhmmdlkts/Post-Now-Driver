@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:postnow/enums/legacity_enum.dart';
-import 'package:postnow/service/legal_service.dart';
+import 'package:postnow/services/legal_service.dart';
 
 class LegalScreen extends StatefulWidget {
   final LegalTyp legalTyp;

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_signature_pad/flutter_signature_pad.dart';
-import 'package:postnow/service/signing_service.dart';
+import 'package:postnow/services/signing_service.dart';
 
 class SigningScreen extends StatefulWidget {
-  SigningScreen();
+  String name;
+  SigningScreen(this.name);
 
   @override
   _SigningScreen createState() => _SigningScreen();
@@ -19,6 +20,7 @@ class _SigningScreen extends State<SigningScreen> {
   @override
   void initState() {
     super.initState();
+    print (widget.name);
   }
 
   @override
@@ -35,6 +37,7 @@ class _SigningScreen extends State<SigningScreen> {
         child: Column(
           children: <Widget>[
             _signingFieldWidget(),
+            Text('SIGNING.SIGN_TERMS'.tr(namedArgs: {'name': widget.name})),
             RaisedButton(
               onPressed: _sign,
               child: Text('SIGNING.SIGN'.tr(), style: TextStyle(fontSize: 20, color: Colors.white)),

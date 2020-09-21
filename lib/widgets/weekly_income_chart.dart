@@ -1,3 +1,4 @@
+import 'package:charts_flutter/flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:postnow/models/daily_income.dart';
@@ -5,8 +6,9 @@ import 'package:postnow/models/weekly_income.dart';
 
 class WeeklyIncomeChart extends StatelessWidget {
   final WeeklyIncome _weeklyIncome;
+  final ValueChanged<double> func;
 
-  WeeklyIncomeChart(this._weeklyIncome);
+  WeeklyIncomeChart(this._weeklyIncome, this.func);
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +24,26 @@ class WeeklyIncomeChart extends StatelessWidget {
 
     final customTickFormatter =  charts.BasicNumericTickFormatterSpec((num value) => '$value €');
 
-    return charts.BarChart(
-      series,
-      animate: true,
-      primaryMeasureAxis: new charts.NumericAxisSpec(tickFormatterSpec: customTickFormatter),
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        !_weeklyIncome.isInitialized? CircularProgressIndicator():Container(),
+        charts.BarChart(
+          series,
+          animate: _weeklyIncome.isInitialized,
+          primaryMeasureAxis: new charts.NumericAxisSpec(tickFormatterSpec: customTickFormatter),
+          selectionModels: [
+            SelectionModelConfig<String>(
+                updatedListener: (SelectionModel model) {
+                  if(model.hasDatumSelection) {
+                    func.call(model.selectedSeries[0].measureFn(
+                        model.selectedDatum[0].index));
+                  }
+                }
+            )
+          ],
+        )
+      ],
     );
   }
 }

@@ -15,15 +15,18 @@ import 'package:postnow/screens/overview_screen.dart';
 import 'package:postnow/screens/signing_screen.dart';
 import 'package:postnow/Dialogs/message_toast.dart';
 import 'package:postnow/screens/slpash_screen.dart';
-import 'package:postnow/service/maps_service.dart';
-import 'package:postnow/service/auth_service.dart';
+import 'package:postnow/services/maps_service.dart';
+import 'package:postnow/services/auth_service.dart';
 import 'package:postnow/enums/menu_typ_enum.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:postnow/models/job.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:postnow/service/overview_service.dart';
+import 'package:postnow/services/overview_service.dart';
+import 'package:postnow/widgets/bottom_card.dart';
+import 'package:progress_state_button/iconed_button.dart';
+import 'package:progress_state_button/progress_button.dart';
 import 'package:screen/screen.dart';
 import 'chat_screen.dart';
 import 'dart:async';
@@ -39,10 +42,12 @@ class MapsScreen extends StatefulWidget {
 }
 
 class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey _mapKey = GlobalKey();
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   final Set _markers = new Set<Marker>();
   final User _user;
+  ButtonState _onlineOfflineButtonState = ButtonState.success;
   bool _isInitialized = false;
   int _initCount = 0;
   int _initDone = 0;
@@ -55,7 +60,9 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   OnlineStatus _onlineStatus = OnlineStatus.OFFLINE;
   GoogleMapController _mapController;
   MenuTyp _menuTyp;
+  BottomCard _bottomCard;
   Position _myPosition;
+  String _userPhone;
   Job _job;
 
   _MapsScreenState(this._user) {
@@ -67,21 +74,32 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   void initState() {
     _initCount++;
     super.initState();
+
     Screen.keepOn(true);
     WidgetsBinding.instance.addObserver(this);
 
+    Future.delayed(const Duration(milliseconds: 2500)).then((value) {
+      if (_isInitialized)
+        return;
+      print('Force init');
+      setState((){
+        _isInitialized = true;
+      });
+    });
+
     _initCount++;
     _overviewService.initCompletedJobs().then((value) => {
-      nextInitializeDone('0')
+      _nextInitializeDone('0'),
+      _overviewService.subscribe(() => setState(() { }) )
     });
 
     _initCount++;
     _mapsService.getBytesFromAsset('assets/package_map_marker.png', 130).then((value) => {
       _packageLocationIcon = BitmapDescriptor.fromBytes(value),
-      nextInitializeDone('1')
+      _nextInitializeDone('1')
     });
     _getMyPosition();
-    _menuTyp = MenuTyp.WAITING;
+    _changeMenuTyp(MenuTyp.WAITING);
 
     _firebaseMessaging.configure(onMessage: (Map<String, dynamic> message) {
       print('onResume: $message');
@@ -114,25 +132,29 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
           }
         });
       }
-      nextInitializeDone('2');
+      _nextInitializeDone('2');
     });
 
     _mapsService.jobsRef.onChildChanged.listen((Event e) {
-      print('eee');
       Job j = Job.fromSnapshot(e.snapshot);
       _onJobsDataChanged(j);
     });
+
+    _mapsService.driverRef.child(_user.uid).child("currentJob").onChildChanged.listen((Event e) {
+      _getPhoneNumberFromUser();
+    });
+
     _mapsService.driverRef.child(_user.uid).child("isOnline").onValue.listen(_onOnlineStatusChanged);
 
     _initCount++;
     _setJobIfExist().then((value) => {
-      nextInitializeDone('3')
+      _nextInitializeDone('3')
     });
 
     var locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
 
     Geolocator().getPositionStream(locationOptions).listen(_onPositionChanged);
-    nextInitializeDone('4');
+    _nextInitializeDone('4');
   }
 
   @override
@@ -165,10 +187,11 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
                       .size
                       .height,
                   child: GoogleMap(
+                    key: _mapKey,
                     zoomControlsEnabled: false,
                     mapType: MapType.normal,
                     initialCameraPosition: CameraPosition(target: LatLng(0, 0)),
-                    onMapCreated: onMapCreated,
+                    onMapCreated: _onMapCreated,
                     myLocationEnabled: true,
                     markers: _markers,
                     myLocationButtonEnabled: false,
@@ -179,8 +202,8 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
                     },
                   ),
                 ),
-                getBottomMenu(),
-                getTopIncomePanel(),
+                _getBottomMenu(),
+                _getTopIncomePanel(),
               ],
             alignment: Alignment.center,
           ),
@@ -221,7 +244,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
               ],
             ),
           ),
-          floatingActionButton: _getFloatingButton()
+        floatingActionButton: _bottomCard == null ? _currentPositionFButton() : null,
       )
   );
 
@@ -233,8 +256,8 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     _mapsService.driverRef.child(_user.uid).child("appStatus").update(data);
   }
 
-  nextInitializeDone(String code) {
-    // print(code);
+  _nextInitializeDone(String code) {
+     // print(code + "/" + _initCount.toString());
     _initDone++;
     if (_initCount == _initDone) {
       _getMyPosition().then((value) => {
@@ -251,38 +274,55 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   }
   
   _onPositionChanged(Position position) {
-    setMyPosition(position);
+    _setMyPosition(position);
     if (_locationFocused)
       _mapsService.setNewCameraPosition(_mapController, LatLng(_myPosition.latitude, _myPosition.longitude), null, true);
     if (_onlineStatus == OnlineStatus.ONLINE)
       _mapsService.sendMyLocToDB(_myPosition);
     if (_job != null && _isInRange(_job.getOrigin())) {
       setState(() {
-        _menuTyp = MenuTyp.IN_ORIGIN_RANGE;
+        _changeMenuTyp(MenuTyp.IN_ORIGIN_RANGE);
       });
     }
   }
 
   _onOnlineStatusChanged(Event event) {
     OnlineStatus status = _mapsService.boolToOnlineStatus(event.snapshot.value);
+    final int delayMS = _onlineOfflineButtonState == ButtonState.success?0:800; // Check is first init?
+    Future.delayed(Duration(milliseconds: delayMS), () {
+      if (mounted) setState(() {
+        _onlineOfflineButtonState = ButtonState.idle;
+      });
+    });
     if (_onlineStatus != status) {
       _onlineStatus = status;
       if (mounted) setState(() {});
     }
   }
 
-  changeStatus (OnlineStatus value) {
+  _changeStatus ({OnlineStatus value}) {
+    if (value == null)
+      value = (_onlineStatus == OnlineStatus.ONLINE?OnlineStatus.OFFLINE:OnlineStatus.ONLINE);
+    setState(() {
+      _onlineOfflineButtonState = ButtonState.loading;
+    });
     if (!_mapsService.sendMyLocToDB(_myPosition)) {
       SnackBar snackBar = SnackBar(
         content: Text("MAPS.NO_LOCATION_INFORMATION_MESSAGE".tr()),
       );
       _scaffoldKey.currentState.showSnackBar(snackBar);
+
+      setState(() {
+        _onlineOfflineButtonState = ButtonState.fail;
+      });
       return;
     }
     _onlineStatus = value;
 
-    setState(() {
-      _mapsService.driverRef.child(_user.uid).child("isOnline").set(_mapsService.onlineStatusToBool(value));
+    _mapsService.driverRef.child(_user.uid).child("isOnline").set(_mapsService.onlineStatusToBool(value)).then((value) => {
+      setState(() {
+
+      })
     });
   }
 
@@ -290,22 +330,22 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     setState(() {
       if (!j.isJobForMe(_user.uid)) {
         _markers.clear();
-        _menuTyp = MenuTyp.WAITING;
+        _changeMenuTyp(MenuTyp.WAITING);
         return;
       }
       switch (j.status) {
         case Status.WAITING:
           _setJob(j);
-          _menuTyp = MenuTyp.JOB_REQUEST;
+          _changeMenuTyp(MenuTyp.JOB_REQUEST);
           break;
         case Status.ON_ROAD:
-          _menuTyp = MenuTyp.ON_JOB;
+          _changeMenuTyp(MenuTyp.ON_JOB);
           break;
         case Status.PACKAGE_PICKED:
-          _menuTyp = MenuTyp.PACKAGE_PICKED;
+          _changeMenuTyp(MenuTyp.PACKAGE_PICKED);
           break;
         case Status.FINISHED:
-          _menuTyp = MenuTyp.COMPLETED;
+          _changeMenuTyp(MenuTyp.COMPLETED);
           break;
         case Status.CANCELLED:
           break;
@@ -313,184 +353,28 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     });
   }
 
-  onMapCreated(GoogleMapController controller) {
+  _onMapCreated(GoogleMapController controller) {
     setState(() {
       _mapController = controller;
     });
   }
 
-  Widget getBottomMenu() {
+  Widget _getBottomMenu() {
     switch (_menuTyp) {
       case MenuTyp.WAITING:
-        return goOnlineOfflineMenu();
+        return _goOnlineOfflineMenu();
       case MenuTyp.JOB_REQUEST:
-        return jobRequestMenu();
       case MenuTyp.ON_JOB:
-        return onJobMenu();
       case MenuTyp.IN_ORIGIN_RANGE:
-        return inOriginRangeMenu();
       case MenuTyp.PACKAGE_PICKED:
-        return packagePickedMenu();
       case MenuTyp.COMPLETED:
-        return jobCompletedMenu();
+        return _bottomCard;
     }
     return Container();
   }
 
-  Widget inOriginRangeMenu() => Positioned(
-      bottom: 0,
-      child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height/4,
-          child: Column(
-              children: <Widget>[
-                RaisedButton(
-                  onPressed: () {
-                    _openMessageScreen(_job.key, _job.name);
-                  },
-                  child: Text('SEND_MESSAGE'.tr(), style: TextStyle(fontSize: 20, color: Colors.white)),
-                  color: Colors.lightBlueAccent,
-                ),
-                RaisedButton(
-                  onPressed: _takePackage,
-                  child: Text('MAPS.TAKE_PACKAGE'.tr(), style: TextStyle(fontSize: 20, color: Colors.white)),
-                  color: Colors.lightBlueAccent,
-                ),
-              ]
-          )
-      )
-  );
-
-  Widget jobRequestMenu() => Positioned(
-      bottom: 0,
-      child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height/4,
-          child: Column(
-              children: <Widget>[
-                _getBoxButton('assets/new_job_box.png', _acceptJob, Colors.transparent)
-              ]
-          )
-      )
-  );
-
-  Widget onJobMenu() => Positioned(
-      bottom: 0,
-      child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height/4,
-          child: Column(
-              children: <Widget>[
-                Card(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      ListTile(
-                        leading: Icon(Icons.card_giftcard),
-                        title: Text('MAPS.BOTTOM_MENUS.ON_JOB.YOUR_CUSTOMER'.tr(namedArgs: {'name': _job.name})),
-                        subtitle: Text((_job.originAddress.hasDoorNumber()?
-                        'MAPS.BOTTOM_MENUS.ON_JOB.PACKAGE_ADDRESS_EXTRA_SERVICE':'MAPS.BOTTOM_MENUS.ON_JOB.PACKAGE_ADDRESS')
-                            .tr(namedArgs: {'address': _job.getOriginAddress(), 'name': _job.originAddress.doorName})),
-                      ),
-                      ButtonBar(
-                        children: <Widget>[
-                          FlatButton(
-                            child: Text('SEND_MESSAGE'.tr()),
-                            onPressed: () { _openMessageScreen(_job.key, _job.name); },
-                          ),
-                          FlatButton(
-                            child: Text('MAPS.TAKE_PACKAGE'.tr()),
-                            onPressed: _takePackage,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ]
-          )
-      )
-  );
-
-  Widget packagePickedMenu() => Positioned(
-      bottom: 0,
-      child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height/3,
-          child: true ? Column(
-              children: <Widget>[
-                Card(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      ListTile(
-                        leading: Icon(Icons.card_giftcard),
-                        title: Text('MAPS.BOTTOM_MENUS.PACKAGE_PICKED.YOUR_CUSTOMER'.tr(namedArgs: {'name': _job.name})),
-                        subtitle:
-                        Text((_job.destinationAddress.hasDoorNumber()?
-                            'MAPS.BOTTOM_MENUS.PACKAGE_PICKED.PACKAGE_ADDRESS_EXTRA_SERVICE':'MAPS.BOTTOM_MENUS.PACKAGE_PICKED.PACKAGE_ADDRESS')
-                            .tr(namedArgs: {'address': _job.getDestinationAddress(), 'name': _job.destinationAddress.doorName})),
-                      ),
-                      (_job.sign != null) ?
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                        ],
-                      ): Container(),
-                      ButtonBar(
-                        children: <Widget>[
-                          FlatButton(
-                            child: Text('MAPS.BOTTOM_MENUS.PACKAGE_PICKED.LET_HIM_SIGNING'.tr(namedArgs: {'name': _job.destinationAddress.doorName})),
-                            onPressed: _openSignScreen,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ]
-          ): Center(
-            child: SingleChildScrollView(
-                child: Container()
-            ),
-          )
-      )
-  );
-
-  Widget jobCompletedMenu() => Positioned(
-      bottom: 0,
-      child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height/4,
-          child: Column(
-              children: <Widget>[
-                Card(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      ListTile(
-                        leading: Icon(Icons.card_giftcard),
-                        title: Text('THANKS'.tr()),
-                      ),
-                      ButtonBar(
-                        children: <Widget>[
-                          FlatButton(
-                            child: Text('OK'.tr()),
-                            onPressed: _clearJob,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ]
-          )
-      )
-  );
-
   _launchNavigation(Job job) async {
     final availableMaps = await maps.MapLauncher.installedMaps;
-    print(availableMaps);
 
     LatLng currentTarget = _menuTyp == MenuTyp.PACKAGE_PICKED? job.getDestination() : job.getOrigin();
 
@@ -504,7 +388,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     }
   }
 
-  Widget getTopIncomePanel() => Positioned(
+  Widget _getTopIncomePanel() => Positioned(
       top: 25,
       child: Opacity(
         opacity: 0.9,
@@ -525,32 +409,50 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
           child: Container(
             alignment: Alignment.center,
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-            child: Text(_overviewService.getIncomeOfToday().toString() + " €", textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 20),),
+            child: Text(_overviewService.getIncomeOfToday().toStringAsFixed(2) + " €", textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 20),),
           ),
         ),
       )
   );
 
-  Widget goOnlineOfflineMenu() => Positioned(
-      bottom: 0,
-      child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height/4,
-          child: Column(
-              children: <Widget>[
-                _onlineStatus == OnlineStatus.OFFLINE ?
-                _getBoxButton('assets/offline_box.png', () {changeStatus(OnlineStatus.ONLINE);}, Colors.transparent):
-                _getBoxButton('assets/online_box.png', () {changeStatus(OnlineStatus.OFFLINE);}, Colors.transparent),
-              ]
-          )
-      )
+  Widget _goOnlineOfflineMenu() => Positioned(
+      bottom: 30,
+      child: _goOnlineOfflineButton()
+  );
+  
+  Widget _goOnlineOfflineButton() => ProgressButton.icon(
+      progressIndicator: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+      ),
+      iconedButtons: {
+        ButtonState.idle: IconedButton(
+            text: _onlineStatus == OnlineStatus.ONLINE? "You are online" : "You are offline",
+            icon: Icon(_onlineStatus == OnlineStatus.ONLINE? Icons.location_on : Icons.location_off ,color: Colors.white,),
+            color: _onlineStatus == OnlineStatus.ONLINE? Colors.green : Colors.redAccent
+        ),
+        ButtonState.loading: IconedButton(
+            color: _onlineStatus == OnlineStatus.ONLINE? Colors.green : Colors.redAccent
+        ),
+        ButtonState.fail: IconedButton(
+          text: "Failed",
+          icon: Icon(Icons.cancel,color: Colors.white),
+          color: Colors.red.shade300,
+        ),
+        ButtonState.success: IconedButton( // In first init
+            text: "",
+            icon: Icon(Icons.cloud_off,color: Colors.white,),
+            color: Colors.redAccent
+        ),
+      },
+      onPressed: _changeStatus,
+      state: _onlineOfflineButtonState
   );
 
   Future<Position> _getMyPosition() async {
     if (_myPosition != null)
       return _myPosition;
 
-    setMyPosition(await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.low));
+    _setMyPosition(await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.low));
 
     Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high).then((value) => {
       _myPosition = value,
@@ -559,7 +461,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     return _myPosition;
   }
   
-  setMyPosition(Position pos) {
+  _setMyPosition(Position pos) {
     if (!_isZoomed && _mapController != null) {
       _mapsService.setNewCameraPosition(_mapController, new LatLng(pos.latitude, pos.longitude), null, true);
       _isZoomed = true;
@@ -577,7 +479,87 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     return null;
   }
 
+  void _changeMenuTyp(menuTyp) async {
+    setState(() {
+      _menuTyp = menuTyp;
+      _changeBottomCard(_menuTyp);
+    });
+  }
+
+  void _changeBottomCard(menuTyp) {
+    print(menuTyp);
+    switch (menuTyp)
+    {
+      case MenuTyp.JOB_REQUEST:
+        _bottomCard = new BottomCard(
+          key: GlobalKey(),
+          maxHeight: _mapKey.currentContext.size.height,
+          floatingActionButton: _getFloatingButton(),
+          showDestinationAddress: false,
+          showOriginAddress: true,
+          messageSendable: false,
+          job: _job,
+          headerText: 'DIALOGS.JOB_REQUEST.TITLE'.tr(),
+          mainButtonText: 'ACCEPT'.tr(),
+          onMainButtonPressed: _acceptJob,
+          shrinkWrap: false,
+          isSwipeButton: false,
+        );
+        break;
+      case MenuTyp.ON_JOB:
+        _bottomCard = new BottomCard(
+          key: GlobalKey(),
+          maxHeight: _mapKey.currentContext.size.height,
+          centerWidget: _goOnlineOfflineButton(),
+          floatingActionButton: _getFloatingButton(),
+          showDestinationAddress: true,
+          showOriginAddress: true,
+          phone: _userPhone,
+          job: _job,
+          mainButtonText: 'MAPS.TAKE_PACKAGE'.tr(),
+          onMainButtonPressed: _takePackage,
+          isSwipeButton: true,
+        );
+        break;
+      case MenuTyp.IN_ORIGIN_RANGE:
+      case MenuTyp.PACKAGE_PICKED:
+        _bottomCard = new BottomCard(
+          key: GlobalKey(),
+          maxHeight: _mapKey.currentContext.size.height,
+          centerWidget: _goOnlineOfflineButton(),
+          floatingActionButton: _getFloatingButton(),
+          showDestinationAddress: true,
+          showOriginAddress: false,
+          phone: _userPhone,
+          job: _job,
+          mainButtonText: 'MAPS.BOTTOM_MENUS.PACKAGE_PICKED.LET_HIM_SIGNING'.tr(namedArgs: {'name': _job.destinationAddress.doorName}),
+          onMainButtonPressed: _openSignScreen,
+          isSwipeButton: false,
+        );
+        break;
+      case MenuTyp.COMPLETED:
+        _bottomCard = new BottomCard(
+          key: GlobalKey(),
+          maxHeight: _mapKey.currentContext.size.height,
+          centerWidget: _goOnlineOfflineButton(),
+          floatingActionButton: _getFloatingButton(),
+          showDestinationAddress: false,
+          showOriginAddress: false,
+          messageSendable: false,
+          headerText: 'THANKS'.tr(),
+          mainButtonText: 'OK'.tr(),
+          onMainButtonPressed: _clearJob,
+          shrinkWrap: false,
+          isSwipeButton: false,
+        );
+        break;
+      default:
+        _bottomCard = null;
+    }
+  }
+
   FloatingActionButton _currentPositionFButton() => FloatingActionButton(
+    heroTag: "current_position_fab",
     onPressed: () {
       if (_myPosition == null)
         return;
@@ -589,6 +571,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   );
 
   FloatingActionButton _navigateFButton() => FloatingActionButton(
+    heroTag: "navigate_fab",
     onPressed: () {
       _launchNavigation(_job);
     },
@@ -614,9 +597,10 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   _openSignScreen() async {
     final result = await Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => SigningScreen())
+        MaterialPageRoute(builder: (context) => SigningScreen("Ali"))
     );
-    _completeJob(result);
+    if (result != null)
+      _completeJob(result);
   }
 
   _clearJob({withDialog = false}) {
@@ -626,7 +610,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
       }
       _markers.clear();
       _job = null;
-      _menuTyp = MenuTyp.WAITING;
+      _changeMenuTyp(MenuTyp.WAITING);
     });
   }
 
@@ -681,6 +665,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
 
   _setJob(Job j) {
     _job = j;
+    _getPhoneNumberFromUser();
     _markers.add(Marker(
       markerId: MarkerId(j.key),
       position: j.getOrigin(),
@@ -692,7 +677,16 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     if (mounted) setState(() {});
   }
 
+  _getPhoneNumberFromUser() {
+    _mapsService.getPhoneNumberFromUser(_job).then((value) => {
+      setState(() {
+        _userPhone = value;
+      })
+    });
+  }
+
   _showJobRequestDialog(Address address) {
+    return;
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -733,11 +727,12 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
         _mapsService.jobsRef.child(jobId.toString()).once().then((DataSnapshot snapshot){
           Job j = Job.fromJson(snapshot.value, key: snapshot.key);
           _setJob(j);
+          print('Aa');
           _onJobsDataChanged(j);
-          nextInitializeDone('5');
+          _nextInitializeDone('5');
         });
       } else {
-        nextInitializeDone('6');
+        _nextInitializeDone('5');
       }
     });
   }

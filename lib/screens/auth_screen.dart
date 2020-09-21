@@ -7,7 +7,7 @@ import 'package:postnow/dialogs/auth_error_dialog.dart';
 import 'package:postnow/enums/legacity_enum.dart';
 import 'package:postnow/models/driver.dart';
 import 'package:postnow/models/driver_info.dart';
-import 'package:postnow/service/auth_service.dart';
+import 'package:postnow/services/auth_service.dart';
 
 import 'legal_screen.dart';
 

@@ -5,6 +5,7 @@ import 'package:postnow/models/job.dart';
 class WeeklyIncome {
   final List<DailyIncome> dailyIncomes = List(7);
   final List<Job> jobs = List();
+  bool isInitialized = false;
 
   WeeklyIncome() {
     reset();
@@ -21,8 +22,8 @@ class WeeklyIncome {
     dailyIncomes[6] = DailyIncome(Days.SUNDAY);
   }
 
-  void addJob(Job job) {
-    dailyIncomes[job.finishTime.weekday].income += job.price;
+  void addJob(Job job) { // TODO where all do you use -1 for weekday
+    dailyIncomes[job.finishTime.weekday-1].income += job.price;
     jobs.add(job);
   }
 
