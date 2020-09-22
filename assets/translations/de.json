@@ -41,6 +41,7 @@
     "SIDE_MENU": {
       "OVERVIEW": "Gecmis auftraglar",
       "LEGAL": "Legal",
+      "CONTACT": "Contact",
       "SIGN_OUT": "Ausloggen"
     },
     "BOTTOM_MENUS": {
@@ -60,7 +61,8 @@
   "LEGAL": {
     "TITLE": "Legal",
     "LegalTyp": {
-      "PRIVACY_POLICY": "Privacy Policy"
+      "PRIVACY_POLICY": "Privacy Policy",
+      "CONTACT": "Contact"
     }
   },
   "CHAT": {

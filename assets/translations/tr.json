@@ -41,6 +41,7 @@
     "SIDE_MENU": {
       "OVERVIEW": "Gecmis auftraglar",
       "LEGAL": "Legal",
+      "CONTACT": "Iletisim",
       "SIGN_OUT": "Çıkış yap"
     },
     "BOTTOM_MENUS": {
@@ -61,7 +62,8 @@
     "TITLE": "Legal",
     "LegalTyp": {
       "PRIVACY_POLICY": "Privacy Policy",
-      "SOFTWARE_LICENCES": "Software Licences"
+      "SOFTWARE_LICENCES": "Software Licences",
+      "CONTACT": "Contact"
     }
   },
   "CHAT": {

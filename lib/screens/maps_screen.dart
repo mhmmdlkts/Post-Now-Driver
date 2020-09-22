@@ -9,12 +9,14 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:postnow/Dialogs/job_request_dialog.dart';
 import 'package:map_launcher/map_launcher.dart' as maps;
 import 'package:postnow/enums/job_status_enum.dart';
+import 'package:postnow/enums/legacity_enum.dart';
 import 'package:postnow/enums/online_status_enum.dart';
 import 'package:postnow/models/address.dart';
 import 'package:postnow/screens/overview_screen.dart';
 import 'package:postnow/screens/signing_screen.dart';
 import 'package:postnow/Dialogs/message_toast.dart';
 import 'package:postnow/screens/slpash_screen.dart';
+import 'package:postnow/services/legal_service.dart';
 import 'package:postnow/services/maps_service.dart';
 import 'package:postnow/services/auth_service.dart';
 import 'package:postnow/enums/menu_typ_enum.dart';
@@ -32,6 +34,7 @@ import 'chat_screen.dart';
 import 'dart:async';
 
 import 'legal_menu_screen.dart';
+import 'legal_screen.dart';
 
 class MapsScreen extends StatefulWidget {
   final User user;
@@ -45,6 +48,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey _mapKey = GlobalKey();
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  final LegalService _legalService = LegalService();
   final Set _markers = new Set<Marker>();
   final User _user;
   ButtonState _onlineOfflineButtonState = ButtonState.success;
@@ -232,6 +236,15 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => LegalMenu()),
+                    );
+                  },
+                ),
+                ListTile(
+                  title: Text('MAPS.SIDE_MENU.CONTACT'.tr()),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LegalScreen(LegalTyp.CONTACT)),
                     );
                   },
                 ),
@@ -727,7 +740,6 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
         _mapsService.jobsRef.child(jobId.toString()).once().then((DataSnapshot snapshot){
           Job j = Job.fromJson(snapshot.value, key: snapshot.key);
           _setJob(j);
-          print('Aa');
           _onJobsDataChanged(j);
           _nextInitializeDone('5');
         });
