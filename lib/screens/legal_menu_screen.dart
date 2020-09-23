@@ -14,7 +14,7 @@ class LegalMenu extends StatelessWidget {
         ),
         body: ListView.builder (
             itemCount: LegalTyp.values.length,
-            itemBuilder: (BuildContext ctxt, int index) {
+            itemBuilder: (BuildContext ctxt, int igitndex) {
               return _getMenuButton(context, LegalTyp.values[index]);
             }
         )
