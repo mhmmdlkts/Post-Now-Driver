@@ -152,10 +152,8 @@ class _OverviewScreen extends State<OverviewScreen> {
           Text(getReadableFinishDay(j.acceptTime)),
           if (j.status == Status.FINISHED)
             Text(j.price.toString() + " €")
-          else if (j.status == Status.CUSTOMER_CANCELED)
-            Text("OVERVIEW.SINGLE_ITEM.CUSTOMER_CANCELED".tr())
-          else if (j.status == Status.DRIVER_CANCELED)
-              Text("OVERVIEW.SINGLE_ITEM.DRIVER_CANCELED".tr())
+          else
+            Text(j.getStatusMessageKey().tr())
         ],
       ),
     );

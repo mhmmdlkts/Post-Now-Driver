@@ -223,7 +223,7 @@ class Job {
   }
 
   String getStatusMessageKey() {
-    return "MODELS.JOB." + Status.WAITING.toString().split('.')[1];
+    return "MODELS.JOB." + status.toString().split('.')[1];
   }
 
   LatLng getOrigin() {

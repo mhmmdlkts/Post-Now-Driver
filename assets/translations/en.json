@@ -86,6 +86,15 @@
     }
   },
   "MODELS": {
+    "JOB": {
+      "WAITING": "Waiting for carrier.",
+      "ON_ROAD": "The carrier accepted your order.",
+      "PACKAGE_PICKED": "The carrier picked up the package.",
+      "FINISHED": "Your package has been delivered.",
+      "CANCELLED": "Order has been cancelled.",
+      "DRIVER_CANCELED": "Driver Canceled",
+      "CUSTOMER_CANCELED": "Customer Canceled"
+    }
   },
   "ENUMS": {
     "DAYS": { "COMMENT": "---IM a comment don't translate me--- The Day shorted days should primary",
