@@ -132,4 +132,14 @@ class MapsService with WidgetsBindingObserver {
     return phone;
   }
 
+  void cancelJob(Job j) async {
+    String url = "https://europe-west1-post-now-f3c53.cloudfunctions.net/cancelJob?jobId=" + j.key + "&requesterId=" + uid;
+
+    try {
+      print(http.get(url));
+    } catch (e) {
+      print('Error 45: ' + e.message);
+    }
+  }
+
 }

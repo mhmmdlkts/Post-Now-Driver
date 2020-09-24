@@ -8,10 +8,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:postnow/Dialogs/job_request_dialog.dart';
 import 'package:map_launcher/map_launcher.dart' as maps;
+import 'package:postnow/dialogs/settings_dialog.dart';
 import 'package:postnow/enums/job_status_enum.dart';
 import 'package:postnow/enums/legacity_enum.dart';
 import 'package:postnow/enums/online_status_enum.dart';
 import 'package:postnow/models/address.dart';
+import 'package:postnow/models/settings_item.dart';
 import 'package:postnow/screens/overview_screen.dart';
 import 'package:postnow/screens/signing_screen.dart';
 import 'package:postnow/Dialogs/message_toast.dart';
@@ -150,10 +152,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
 
     _mapsService.driverRef.child(_user.uid).child("isOnline").onValue.listen(_onOnlineStatusChanged);
 
-    _initCount++;
-    _setJobIfExist().then((value) => {
-      _nextInitializeDone('3')
-    });
+    _setJobIfExist();
 
     var locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
 
@@ -500,7 +499,6 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   }
 
   void _changeBottomCard(menuTyp) {
-    print(menuTyp);
     switch (menuTyp)
     {
       case MenuTyp.JOB_REQUEST:
@@ -532,6 +530,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
           mainButtonText: 'MAPS.TAKE_PACKAGE'.tr(),
           onMainButtonPressed: _takePackage,
           isSwipeButton: true,
+          settingsDialog: _getSettingsDialog(),
         );
         break;
       case MenuTyp.IN_ORIGIN_RANGE:
@@ -548,6 +547,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
           mainButtonText: 'MAPS.BOTTOM_MENUS.PACKAGE_PICKED.LET_HIM_SIGNING'.tr(namedArgs: {'name': _job.destinationAddress.doorName}),
           onMainButtonPressed: _openSignScreen,
           isSwipeButton: false,
+          settingsDialog: _getSettingsDialog(),
         );
         break;
       case MenuTyp.COMPLETED:
@@ -732,19 +732,29 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     );
   }
 
+  _getSettingsDialog() => SettingsDialog(
+      [
+        SettingsItem(textKey: "DIALOGS.JOB_SETTINGS.CANCEL_JOB", onPressed: () async {
+          if (true) // TODO Are you sure?
+            _mapsService.cancelJob(_job);
+        }, icon: Icons.cancel, color: Colors.white),
+        SettingsItem(textKey: "CLOSE", onPressed: () {}, icon: Icons.close, color: Colors.redAccent),
+      ]
+  );
+
   Future<void> _setJobIfExist() async {
-    _initCount++;
-    _mapsService.driverRef.child(_user.uid).child("currentJob").once().then((DataSnapshot snapshot){
-      final jobId = snapshot.value;
+    _mapsService.driverRef.child(_user.uid).child("currentJob").onValue.listen((Event e){
+      final jobId = e.snapshot.value;
       if (jobId != null) {
         _mapsService.jobsRef.child(jobId.toString()).once().then((DataSnapshot snapshot){
           Job j = Job.fromJson(snapshot.value, key: snapshot.key);
+          if (_job != null)
+            return;
           _setJob(j);
           _onJobsDataChanged(j);
-          _nextInitializeDone('5');
         });
       } else {
-        _nextInitializeDone('5');
+        _clearJob();
       }
     });
   }

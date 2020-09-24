@@ -71,6 +71,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0+1"
+  circular_check_box:
+    dependency: "direct main"
+    description:
+      name: circular_check_box
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.4"
   clock:
     dependency: transitive
     description:
@@ -805,4 +812,4 @@ packages:
     version: "4.2.0"
 sdks:
   dart: ">=2.9.0-14.0.dev <3.0.0"
-  flutter: ">=1.18.0-6.0.pre <2.0.0"
+  flutter: ">=1.20.0 <2.0.0"

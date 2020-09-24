@@ -102,6 +102,9 @@
       "TITLE": "Yeni Güncelleme Mevcut",
       "BODY": "Uyulamayi kullanabilmek icin en güncel sürümü kullaniyor olmaniz gerek.",
       "BUTTON": "Güncelle"
+    },
+    "JOB_SETTINGS": {
+      "CANCEL_JOB" : "Yolculugu iptal et"
     }
   }
 }
