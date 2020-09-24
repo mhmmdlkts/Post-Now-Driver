@@ -1,13 +1,15 @@
 import 'package:postnow/enums/days_enum.dart';
+import 'package:postnow/enums/job_status_enum.dart';
 import 'package:postnow/models/daily_income.dart';
 import 'package:postnow/models/job.dart';
 
 class WeeklyIncome {
   final List<DailyIncome> dailyIncomes = List(7);
   final List<Job> jobs = List();
-  bool isInitialized = false;
+  bool isInitialized;
 
   WeeklyIncome() {
+    isInitialized = false;
     reset();
   }
 
@@ -23,7 +25,8 @@ class WeeklyIncome {
   }
 
   void addJob(Job job) { // TODO where all do you use -1 for weekday
-    dailyIncomes[job.finishTime.weekday-1].income += job.price;
+    if (job.status == Status.FINISHED)
+      dailyIncomes[job.finishTime.weekday - 1].income += job.price;
     jobs.add(job);
   }
 

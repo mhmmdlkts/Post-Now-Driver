@@ -25,6 +25,7 @@ class OverviewService {
   Future<void> initCompletedJobs({int year, int week}) async {
     weeklyIncome.reset();
     await _jobsRef.child(_getChildKey(year, week)).child(user.uid).orderByChild("finished-time").once().then((DataSnapshot snapshot) => {
+    weeklyIncome.reset(),
       if (snapshot.value != null) {
         snapshot.value.forEach((key, value) {
           Job j = Job.fromJson(value, key: key);

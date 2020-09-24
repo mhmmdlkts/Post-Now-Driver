@@ -79,7 +79,11 @@
     "TITLE": "Gecmis auftraglar",
     "TH_WEEK": "{week}. Week",
     "TOTAL_TRIP_COUNT": "Total Trip Count",
-    "TOTAL_DRIVE_TIME": "Total Drive Time"
+    "TOTAL_DRIVE_TIME": "Total Drive Time",
+    "SINGLE_ITEM": {
+      "DRIVER_CANCELED": "Driver Canceled",
+      "CUSTOMER_CANCELED": "Customer Canceled"
+    }
   },
   "MODELS": {
   },

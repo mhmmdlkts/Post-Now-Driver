@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:postnow/enums/job_status_enum.dart';
 import 'package:postnow/models/job.dart';
 import 'package:postnow/services/overview_service.dart';
 import 'package:postnow/widgets/weekly_income_chart.dart';
@@ -122,35 +123,41 @@ class _OverviewScreen extends State<OverviewScreen> {
           ],
         ),
       ):Container(),
-      ListView.builder(
+      Divider(
+        height: 45,
+        thickness: 1,
+      ),
+      ListView.separated(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
+        separatorBuilder: (context, index) => Divider(
+          height: 45,
+          thickness: 1,
+        ),
         itemCount: _overviewService.getTotalTripsCount(),
         itemBuilder: (BuildContext ctxt, int index) => _getSingleJobWidget(_overviewService.getJob(index)),
-      )
+      ),
+      Container(height: 20,)
     ],
   );
 
   Widget _getSingleJobWidget(Job j) {
     if (j == null)
       return null;
-    return Column(
-      children: [
-        Divider(
-          height: 45,
-          thickness: 1,
-        ),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 5),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(getReadableFinishDay(j.finishTime)),
-              Text(j.price.toString() + " €")
-            ],
-          ),
-        )
-      ],
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(getReadableFinishDay(j.acceptTime)),
+          if (j.status == Status.FINISHED)
+            Text(j.price.toString() + " €")
+          else if (j.status == Status.CUSTOMER_CANCELED)
+            Text("OVERVIEW.SINGLE_ITEM.CUSTOMER_CANCELED".tr())
+          else if (j.status == Status.DRIVER_CANCELED)
+              Text("OVERVIEW.SINGLE_ITEM.DRIVER_CANCELED".tr())
+        ],
+      ),
     );
   }
 
