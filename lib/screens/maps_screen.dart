@@ -14,6 +14,7 @@ import 'package:postnow/enums/legacity_enum.dart';
 import 'package:postnow/enums/online_status_enum.dart';
 import 'package:postnow/models/address.dart';
 import 'package:postnow/models/settings_item.dart';
+import 'package:postnow/screens/contact_form_screen.dart';
 import 'package:postnow/screens/overview_screen.dart';
 import 'package:postnow/screens/signing_screen.dart';
 import 'package:postnow/Dialogs/message_toast.dart';
@@ -243,7 +244,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => LegalScreen(LegalTyp.CONTACT)),
+                      MaterialPageRoute(builder: (context) => ContactFormScreen(_user)),
                     );
                   },
                 ),
