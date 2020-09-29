@@ -142,4 +142,8 @@ class MapsService with WidgetsBindingObserver {
     }
   }
 
+  Future<String> getMapStyle() async {
+    return await rootBundle.loadString("assets/map_styles/light_map.json");
+  }
+
 }

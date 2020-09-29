@@ -61,5 +61,6 @@ flutter:
 
   assets:
     - assets/
+    - assets/map_styles/
     - assets/translations/
     - assets/sounds/

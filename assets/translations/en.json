@@ -3,8 +3,10 @@
   "OK": "OK",
   "CANCEL": "Cancel",
   "ACCEPT": "Accept",
+  "WARNING": "Dikkat",
   "CLOSE": "Close",
   "ERROR": "Error",
+  "FAILLED": "Failed",
   "SETTINGS": "Settings",
   "THANKS": "Thanks",
   "SEND_MESSAGE": "Send a message",
@@ -61,6 +63,8 @@
   "MAPS": {
     "GO_ONLINE" : "Go Online",
     "GO_OFFLINE" : "Go Offline",
+    "YOU_ARE_ONLINE" : "You are online",
+    "YOU_ARE_OFFLINE" : "You are offline",
     "TAKE_PACKAGE" : "Pick up package",
     "NO_LOCATION_INFORMATION_MESSAGE" : "Location information is not available.",
     "SIDE_MENU": {
@@ -139,6 +143,10 @@
       "TITLE": "Yeni Güncelleme Mevcut",
       "BODY": "Uyulamayi kullanabilmek icin en güncel sürümü kullaniyor olmaniz gerek.",
       "BUTTON": "Güncelle"
+    },
+    "ARE_YOU_SURE_CANCEL": {
+      "CONTENT_WITH_AMOUNT": "Iptal etmek istedigineemin misin? Senden {amount} para kesebiliriz aglama sonra.",
+      "CONTENT": "Iptal etmek istedigineemin misin?"
     },
     "JOB_SETTINGS": {
       "CANCEL_JOB" : "Yolculugu iptal et"

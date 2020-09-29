@@ -8,6 +8,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:postnow/Dialogs/job_request_dialog.dart';
 import 'package:map_launcher/map_launcher.dart' as maps;
+import 'package:postnow/dialogs/custom_alert_dialog.dart';
 import 'package:postnow/dialogs/settings_dialog.dart';
 import 'package:postnow/enums/job_status_enum.dart';
 import 'package:postnow/enums/legacity_enum.dart';
@@ -370,6 +371,11 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     setState(() {
       _mapController = controller;
     });
+    _mapsService.getMapStyle().then((style) {
+      setState(() {
+        _mapController.setMapStyle(style);
+      });
+    });
   }
 
   Widget _getBottomMenu() {
@@ -404,27 +410,30 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   Widget _getTopIncomePanel() => Positioned(
       top: 25,
       child: Opacity(
-        opacity: 0.9,
-        child: FlatButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => OverviewScreen(_user))
-            );
-          },
-          shape: new RoundedRectangleBorder(side: BorderSide(
-              color: Colors.black,
-              width: 1,
-              style: BorderStyle.solid
-          ), borderRadius: new BorderRadius.circular(25.0)),
-          color: Colors.green,
-
-          child: Container(
-            alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-            child: Text(_overviewService.getIncomeOfToday().toStringAsFixed(2) + " €", textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 20),),
+        opacity: 1,
+        child: Material(
+          elevation: 3,
+          shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(25.0)),
+          color: Colors.lightBlue,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(25.0),
+            splashColor: Colors.black45,
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => OverviewScreen(_user))
+              );
+            },
+            child: Center(
+              child: Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                child: Text(_overviewService.getIncomeOfToday().toStringAsFixed(2) + " €", textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 20),),
+              ),
+            )
           ),
         ),
+
       )
   );
 
@@ -439,7 +448,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
       ),
       iconedButtons: {
         ButtonState.idle: IconedButton(
-            text: _onlineStatus == OnlineStatus.ONLINE? "You are online" : "You are offline",
+            text: (_onlineStatus == OnlineStatus.ONLINE? "MAPS.YOU_ARE_ONLINE" : "MAPS.YOU_ARE_OFFLINE").tr(),
             icon: Icon(_onlineStatus == OnlineStatus.ONLINE? Icons.location_on : Icons.location_off ,color: Colors.white,),
             color: _onlineStatus == OnlineStatus.ONLINE? Colors.green : Colors.redAccent
         ),
@@ -447,7 +456,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
             color: _onlineStatus == OnlineStatus.ONLINE? Colors.green : Colors.redAccent
         ),
         ButtonState.fail: IconedButton(
-          text: "Failed",
+          text: "FAILED".tr(),
           icon: Icon(Icons.cancel,color: Colors.white),
           color: Colors.red.shade300,
         ),
@@ -736,8 +745,9 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   _getSettingsDialog() => SettingsDialog(
       [
         SettingsItem(textKey: "DIALOGS.JOB_SETTINGS.CANCEL_JOB", onPressed: () async {
-          if (true) // TODO Are you sure?
+          if (await _showAreYouSureDialog()) {
             _mapsService.cancelJob(_job);
+          }
         }, icon: Icons.cancel, color: Colors.white),
         SettingsItem(textKey: "CLOSE", onPressed: () {}, icon: Icons.close, color: Colors.redAccent),
       ]
@@ -758,5 +768,23 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
         _clearJob();
       }
     });
+  }
+
+  Future<bool> _showAreYouSureDialog() async {
+    final val = await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CustomAlertDialog(
+            title: "WARNING".tr(),
+            message: "DIALOGS.ARE_YOU_SURE_CANCEL.CONTENT".tr(),
+            negativeButtonText: "CANCEL".tr(),
+            positiveButtonText: "ACCEPT".tr(),
+          );
+        }
+    );
+    print('val:' + val.toString());
+    if (val == null)
+      return false;
+    return val;
   }
 }
