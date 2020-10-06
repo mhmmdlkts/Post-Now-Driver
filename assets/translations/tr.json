@@ -45,7 +45,7 @@
       "SIGN_OUT": "Çıkış yap"
     },
     "BOTTOM_MENUS": {
-      "ON_JOB": {^
+      "ON_JOB": {
         "YOUR_CUSTOMER": "Müşteri: {name}",
         "PACKAGE_ADDRESS": "Gönderici Adresi: {address}\nAsagi gelecek\nPacket will gived by Name: {name}",
         "PACKAGE_ADDRESS_EXTRA_SERVICE": "Gönderici Adresi: {address}\nPacket will gived by Name: {name}"

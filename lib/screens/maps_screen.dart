@@ -11,7 +11,6 @@ import 'package:map_launcher/map_launcher.dart' as maps;
 import 'package:postnow/dialogs/custom_alert_dialog.dart';
 import 'package:postnow/dialogs/settings_dialog.dart';
 import 'package:postnow/enums/job_status_enum.dart';
-import 'package:postnow/enums/legacity_enum.dart';
 import 'package:postnow/enums/online_status_enum.dart';
 import 'package:postnow/models/address.dart';
 import 'package:postnow/models/settings_item.dart';
@@ -129,32 +128,13 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
       return;
     });
 
-
-    _initCount++;
-    _mapsService.jobsRef.once().then((DataSnapshot snapshot){
-      if (snapshot.value != null) {
-        snapshot.value.forEach((key, values) {
-          Job j = Job.fromJson(values, key: key);
-          if (j.isJobForMe(_user.uid) && !j.isJobAccepted()) { // TODO remove the for each
-            _setJob(j);
-          }
-        });
-      }
-      _nextInitializeDone('2');
-    });
-
-    _mapsService.jobsRef.onChildChanged.listen((Event e) {
-      Job j = Job.fromSnapshot(e.snapshot);
-      _onJobsDataChanged(j);
-    });
-
     _mapsService.driverRef.child(_user.uid).child("currentJob").onChildChanged.listen((Event e) {
       _getPhoneNumberFromUser();
     });
 
     _mapsService.driverRef.child(_user.uid).child("isOnline").onValue.listen(_onOnlineStatusChanged);
 
-    _setJobIfExist();
+    _myJobListener();
 
     var locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
 
@@ -340,13 +320,8 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     });
   }
 
-  _onJobsDataChanged(Job j) {
+  _onMyJobChanged(Job j) {
     setState(() {
-      if (!j.isJobForMe(_user.uid)) {
-        _markers.clear();
-        _changeMenuTyp(MenuTyp.WAITING);
-        return;
-      }
       switch (j.status) {
         case Status.WAITING:
           _setJob(j);
@@ -642,10 +617,9 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
       print("No Job");
       return;
     }
-    _job.setAcceptTime();
-    _job.status = Status.ON_ROAD;
-    _mapsService.jobsRef.child(_job.key).set(_job.toMap());
-    _mapsService.acceptJob(_job.key);
+    
+    _mapsService.jobsRef.child(_job.key).update({"status": Job.statusToString(Status.ON_ROAD)});
+    // _mapsService.acceptJob(_job.key);
   }
 
   _takePackage() {
@@ -653,9 +627,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
       print("No Job");
       return;
     }
-    _job.setStartTime();
-    _job.status = Status.PACKAGE_PICKED;
-    _mapsService.jobsRef.child(_job.key).set(_job.toMap());
+    _mapsService.jobsRef.child(_job.key).update({"status": Job.statusToString(Status.PACKAGE_PICKED)});
   }
 
   _completeJob(sign) {
@@ -663,11 +635,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
       print("No Job");
       return;
     }
-    _job.setFinishTime();
-    _job.status = Status.FINISHED;
-    _job.sign = sign;
-    _mapsService.jobsRef.child(_job.key).set(_job.toMap());
-    _mapsService.completeJob(_job.key);
+    _mapsService.jobsRef.child(_job.key).update({"status": Job.statusToString(Status.FINISHED), "sign": sign});
   }
 
   _getBoxButton(String path, onPressed, color) =>
@@ -753,16 +721,15 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
       ]
   );
 
-  Future<void> _setJobIfExist() async {
+  Future<void> _myJobListener() async {
     _mapsService.driverRef.child(_user.uid).child("currentJob").onValue.listen((Event e){
       final jobId = e.snapshot.value;
+      print(jobId);
       if (jobId != null) {
-        _mapsService.jobsRef.child(jobId.toString()).once().then((DataSnapshot snapshot){
-          Job j = Job.fromJson(snapshot.value, key: snapshot.key);
-          if (_job != null)
-            return;
+        _mapsService.jobsRef.child(jobId.toString()).onValue.listen((Event e){
+          Job j = Job.fromSnapshot(e.snapshot);
           _setJob(j);
-          _onJobsDataChanged(j);
+          _onMyJobChanged(j);
         });
       } else {
         _clearJob();
@@ -782,7 +749,6 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
           );
         }
     );
-    print('val:' + val.toString());
     if (val == null)
       return false;
     return val;

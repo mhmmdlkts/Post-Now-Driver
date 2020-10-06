@@ -99,8 +99,8 @@ class MapsService with WidgetsBindingObserver {
     return LatLngBounds(southwest: check ? first : second, northeast: check ? second : first);
   }
 
-  void completeJob(String key) {
-    final url = "https://europe-west1-post-now-f3c53.cloudfunctions.net/finishJob?jobId=" + key;
+  void completeJob(String key, String sign) {
+    final url = "https://europe-west1-post-now-f3c53.cloudfunctions.net/finishJob?jobId=" + key + "&sign=" + sign;
     try {
       http.get(url);
     } catch (e) {
@@ -110,6 +110,15 @@ class MapsService with WidgetsBindingObserver {
 
   void acceptJob(String key) {
     final url = "https://europe-west1-post-now-f3c53.cloudfunctions.net/acceptJob?jobId=" + key;
+    try {
+      http.get(url);
+    } catch (e) {
+      print(e.message);
+    }
+  }
+
+  void pickPackage(String key) {
+    final url = "https://europe-west1-post-now-f3c53.cloudfunctions.net/pickJobPackage?jobId=" + key;
     try {
       http.get(url);
     } catch (e) {
