@@ -19,6 +19,7 @@ import 'package:postnow/screens/overview_screen.dart';
 import 'package:postnow/screens/signing_screen.dart';
 import 'package:postnow/Dialogs/message_toast.dart';
 import 'package:postnow/screens/slpash_screen.dart';
+import 'package:postnow/services/global_service.dart';
 import 'package:postnow/services/legal_service.dart';
 import 'package:postnow/services/maps_service.dart';
 import 'package:postnow/services/auth_service.dart';
@@ -282,7 +283,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
 
   _onOnlineStatusChanged(Event event) {
     OnlineStatus status = _mapsService.boolToOnlineStatus(event.snapshot.value);
-    final int delayMS = _onlineOfflineButtonState == ButtonState.success?0:800; // Check is first init?
+    final int delayMS = _onlineOfflineButtonState == ButtonState.success?0:800; // TODO Check is first init?
     Future.delayed(Duration(milliseconds: delayMS), () {
       if (mounted) setState(() {
         _onlineOfflineButtonState = ButtonState.idle;
@@ -483,6 +484,12 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     });
   }
 
+  void refreshBottomCard() {
+    setState(() {
+      _changeMenuTyp(_menuTyp);
+    });
+  }
+
   void _changeBottomCard(menuTyp) {
     switch (menuTyp)
     {
@@ -493,7 +500,6 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
           floatingActionButton: _getFloatingButton(),
           showDestinationAddress: false,
           showOriginAddress: true,
-          messageSendable: false,
           job: _job,
           headerText: 'DIALOGS.JOB_REQUEST.TITLE'.tr(),
           mainButtonText: 'ACCEPT'.tr(),
@@ -510,6 +516,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
           floatingActionButton: _getFloatingButton(),
           showDestinationAddress: true,
           showOriginAddress: true,
+          chatName: _job.name,
           phone: _userPhone,
           job: _job,
           mainButtonText: 'MAPS.TAKE_PACKAGE'.tr(),
@@ -527,6 +534,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
           floatingActionButton: _getFloatingButton(),
           showDestinationAddress: true,
           showOriginAddress: false,
+          chatName: _job.name,
           phone: _userPhone,
           job: _job,
           mainButtonText: 'MAPS.BOTTOM_MENUS.PACKAGE_PICKED.LET_HIM_SIGNING'.tr(namedArgs: {'name': _job.destinationAddress.doorName}),
@@ -543,7 +551,6 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
           floatingActionButton: _getFloatingButton(),
           showDestinationAddress: false,
           showOriginAddress: false,
-          messageSendable: false,
           headerText: 'THANKS'.tr(),
           mainButtonText: 'OK'.tr(),
           onMainButtonPressed: _clearJob,
@@ -586,9 +593,10 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   }
 
   _openMessageScreen(key, name) async {
+    bool _isDriverApp = await GlobalService().isDriverApp();
     await Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => ChatScreen(key, name, true))
+        MaterialPageRoute(builder: (context) => ChatScreen(key, name, _isDriverApp))
     );
   }
 
@@ -670,9 +678,8 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
 
   _getPhoneNumberFromUser() {
     _mapsService.getPhoneNumberFromUser(_job).then((value) => {
-      setState(() {
-        _userPhone = value;
-      })
+      _userPhone = value,
+      refreshBottomCard()
     });
   }
 
