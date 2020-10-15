@@ -701,20 +701,20 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   }
 
   _getBoxButton(String path, onPressed, color) =>
-      FlatButton(
-          onPressed: onPressed,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(18.0),
+    FlatButton(
+        onPressed: onPressed,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        color: color,
+        child: Container(
+          padding: EdgeInsets.only(bottom: 30),
+          child: Image.asset(
+              path,
+              height: MediaQuery.of(context).size.height/6
           ),
-          color: color,
-          child: Container(
-            padding: EdgeInsets.only(bottom: 30),
-            child: Image.asset(
-                path,
-                height: MediaQuery.of(context).size.height/6
-            ),
-          )
-      );
+        )
+    );
 
   _setJob(Job j) {
     _job = j;
