@@ -1,11 +1,14 @@
 import 'dart:convert';
 
+import 'package:audioplayers/audio_cache.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:postnow/Dialogs/job_request_dialog.dart';
 import 'package:map_launcher/map_launcher.dart' as maps;
 import 'package:postnow/dialogs/custom_alert_dialog.dart';
@@ -20,7 +23,6 @@ import 'package:postnow/screens/signing_screen.dart';
 import 'package:postnow/Dialogs/message_toast.dart';
 import 'package:postnow/screens/slpash_screen.dart';
 import 'package:postnow/services/global_service.dart';
-import 'package:postnow/services/legal_service.dart';
 import 'package:postnow/services/maps_service.dart';
 import 'package:postnow/services/auth_service.dart';
 import 'package:postnow/enums/menu_typ_enum.dart';
@@ -30,6 +32,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:postnow/services/overview_service.dart';
+import 'package:postnow/services/vibration_service.dart';
 import 'package:postnow/widgets/bottom_card.dart';
 import 'package:progress_state_button/iconed_button.dart';
 import 'package:progress_state_button/progress_button.dart';
@@ -38,7 +41,6 @@ import 'chat_screen.dart';
 import 'dart:async';
 
 import 'legal_menu_screen.dart';
-import 'legal_screen.dart';
 
 class MapsScreen extends StatefulWidget {
   final User user;
@@ -52,10 +54,12 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey _mapKey = GlobalKey();
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-  final LegalService _legalService = LegalService();
+  final AudioCache _audioCache = AudioCache();
+  AudioPlayer _audioPlayer;
   final Set _markers = new Set<Marker>();
   final User _user;
   ButtonState _onlineOfflineButtonState = ButtonState.success;
+  bool _isInitDone = false;
   bool _isInitialized = false;
   int _initCount = 0;
   int _initDone = 0;
@@ -70,6 +74,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   MenuTyp _menuTyp;
   BottomCard _bottomCard;
   Position _myPosition;
+  PermissionStatus _permissionStatus;
   String _userPhone;
   Job _job;
 
@@ -87,12 +92,8 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
 
     Future.delayed(const Duration(milliseconds: 2500)).then((value) {
-      if (_isInitialized)
-        return;
-      print('Force init');
-      setState((){
-        _isInitialized = true;
-      });
+      if(_initIsDone())
+        print("Force init");
     });
 
     _initCount++;
@@ -106,11 +107,10 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
       _packageLocationIcon = BitmapDescriptor.fromBytes(value),
       _nextInitializeDone('1')
     });
-    _getMyPosition();
+
     _changeMenuTyp(MenuTyp.WAITING);
 
     _firebaseMessaging.configure(onMessage: (Map<String, dynamic> message) {
-      print('onResume: $message');
       switch (message["typ"]) {
         case "jobRequest":
           _showJobRequestDialog(Address.fromJson(json.decode(message["originAddress"])));
@@ -137,9 +137,6 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
 
     _myJobListener();
 
-    var locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
-
-    Geolocator().getPositionStream(locationOptions).listen(_onPositionChanged);
     _nextInitializeDone('4');
   }
 
@@ -178,7 +175,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
                     mapType: MapType.normal,
                     initialCameraPosition: CameraPosition(target: LatLng(0, 0)),
                     onMapCreated: _onMapCreated,
-                    myLocationEnabled: true,
+                    myLocationEnabled: _myPosition != null,
                     markers: _markers,
                     myLocationButtonEnabled: false,
                     onCameraMoveStarted: () => {
@@ -251,24 +248,29 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     _mapsService.driverRef.child(_user.uid).child("appStatus").update(data);
   }
 
-  _nextInitializeDone(String code) {
+  void _nextInitializeDone(String code) {
      // print(code + "/" + _initCount.toString());
     _initDone++;
     if (_initCount == _initDone) {
-      _getMyPosition().then((value) => {
-        _mapController.moveCamera(CameraUpdate.newCameraPosition(
-            CameraPosition(target: LatLng(value.latitude, value.longitude), zoom: 13)
-        )),
-        Future.delayed(Duration(milliseconds: 500), () =>
-            setState((){
-              _isInitialized = true;
-            })
-        )
-      });
+      _initIsDone();
     }
   }
+
+  bool _initIsDone() {
+    if (_isInitDone)
+      return false;
+    _isInitDone = true;
+    _initMyPosition().then((val) => {
+      Future.delayed(Duration(milliseconds: 400), () =>
+          setState((){
+            _isInitialized = true;
+          })
+      )
+    });
+    return true;
+  }
   
-  _onPositionChanged(Position position) {
+  void _onPositionChanged(Position position) {
     _setMyPosition(position);
     if (_locationFocused)
       _mapsService.setNewCameraPosition(_mapController, LatLng(_myPosition.latitude, _myPosition.longitude), null, true);
@@ -282,16 +284,29 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   }
 
   _onOnlineStatusChanged(Event event) {
+
     OnlineStatus status = _mapsService.boolToOnlineStatus(event.snapshot.value);
     final int delayMS = _onlineOfflineButtonState == ButtonState.success?0:800; // TODO Check is first init?
     Future.delayed(Duration(milliseconds: delayMS), () {
       if (mounted) setState(() {
         _onlineOfflineButtonState = ButtonState.idle;
+        if (_onlineStatus == OnlineStatus.ONLINE) {
+          _audioCache.play('sounds/positive.mp3');
+          VibrationService.vibrateGoOnline();
+        } else if (_onlineStatus == OnlineStatus.OFFLINE) {
+          _audioCache.play('sounds/negative.mp3');
+          VibrationService.vibrateGoOffline();
+        }
       });
     });
     if (_onlineStatus != status) {
-      _onlineStatus = status;
+      _onlineOfflineButtonState = ButtonState.loading;
       if (mounted) setState(() {});
+      _onlineStatus = status;
+      Future.delayed(Duration(milliseconds: 400), () {
+        _onlineOfflineButtonState = ButtonState.idle;
+        if (mounted) setState(() {});
+      });
     }
   }
 
@@ -322,11 +337,19 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   }
 
   _onMyJobChanged(Job j) {
+    _audioPlayer?.stop();
     setState(() {
       switch (j.status) {
         case Status.WAITING:
           _setJob(j);
           _changeMenuTyp(MenuTyp.JOB_REQUEST);
+          until () async {
+            _audioPlayer = await _audioCache.loop('sounds/new_order.mp3');
+            while (MenuTyp.JOB_REQUEST == _menuTyp) {
+              await VibrationService.vibrateMessage();
+            }
+          }
+          until();
           break;
         case Status.ON_ROAD:
           _changeMenuTyp(MenuTyp.ON_JOB);
@@ -409,7 +432,6 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
             )
           ),
         ),
-
       )
   );
 
@@ -426,10 +448,10 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
         ButtonState.idle: IconedButton(
             text: (_onlineStatus == OnlineStatus.ONLINE? "MAPS.YOU_ARE_ONLINE" : "MAPS.YOU_ARE_OFFLINE").tr(),
             icon: Icon(_onlineStatus == OnlineStatus.ONLINE? Icons.location_on : Icons.location_off ,color: Colors.white,),
-            color: _onlineStatus == OnlineStatus.ONLINE? Colors.green : Colors.redAccent
+            color: _onlineStatus == OnlineStatus.ONLINE? Colors.blue : Colors.redAccent
         ),
         ButtonState.loading: IconedButton(
-            color: _onlineStatus == OnlineStatus.ONLINE? Colors.green : Colors.redAccent
+            color: _onlineStatus == OnlineStatus.ONLINE? Colors.blue : Colors.redAccent
         ),
         ButtonState.fail: IconedButton(
           text: "FAILED".tr(),
@@ -446,9 +468,26 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
       state: _onlineOfflineButtonState
   );
 
-  Future<Position> _getMyPosition() async {
-    if (_myPosition != null)
-      return _myPosition;
+  Future<bool> _positionIsNotGranted() async {
+    if (_permissionStatus == PermissionStatus.granted) {
+      return false;
+    }
+    _permissionStatus = await Permission.location.status;
+    if (_permissionStatus.isGranted)
+      return false;
+    _permissionStatus = await Permission.location.request();
+    if (_permissionStatus == PermissionStatus.permanentlyDenied || _permissionStatus == PermissionStatus.denied) {
+      bool val = await _allowLocationDialog();
+      if (val) {
+        await openAppSettings();
+        await _iAmBackDialog();
+      }
+    }
+    return !_permissionStatus.isGranted;
+  }
+
+  Future<void> _initMyPosition() async {
+    while (await _positionIsNotGranted()) {}
 
     _setMyPosition(await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.low));
 
@@ -456,7 +495,13 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
       _myPosition = value,
     });
 
-    return _myPosition;
+    var locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
+
+    Geolocator().getPositionStream(locationOptions).listen(_onPositionChanged);
+
+    await _mapController.moveCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(target: LatLng(_myPosition.latitude, _myPosition.longitude), zoom: 13)
+    ));
   }
   
   _setMyPosition(Position pos) {
@@ -563,17 +608,23 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     }
   }
 
-  FloatingActionButton _currentPositionFButton() => FloatingActionButton(
-    heroTag: "current_position_fab",
-    onPressed: () {
-      if (_myPosition == null)
-        return;
-      _locationFocused = null;
-      _mapsService.setNewCameraPosition(_mapController, LatLng(_myPosition.latitude, _myPosition.longitude), null, true);
-    },
-    child: Icon(Icons.my_location, color: Colors.white,),
-    backgroundColor: Colors.lightBlueAccent,
-  );
+  FloatingActionButton _currentPositionFButton() {
+    if (_myPosition == null)
+      return null;
+    return FloatingActionButton(
+      heroTag: "current_position_fab",
+      onPressed: () {
+        if (_myPosition == null)
+          return;
+        _locationFocused = null;
+        _mapsService.setNewCameraPosition(
+            _mapController, LatLng(_myPosition.latitude, _myPosition.longitude),
+            null, true);
+      },
+      child: Icon(Icons.my_location, color: Colors.white,),
+      backgroundColor: Colors.lightBlueAccent,
+    );
+  }
 
   FloatingActionButton _navigateFButton() => FloatingActionButton(
     heroTag: "navigate_fab",
@@ -594,6 +645,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
 
   _openMessageScreen(key, name) async {
     bool _isDriverApp = await GlobalService().isDriverApp();
+    print("beklee: " + _isDriverApp.toString());
     await Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => ChatScreen(key, name, _isDriverApp))
@@ -603,7 +655,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   _openSignScreen() async {
     final result = await Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => SigningScreen("Ali"))
+        MaterialPageRoute(builder: (context) => SigningScreen(_job.destinationAddress.doorName))
     );
     if (result != null)
       _completeJob(result);
@@ -703,6 +755,9 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   }
 
   _showMessageToast(key, name, message) {
+    print(message);
+    VibrationService.vibrateMessage();
+    _audioCache.play('sounds/push_notification.mp3');
     showToastWidget(
         MessageToast(
           message: message,
@@ -753,6 +808,39 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
             message: "DIALOGS.ARE_YOU_SURE_CANCEL.CONTENT".tr(),
             negativeButtonText: "CANCEL".tr(),
             positiveButtonText: "ACCEPT".tr(),
+          );
+        }
+    );
+    if (val == null)
+      return false;
+    return val;
+  }
+
+  Future<bool> _allowLocationDialog() async {
+    final val = await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CustomAlertDialog(
+            title: "DIALOGS.ALLOW_LOCATION.TITLE".tr(),
+            message: "DIALOGS.ALLOW_LOCATION.MESSAGE".tr(),
+            negativeButtonText: "CANCEL".tr(),
+            positiveButtonText: "DIALOGS.ALLOW_LOCATION.ALLOW".tr(),
+          );
+        }
+    );
+    if (val == null)
+      return false;
+    return val;
+  }
+
+  Future<bool> _iAmBackDialog() async {
+    final val = await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CustomAlertDialog(
+            title: "DIALOGS.I_AM_BACK.TITLE".tr(),
+            message: "DIALOGS.I_AM_BACK.MESSAGE".tr(),
+            positiveButtonText: "DIALOGS.I_AM_BACK.POSITIVE".tr(),
           );
         }
     );

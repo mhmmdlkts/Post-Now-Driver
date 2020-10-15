@@ -160,6 +160,8 @@ class _OverviewScreen extends State<OverviewScreen> {
   }
 
   String getReadableFinishDay(DateTime d) {
+    print("d");
+    print(d);
     final DateFormat formatter = DateFormat('dd. MMMM, HH:mm');
     return formatter.format(d);
   }

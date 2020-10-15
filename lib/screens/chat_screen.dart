@@ -346,6 +346,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
         _isUploading = false;
       });
     }
+    print("ana: " + _isDriverApp.toString());
     Message message = new Message(from_driver: _isDriverApp, message: _inputMessage, img: dbImagePath);
     _chatService.sendMessage(message);
     _clearField();

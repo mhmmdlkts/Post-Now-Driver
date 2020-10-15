@@ -258,6 +258,7 @@ class BottomState extends State<BottomCard> {
     if (widget.job == null)
       return;
     bool _isDriverApp = await GlobalService().isDriverApp();
+    print("beklee: " + _isDriverApp.toString());
     await Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => ChatScreen(widget.job.key, widget.chatName, _isDriverApp))

@@ -136,6 +136,16 @@
     }
   },
   "DIALOGS": {
+    "ALLOW_LOCATION": {
+      "TITLE": "Konum izni verin",
+      "MESSAGE": "Uyulamayi kullanabilmeniz icin konumunuza erisebilmemiz gerekir",
+      "ALLOW": "Izin ver"
+    },
+    "I_AM_BACK": {
+      "TITLE": "Seni bekliyoruz",
+      "MESSAGE": "Özlendin kral nerdesin",
+      "POSITIVE": "Geldim"
+    },
     "JOB_REQUEST": {
       "TITLE": "New Delivery!"
     },

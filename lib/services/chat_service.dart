@@ -1,3 +1,4 @@
+import 'package:audioplayers/audio_cache.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
@@ -11,6 +12,7 @@ class ChatService {
   final FirebaseStorage _storage = FirebaseStorage(storageBucket: 'gs://post-now-f3c53.appspot.com');
   DatabaseReference _chatRef;
   GlobalService _globalService = GlobalService();
+  final AudioCache audioPlayer = AudioCache();
 
   Chat chat;
   final String _jobId;
@@ -32,7 +34,7 @@ class ChatService {
     currentListener?.cancel();
     currentListener = _chatRef.onValue.listen(_newMessage);
   }
-  
+
   Future<String> startUpload(imagePath) async {
     assert(!!imagePath);
     final dbImagePath = 'chat/images/$_jobId/${DateTime.now()}.png';
@@ -48,6 +50,7 @@ class ChatService {
   }
 
   void sendMessage(Message message) {
+    print(message.from_driver);
     _chatRef.push().set(message.toMap());
   }
 
