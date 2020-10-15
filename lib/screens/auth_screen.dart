@@ -4,12 +4,11 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:postnow/dialogs/auth_error_dialog.dart';
-import 'package:postnow/enums/legacity_enum.dart';
 import 'package:postnow/models/driver.dart';
 import 'package:postnow/models/driver_info.dart';
 import 'package:postnow/services/auth_service.dart';
+import 'package:postnow/services/legal_service.dart';
 
-import 'legal_screen.dart';
 
 class AuthScreen extends StatefulWidget {
   AuthScreen({Key key}) : super(key: key);
@@ -243,10 +242,7 @@ class _AuthScreenState extends State<AuthScreen> {
       Container(height: 10,),
       FlatButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => LegalScreen(LegalTyp.PRIVACY_POLICY)),
-            );
+            LegalService.openPrivacyPolicy();
           },
           padding: EdgeInsets.symmetric(vertical: 8, horizontal: 50),
           child: Text(

@@ -23,6 +23,7 @@ import 'package:postnow/screens/signing_screen.dart';
 import 'package:postnow/Dialogs/message_toast.dart';
 import 'package:postnow/screens/slpash_screen.dart';
 import 'package:postnow/services/global_service.dart';
+import 'package:postnow/services/legal_service.dart';
 import 'package:postnow/services/maps_service.dart';
 import 'package:postnow/services/auth_service.dart';
 import 'package:postnow/enums/menu_typ_enum.dart';
@@ -39,8 +40,6 @@ import 'package:progress_state_button/progress_button.dart';
 import 'package:screen/screen.dart';
 import 'chat_screen.dart';
 import 'dart:async';
-
-import 'legal_menu_screen.dart';
 
 class MapsScreen extends StatefulWidget {
   final User user;
@@ -210,12 +209,15 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
                   },
                 ),
                 ListTile(
-                  title: Text('MAPS.SIDE_MENU.LEGAL'.tr()),
+                  title: Text('MAPS.SIDE_MENU.PRIVACY_POLICY'.tr()),
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LegalMenu()),
-                    );
+                    LegalService.openPrivacyPolicy();
+                  },
+                ),
+                ListTile(
+                  title: Text('MAPS.SIDE_MENU.SOFTWARE_LICENCES'.tr()),
+                  onTap: () {
+                    LegalService.openLicences();
                   },
                 ),
                 ListTile(
@@ -644,7 +646,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   }
 
   _openMessageScreen(key, name) async {
-    bool _isDriverApp = await GlobalService().isDriverApp();
+    bool _isDriverApp = await GlobalService.isDriverApp();
     print("beklee: " + _isDriverApp.toString());
     await Navigator.push(
         context,

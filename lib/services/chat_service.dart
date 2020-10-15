@@ -11,7 +11,6 @@ import 'package:postnow/services/global_service.dart';
 class ChatService {
   final FirebaseStorage _storage = FirebaseStorage(storageBucket: 'gs://post-now-f3c53.appspot.com');
   DatabaseReference _chatRef;
-  GlobalService _globalService = GlobalService();
   final AudioCache audioPlayer = AudioCache();
 
   Chat chat;
@@ -21,7 +20,7 @@ class ChatService {
   var currentListener;
 
   ChatService(this._jobId, this._onNewMessage) {
-    _globalService.isDriverApp().then((value) => {
+    GlobalService.isDriverApp().then((value) => {
       _isDriverApp = value,
       chat = Chat(_isDriverApp),
       _chatRef = FirebaseDatabase.instance.reference().child('jobs_chat').child(_jobId),
