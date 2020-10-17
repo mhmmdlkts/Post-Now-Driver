@@ -15,7 +15,7 @@ class OverviewService {
       week = currentWeek();
     if (year == null)
       year = currentYear();
-    _jobsRef.child(_getChildKey(year, week)).child(user.uid).onChildAdded.listen((Event e) {
+    _jobsRef.child(_getChildKey(year, week)).child(user.uid).onValue.listen((Event e) {
       initCompletedJobs(year: year, week: week).then((value) {
         func.call();
       });
@@ -34,6 +34,8 @@ class OverviewService {
       }
     });
   }
+
+  String getCurrentChildKey() => _getChildKey(currentYear(), currentWeek());
 
   String _getChildKey(int year, int week) {
     if (year == null) 

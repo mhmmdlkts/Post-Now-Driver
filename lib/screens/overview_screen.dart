@@ -151,7 +151,7 @@ class _OverviewScreen extends State<OverviewScreen> {
         children: [
           Text(getReadableFinishDay(j.acceptTime)),
           if (j.status == Status.FINISHED)
-            Text(j.price.toString() + " €")
+            Text(j.price.driverBecomes.toString() + " €")
           else
             Text(j.getStatusMessageKey().tr())
         ],

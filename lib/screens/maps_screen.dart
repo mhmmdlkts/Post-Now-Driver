@@ -98,7 +98,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     _initCount++;
     _overviewService.initCompletedJobs().then((value) => {
       _nextInitializeDone('0'),
-      _overviewService.subscribe(() => setState(() { }) )
+      _overviewService.subscribe(() => setState(() {  print('hasss');}) )
     });
 
     _initCount++;
@@ -280,7 +280,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
       _mapsService.sendMyLocToDB(_myPosition);
     if (_job != null && _isInRange(_job.getOrigin())) {
       setState(() {
-        _changeMenuTyp(MenuTyp.IN_ORIGIN_RANGE);
+        // _changeMenuTyp(MenuTyp.IN_ORIGIN_RANGE);
       });
     }
   }
@@ -525,6 +525,8 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   }
 
   void _changeMenuTyp(menuTyp) async {
+    if (_menuTyp == menuTyp)
+      return;
     setState(() {
       _menuTyp = menuTyp;
       _changeBottomCard(_menuTyp);
@@ -665,6 +667,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
 
   _clearJob({withDialog = false}) {
     setState(() {
+      _audioPlayer?.stop();
       if (withDialog) {
         Navigator.pop(_jobDialogCtx);
       }
@@ -791,6 +794,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
       print(jobId);
       if (jobId != null) {
         _mapsService.jobsRef.child(jobId.toString()).onValue.listen((Event e){
+          print('aaa');
           Job j = Job.fromSnapshot(e.snapshot);
           _setJob(j);
           _onMyJobChanged(j);

@@ -20,6 +20,7 @@ class MapsService with WidgetsBindingObserver {
   final DatabaseReference jobsRef = FirebaseDatabase.instance.reference().child('jobs');
   final DatabaseReference jobsChatRef = FirebaseDatabase.instance.reference().child('jobs_chat');
   final DatabaseReference driverRef = FirebaseDatabase.instance.reference().child('drivers');
+  final DatabaseReference completedJobs = FirebaseDatabase.instance.reference().child('completed-jobs');
   final String uid;
   MapsService(this.uid);
 
