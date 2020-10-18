@@ -8,7 +8,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:postnow/Dialogs/job_request_dialog.dart';
 import 'package:map_launcher/map_launcher.dart' as maps;
 import 'package:postnow/dialogs/custom_alert_dialog.dart';
@@ -75,7 +74,6 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   MenuTyp _menuTyp;
   BottomCard _bottomCard;
   Position _myPosition;
-  PermissionStatus _permissionStatus;
   String _userPhone;
   Job _job;
 
@@ -687,22 +685,6 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     _mapsService.jobsRef.child(_job.key).update({"status": Job.statusToString(Status.FINISHED), "sign": sign});
   }
 
-  _getBoxButton(String path, onPressed, color) =>
-    FlatButton(
-        onPressed: onPressed,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18.0),
-        ),
-        color: color,
-        child: Container(
-          padding: EdgeInsets.only(bottom: 30),
-          child: Image.asset(
-              path,
-              height: MediaQuery.of(context).size.height/6
-          ),
-        )
-    );
-
   _setJob(Job j) {
     _job = j;
     _getPhoneNumberFromUser();
@@ -796,39 +778,6 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
             message: "DIALOGS.ARE_YOU_SURE_CANCEL.CONTENT".tr(),
             negativeButtonText: "CANCEL".tr(),
             positiveButtonText: "ACCEPT".tr(),
-          );
-        }
-    );
-    if (val == null)
-      return false;
-    return val;
-  }
-
-  Future<bool> _allowLocationDialog() async {
-    final val = await showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return CustomAlertDialog(
-            title: "DIALOGS.ALLOW_LOCATION.TITLE".tr(),
-            message: "DIALOGS.ALLOW_LOCATION.MESSAGE".tr(),
-            negativeButtonText: "CANCEL".tr(),
-            positiveButtonText: "DIALOGS.ALLOW_LOCATION.ALLOW".tr(),
-          );
-        }
-    );
-    if (val == null)
-      return false;
-    return val;
-  }
-
-  Future<bool> _iAmBackDialog() async {
-    final val = await showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return CustomAlertDialog(
-            title: "DIALOGS.I_AM_BACK.TITLE".tr(),
-            message: "DIALOGS.I_AM_BACK.MESSAGE".tr(),
-            positiveButtonText: "DIALOGS.I_AM_BACK.POSITIVE".tr(),
           );
         }
     );
