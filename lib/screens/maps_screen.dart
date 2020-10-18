@@ -15,6 +15,7 @@ import 'package:postnow/dialogs/custom_alert_dialog.dart';
 import 'package:postnow/dialogs/settings_dialog.dart';
 import 'package:postnow/enums/job_status_enum.dart';
 import 'package:postnow/enums/online_status_enum.dart';
+import 'package:postnow/enums/permission_typ_enum.dart';
 import 'package:postnow/models/address.dart';
 import 'package:postnow/models/settings_item.dart';
 import 'package:postnow/screens/contact_form_screen.dart';
@@ -33,6 +34,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:postnow/services/overview_service.dart';
+import 'package:postnow/services/permission_service.dart';
 import 'package:postnow/services/vibration_service.dart';
 import 'package:postnow/widgets/bottom_card.dart';
 import 'package:progress_state_button/iconed_button.dart';
@@ -98,7 +100,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     _initCount++;
     _overviewService.initCompletedJobs().then((value) => {
       _nextInitializeDone('0'),
-      _overviewService.subscribe(() => setState(() {  print('hasss');}) )
+      _overviewService.subscribe(() => setState(() { }) )
     });
 
     _initCount++;
@@ -470,26 +472,8 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
       state: _onlineOfflineButtonState
   );
 
-  Future<bool> _positionIsNotGranted() async {
-    if (_permissionStatus == PermissionStatus.granted) {
-      return false;
-    }
-    _permissionStatus = await Permission.location.status;
-    if (_permissionStatus.isGranted)
-      return false;
-    _permissionStatus = await Permission.location.request();
-    if (_permissionStatus == PermissionStatus.permanentlyDenied || _permissionStatus == PermissionStatus.denied) {
-      bool val = await _allowLocationDialog();
-      if (val) {
-        await openAppSettings();
-        await _iAmBackDialog();
-      }
-    }
-    return !_permissionStatus.isGranted;
-  }
-
   Future<void> _initMyPosition() async {
-    while (await _positionIsNotGranted()) {}
+    while (await PermissionService.positionIsNotGranted(context, PermissionTypEnum.LOCATION)) {}
 
     _setMyPosition(await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.low));
 
@@ -524,8 +508,8 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     return null;
   }
 
-  void _changeMenuTyp(menuTyp) async {
-    if (_menuTyp == menuTyp)
+  void _changeMenuTyp(menuTyp, {bool forceRefresh = false}) async {
+    if (!forceRefresh && _menuTyp == menuTyp)
       return;
     setState(() {
       _menuTyp = menuTyp;
@@ -533,9 +517,9 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     });
   }
 
-  void refreshBottomCard() {
+  void _refreshBottomCard() {
     setState(() {
-      _changeMenuTyp(_menuTyp);
+      _changeMenuTyp(_menuTyp, forceRefresh: true);
     });
   }
 
@@ -736,7 +720,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   _getPhoneNumberFromUser() {
     _mapsService.getPhoneNumberFromUser(_job).then((value) => {
       _userPhone = value,
-      refreshBottomCard()
+      _refreshBottomCard()
     });
   }
 
@@ -791,10 +775,8 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   Future<void> _myJobListener() async {
     _mapsService.driverRef.child(_user.uid).child("currentJob").onValue.listen((Event e){
       final jobId = e.snapshot.value;
-      print(jobId);
       if (jobId != null) {
         _mapsService.jobsRef.child(jobId.toString()).onValue.listen((Event e){
-          print('aaa');
           Job j = Job.fromSnapshot(e.snapshot);
           _setJob(j);
           _onMyJobChanged(j);

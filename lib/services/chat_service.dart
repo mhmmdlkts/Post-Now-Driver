@@ -35,7 +35,8 @@ class ChatService {
   }
 
   Future<String> startUpload(imagePath) async {
-    assert(!!imagePath);
+    print(imagePath != null);
+    assert(imagePath != null);
     final dbImagePath = 'chat/images/$_jobId/${DateTime.now()}.png';
     final StorageUploadTask _uploadTask = _storage.ref().child(dbImagePath).putFile(i.File(imagePath));
     final snapshot = await _uploadTask.onComplete;
@@ -49,7 +50,6 @@ class ChatService {
   }
 
   void sendMessage(Message message) {
-    print(message.from_driver);
     _chatRef.push().set(message.toMap());
   }
 
