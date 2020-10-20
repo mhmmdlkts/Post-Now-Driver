@@ -669,11 +669,13 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     // _mapsService.acceptJob(_job.key);
   }
 
-  _takePackage() {
+  _takePackage() async {
     if (_job == null) {
       print("No Job");
       return;
     }
+    if (_job.price.toBePaid > 0 && !(await _cashWarnDialog(_job.price.toBePaid)))
+      return;
     _mapsService.jobsRef.child(_job.key).update({"status": Job.statusToString(Status.PACKAGE_PICKED)});
   }
 
@@ -767,6 +769,23 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
         _clearJob();
       }
     });
+  }
+
+  Future<bool> _cashWarnDialog(double amount) async {
+    final val = await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CustomAlertDialog(
+            title: "DIALOGS.CASH_WARN.TITLE".tr(namedArgs: {'cash': amount.toStringAsFixed(2)}),
+            message: "DIALOGS.CASH_WARN.MESSAGE".tr(namedArgs: {'cash': amount.toStringAsFixed(2)}),
+            negativeButtonText: "NO".tr(),
+            positiveButtonText: "YES".tr(),
+          );
+        }
+    );
+    if (val == null)
+      return false;
+    return val;
   }
 
   Future<bool> _showAreYouSureDialog() async {

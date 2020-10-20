@@ -1,6 +1,8 @@
 {
   "APP_NAME": "Post Now Driver",
   "OK": "OK",
+  "NO": "No",
+  "YES": "Yes",
   "CANCEL": "Cancel",
   "ACCEPT": "Accept",
   "WARNING": "Dikkat",
@@ -76,6 +78,7 @@
     },
     "BOTTOM_MENUS": {
       "ON_JOB": {
+        "CASH": "Müsteri nakit ödeme yapmayi tercih etti. Müsteriden {cash} € tahsil ediniz.",
         "YOUR_CUSTOMER": "Customer: {name}",
         "PACKAGE_ADDRESS": "Sender adress: {address}\nAsagi gelecek\nPacket will gived by Name: {name}",
         "PACKAGE_ADDRESS_EXTRA_SERVICE": "Sender adress: {address}\nPacket will gived by Name: {name}"
@@ -148,6 +151,10 @@
         "MESSAGE": "Uyulamayi daha iyi kullanabilmek icin konum izni verin",
         "ALLOW": "Izin ver"
       }
+    },
+    "CASH_WARN": {
+      "TITLE": "Nakit ücreti {cash} €",
+      "MESSAGE": "Müsteriden {cash} € luk hizmet bedelini tahsil ettim."
     },
     "I_AM_BACK": {
       "TITLE": "Seni bekliyoruz",

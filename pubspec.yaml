@@ -58,8 +58,12 @@ dev_dependencies:
     sdk: flutter
 
 flutter:
-
   uses-material-design: true
+
+  fonts:
+    - family:  MyFlutterApp
+      fonts:
+        - asset: fonts/MyFlutterApp.ttf
 
   assets:
     - assets/
