@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
                     )
                 )
             ),
-            home: FirebaseService().handleAuth(snapshot.connectionState),
+            home: AuthService().handleAuth(snapshot.connectionState),
           );
         },
       )

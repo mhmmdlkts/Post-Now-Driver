@@ -52,6 +52,7 @@ dependencies:
   circular_check_box: ^1.0.4
   audioplayers: ^0.16.1
   vibration: ^1.7.1
+  flutter_cupertino_settings: ^0.3.1
 
 dev_dependencies:
   flutter_test:

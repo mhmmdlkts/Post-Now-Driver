@@ -18,7 +18,7 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  final FirebaseService _firebaseService = FirebaseService();
+  final AuthService _firebaseService = AuthService();
   bool _signIn;
   String _email;
   String _name;

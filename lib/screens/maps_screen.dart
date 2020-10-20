@@ -19,6 +19,7 @@ import 'package:postnow/models/address.dart';
 import 'package:postnow/models/settings_item.dart';
 import 'package:postnow/screens/contact_form_screen.dart';
 import 'package:postnow/screens/overview_screen.dart';
+import 'package:postnow/screens/settings_screen.dart';
 import 'package:postnow/screens/signing_screen.dart';
 import 'package:postnow/Dialogs/message_toast.dart';
 import 'package:postnow/screens/slpash_screen.dart';
@@ -215,12 +216,6 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
                   },
                 ),
                 ListTile(
-                  title: Text('MAPS.SIDE_MENU.SOFTWARE_LICENCES'.tr()),
-                  onTap: () {
-                    LegalService.openLicences();
-                  },
-                ),
-                ListTile(
                   title: Text('MAPS.SIDE_MENU.CONTACT'.tr()),
                   onTap: () {
                     Navigator.push(
@@ -230,9 +225,18 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
                   },
                 ),
                 ListTile(
+                  title: Text('SETTINGS'.tr()),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SettingsScreen(_user)),
+                    );
+                  },
+                ),
+                ListTile(
                   title: Text('MAPS.SIDE_MENU.SIGN_OUT'.tr(), style: TextStyle(color: Colors.redAccent),),
                   onTap: () {
-                    FirebaseService().signOut();
+                    AuthService().signOut();
                   },
                 ),
               ],

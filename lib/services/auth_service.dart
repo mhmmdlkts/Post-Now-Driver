@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:postnow/screens/first_screen.dart';
 
-class FirebaseService {
+class AuthService {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   handleAuth(connectionState) {

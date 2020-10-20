@@ -99,6 +99,16 @@
       "CONTACT": "Contact"
     }
   },
+  "SETTINGS_SCREEN": {
+    "ACCOUNT": {
+      "TITLE": "Account",
+      "NAME_HINT": "Name",
+      "PHONE_HINT": "Phone",
+      "EMAIL_HINT": "Email"
+    },
+    "SOFTWARE_LICENCES": "License",
+    "SIGN_OUT": "Logout"
+  },
   "CHAT": {
     "TYPE_MESSAGE_HERE": "Enter your message..."
   },
@@ -175,6 +185,12 @@
     },
     "JOB_SETTINGS": {
       "CANCEL_JOB" : "Yolculugu iptal et"
+    },
+    "SETTINGS": {
+      "YOU_CANT_CHANGE": {
+        "MESSAGE": "Bu alani degiistirmeye ihtiyaciniz varsa bizimle letisime gecin",
+        "CONTACT": "Iletisime gec"
+      }
     }
   }
 }

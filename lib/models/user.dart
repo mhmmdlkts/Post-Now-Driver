@@ -28,8 +28,4 @@ class User {
     if (languageCode != null) data['lang'] = this.languageCode;
     return data;
   }
-
-  String getName() {
-    return name == null? "Name" : name;
-  }
 }

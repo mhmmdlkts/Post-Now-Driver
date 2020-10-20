@@ -339,7 +339,7 @@ class BottomState extends State<BottomCard> {
   }
 
   Widget _getSubHeader() {
-    if (widget.job == null || widget.job.price.toBePaid > 0 || widget.job.status == Status.WAITING)
+    if (widget.job == null || widget.job.price.toBePaid <= 0 || widget.job.status == Status.WAITING)
       return Container();
     return Container(
         margin: EdgeInsets.only(bottom: 30, top: 20),
