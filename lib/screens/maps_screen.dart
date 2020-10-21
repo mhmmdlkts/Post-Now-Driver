@@ -42,6 +42,7 @@ import 'package:progress_state_button/iconed_button.dart';
 import 'package:progress_state_button/progress_button.dart';
 import 'package:screen/screen.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'dart:io' show Platform;
 import 'chat_screen.dart';
 import 'dart:async';
 
@@ -59,7 +60,6 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   final AudioCache _audioCache = AudioCache();
   AudioPlayer _audioPlayer;
-  final Set _markers = new Set<Marker>();
   final User _user;
   ButtonState _onlineOfflineButtonState = ButtonState.success;
   bool _isInitDone = false;
@@ -71,9 +71,10 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   BuildContext _jobDialogCtx;
   bool _isZoomed = false;
   bool _locationFocused = true;
-  BitmapDescriptor _packageLocationIcon;
+  BitmapDescriptor _packageLocationIcon, _homeLocationIcon;
   OnlineStatus _onlineStatus = OnlineStatus.OFFLINE;
   GoogleMapController _mapController;
+  Marker _packageMarker, _destinationMarker;
   MenuTyp _menuTyp;
   BottomCard _bottomCard;
   Position _myPosition;
@@ -109,11 +110,19 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
       _nextInitializeDone('0.0'),
     });
 
+    final markerSize = Platform.isIOS?130:80;
+
     _initCount++;
-    _mapsService.getBytesFromAsset('assets/package_map_marker.png', 130).then((value) => {
+    _mapsService.getBytesFromAsset('assets/package_map_marker.png', markerSize).then((value) => {
       _packageLocationIcon = BitmapDescriptor.fromBytes(value),
       _nextInitializeDone('1')
     });
+
+    _initCount++;
+    _mapsService.getBytesFromAsset('assets/home_map_marker.png', markerSize).then((value) => { setState((){
+      _homeLocationIcon = BitmapDescriptor.fromBytes(value);
+      _nextInitializeDone('3');
+    })});
 
     _changeMenuTyp(MenuTyp.WAITING);
 
@@ -186,7 +195,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
                     initialCameraPosition: CameraPosition(target: LatLng(0, 0)),
                     onMapCreated: _onMapCreated,
                     myLocationEnabled: _myPosition != null,
-                    markers: _markers,
+                    markers: _createMarker(),
                     myLocationButtonEnabled: false,
                     onCameraMoveStarted: () => {
                       setState(() {
@@ -296,6 +305,15 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     }
   }
 
+  Set<Marker> _createMarker() {
+    Set markers = Set<Marker>();
+    if (_packageMarker != null)
+      markers.add(_packageMarker);
+    if (_destinationMarker != null)
+      markers.add(_destinationMarker);
+    return markers;
+  }
+
   _onOnlineStatusChanged(Event event) {
     _mapsService.updateAppStatus();
     OnlineStatus status = _mapsService.boolToOnlineStatus(event.snapshot.value);
@@ -352,6 +370,11 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   _onMyJobChanged(Job j) {
     _audioPlayer?.stop();
     setState(() {
+      _addAddressMarker(null, null);
+      if (_job.status == Status.PACKAGE_PICKED)
+        _addAddressMarker(j.destinationAddress.coordinates, true);
+      else if (_job.status == Status.ON_ROAD)
+        _addAddressMarker(j.originAddress.coordinates, false);
       switch (j.status) {
         case Status.WAITING:
           _setJob(j);
@@ -662,10 +685,11 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   _clearJob({withDialog = false}) {
     setState(() {
       _audioPlayer?.stop();
+      _destinationMarker = null;
+      _packageMarker = null;
       if (withDialog) {
         Navigator.pop(_jobDialogCtx);
       }
-      _markers.clear();
       _job = null;
       _changeMenuTyp(MenuTyp.WAITING);
     });
@@ -702,15 +726,24 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   _setJob(Job j) {
     _job = j;
     _getPhoneNumberFromUser();
-    _markers.add(Marker(
-      markerId: MarkerId(j.key),
-      position: j.getOrigin(),
-      icon: _packageLocationIcon,
-      infoWindow: InfoWindow(
-        title: j.name,
-      ),
-    ));
     if (mounted) setState(() {});
+  }
+
+  void _addAddressMarker(LatLng position, bool isDestination) {
+    if (isDestination == null) {
+      _destinationMarker = null;
+      _packageMarker = null;
+      return;
+    }
+    Marker marker = Marker(
+      markerId: MarkerId(isDestination?"destination":"package"),
+      position: position,
+      icon: isDestination?_homeLocationIcon:_packageLocationIcon,
+    );
+    if (isDestination)
+      _destinationMarker = marker;
+    else
+      _packageMarker = marker;
   }
 
   _getPhoneNumberFromUser() {
