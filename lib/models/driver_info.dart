@@ -10,7 +10,9 @@ class DriverWInfo {
   String address;
   GlobalSettings settings;
 
-  DriverWInfo(this.name, this.surname, this.email, this.phone, this.address);
+  DriverWInfo(this.name, this.surname, this.email, this.phone, this.address) {
+    settings = GlobalSettings();
+  }
 
   DriverWInfo.fromSnapshot(DataSnapshot snapshot) {
     key = snapshot.key;

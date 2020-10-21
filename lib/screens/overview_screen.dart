@@ -32,7 +32,6 @@ class _OverviewScreen extends State<OverviewScreen> {
   @override
   void initState() {
     super.initState();
-    initializeDateFormatting();
     _chosenWeek = _overviewService.currentWeek();
     _pageController = PageController(initialPage: _chosenWeek);
 
@@ -160,8 +159,6 @@ class _OverviewScreen extends State<OverviewScreen> {
   }
 
   String getReadableFinishDay(DateTime d) {
-    print("d");
-    print(d);
     final DateFormat formatter = DateFormat('dd. MMMM, HH:mm');
     return formatter.format(d);
   }

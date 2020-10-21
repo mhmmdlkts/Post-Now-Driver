@@ -1,13 +1,24 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
+import 'dart:ui' as ui;
 
 class GlobalSettings {
-  GlobalSettings();
+  String langCode;
 
-  GlobalSettings.fromSnapshot(DataSnapshot snapshot);
+  GlobalSettings({this.langCode}) {
+    if (langCode == null)
+      langCode = ui.window.locale.languageCode;
+  }
 
-  GlobalSettings.fromJson(Map json);
+  GlobalSettings.fromSnapshot(DataSnapshot snapshot) {
+    langCode = snapshot.value["lang"];
+  }
+
+  GlobalSettings.fromJson(Map json) {
+    langCode = json["lang"];
+  }
 
   Map<String, dynamic> toJson() => {
+    "lang": langCode
   };
 }

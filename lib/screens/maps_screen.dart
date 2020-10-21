@@ -24,6 +24,7 @@ import 'package:postnow/screens/signing_screen.dart';
 import 'package:postnow/Dialogs/message_toast.dart';
 import 'package:postnow/screens/slpash_screen.dart';
 import 'package:postnow/services/global_service.dart';
+import 'package:postnow/services/global_service.dart';
 import 'package:postnow/services/legal_service.dart';
 import 'package:postnow/services/maps_service.dart';
 import 'package:postnow/services/auth_service.dart';
@@ -40,6 +41,7 @@ import 'package:postnow/widgets/bottom_card.dart';
 import 'package:progress_state_button/iconed_button.dart';
 import 'package:progress_state_button/progress_button.dart';
 import 'package:screen/screen.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'chat_screen.dart';
 import 'dart:async';
 
@@ -103,6 +105,11 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     });
 
     _initCount++;
+    initializeDateFormatting().then((value) => {
+      _nextInitializeDone('0.0'),
+    });
+
+    _initCount++;
     _mapsService.getBytesFromAsset('assets/package_map_marker.png', 130).then((value) => {
       _packageLocationIcon = BitmapDescriptor.fromBytes(value),
       _nextInitializeDone('1')
@@ -117,6 +124,9 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
           break;
         case "message":
           _showMessageToast(message["key"], message["name"], message["message"]);
+          break;
+        case "stayOnline":
+          _mapsService.updateAppStatus();
           break;
       }
 
@@ -248,10 +258,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
 
   @override
   didChangeAppLifecycleState(AppLifecycleState state) async {
-    var data = new Map<String, String>();
-    data['status'] = state.toString();
-    data['time'] = DateTime.now().toString();
-    _mapsService.driverRef.child(_user.uid).child("appStatus").update(data);
+    _mapsService.updateAppStatus();
   }
 
   void _nextInitializeDone(String code) {
@@ -290,7 +297,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   }
 
   _onOnlineStatusChanged(Event event) {
-
+    _mapsService.updateAppStatus();
     OnlineStatus status = _mapsService.boolToOnlineStatus(event.snapshot.value);
     final int delayMS = _onlineOfflineButtonState == ButtonState.success?0:800; // TODO Check is first init?
     Future.delayed(Duration(milliseconds: delayMS), () {
@@ -337,7 +344,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
 
     _mapsService.driverRef.child(_user.uid).child("isOnline").set(_mapsService.onlineStatusToBool(value)).then((value) => {
       setState(() {
-
+// TODO Delete setState
       })
     });
   }
@@ -553,6 +560,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
           showOriginAddress: true,
           chatName: _job.name,
           phone: _userPhone,
+          showCash: true,
           job: _job,
           mainButtonText: 'MAPS.TAKE_PACKAGE'.tr(),
           onMainButtonPressed: _takePackage,
@@ -807,5 +815,20 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     if (val == null)
       return false;
     return val;
+  }
+
+  void _updateAppStatus({AppLifecycleState status}) async {
+
+    /*Map<String, dynamic> map = Map();
+    map["time"]= DateTime.now().toString();
+    if (status != null)
+      map["status"]= status.toString();
+    _mapsService.driverRef.child(_user.uid).child("appStatus").update(map);*/
+  }
+
+  String _getReadableTimeStamp() {
+    final DateFormat formatter = DateFormat(DATE_FORMAT);
+    print(formatter.format(DateTime.now()));
+    return formatter.format(DateTime.now());
   }
 }
