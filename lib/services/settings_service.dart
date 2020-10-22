@@ -9,15 +9,15 @@ class SettingsService {
   final String uid;
   bool enableCustomAddress = false;
   GlobalSettings settings;
-  DatabaseReference infoRef;
+  DatabaseReference driverRef;
   VoidCallback saved;
 
   SettingsService(this.uid, this.saved) {
-    infoRef = FirebaseDatabase.instance.reference().child('drivers_info').child(uid);
+    driverRef = FirebaseDatabase.instance.reference().child('drivers').child(uid);
   }
 
   commitSettings() async {
-    await infoRef.child("settings").update(settings.toJson());
+    await driverRef.child("settings").update(settings.toJson());
     saved.call();
   }
 }

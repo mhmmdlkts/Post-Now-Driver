@@ -360,11 +360,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     }
     _onlineStatus = value;
 
-    _mapsService.driverRef.child(_user.uid).child("isOnline").set(_mapsService.onlineStatusToBool(value)).then((value) => {
-      setState(() {
-// TODO Delete setState
-      })
-    });
+    _mapsService.driverRef.child(_user.uid).child("isOnline").set(_mapsService.onlineStatusToBool(value));
   }
 
   _onMyJobChanged(Job j) {

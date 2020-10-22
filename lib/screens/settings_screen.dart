@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cupertino_settings/flutter_cupertino_settings.dart';
 import 'package:postnow/dialogs/custom_alert_dialog.dart';
-import 'package:postnow/models/driver_info.dart';
+import 'package:postnow/models/driver.dart';
 import 'package:postnow/services/auth_service.dart';
 import 'package:postnow/services/legal_service.dart';
 import 'package:postnow/services/settings_service.dart';
@@ -20,21 +20,23 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  DriverWInfo _info;
+  Driver driver;
   SettingsService _settingsService;
 
   @override
   void initState() {
     super.initState();
     _settingsService = SettingsService(widget.user.uid, _allSaved);
-    _settingsService.infoRef.onValue.listen((event) {
+    _settingsService.driverRef.onValue.listen((event) {
       setState(() {
-        _info = DriverWInfo.fromSnapshot(event.snapshot);
-        _settingsService.accountNameCtrl.text = _info.name;
-        _settingsService.accountPhoneCtrl.text = _info.phone;
-        _settingsService.accountEmailCtrl.text = _info.email;
-        _settingsService.settings = _info.settings;
+        driver = Driver.fromSnapshot(event.snapshot);
+        _settingsService.accountNameCtrl.text = driver.name;
+        _settingsService.accountPhoneCtrl.text = driver.phone;
+        _settingsService.accountEmailCtrl.text = driver.email;
+        _settingsService.settings = driver.settings;
       });
+    }).onError((handleError) => {
+      print(handleError)
     });
   }
 

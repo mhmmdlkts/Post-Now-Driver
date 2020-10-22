@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:postnow/dialogs/auth_error_dialog.dart';
 import 'package:postnow/models/driver.dart';
-import 'package:postnow/models/driver_info.dart';
 import 'package:postnow/services/auth_service.dart';
 import 'package:postnow/services/legal_service.dart';
 
@@ -271,9 +270,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
     print('signInEmail succeeded: $user');
 
-    Driver driver = new Driver(token: await _firebaseService.getToken());
-
-    await FirebaseDatabase.instance.reference().child('drivers').child(user.uid).update(driver.toJson());
+    await FirebaseDatabase.instance.reference().child('drivers').child(user.uid).child("token").set(await _firebaseService.getToken());
 
     return user;
   }
@@ -301,13 +298,16 @@ class _AuthScreenState extends State<AuthScreen> {
     String token = user.uid;
     assert (token != null);
 
-    print(user);
-
-    Driver driver = new Driver(name : _name, token: await _firebaseService.getToken(), isOnline: false);
-    DriverWInfo driverInfo = new DriverWInfo(_name, _surname, _email, _phone, null);
+    Driver driver = new Driver(
+        name: _name,
+        surname: _surname,
+        email: _email,
+        phone: _phone,
+        token: await _firebaseService.getToken(),
+        isOnline: false
+    );
 
     await FirebaseDatabase.instance.reference().child('drivers').child(user.uid).set(driver.toJson());
-    await FirebaseDatabase.instance.reference().child('drivers_info').child(user.uid).set(driverInfo.toJson());
 
     return user;
   }
