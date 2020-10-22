@@ -1,4 +1,3 @@
-import 'package:audioplayers/audio_cache.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
@@ -11,7 +10,6 @@ import 'package:postnow/services/global_service.dart';
 class ChatService {
   final FirebaseStorage _storage = FirebaseStorage(storageBucket: 'gs://post-now-f3c53.appspot.com');
   DatabaseReference _chatRef;
-  final AudioCache audioPlayer = AudioCache();
 
   Chat chat;
   final String _jobId;
@@ -35,8 +33,7 @@ class ChatService {
   }
 
   Future<String> startUpload(imagePath) async {
-    print(imagePath != null);
-    assert(imagePath != null);
+    assert(!!imagePath);
     final dbImagePath = 'chat/images/$_jobId/${DateTime.now()}.png';
     final StorageUploadTask _uploadTask = _storage.ref().child(dbImagePath).putFile(i.File(imagePath));
     final snapshot = await _uploadTask.onComplete;
@@ -51,6 +48,10 @@ class ChatService {
 
   void sendMessage(Message message) {
     _chatRef.push().set(message.toMap());
+  }
+
+  static sendMessageStatic(String jobId, Message message) {
+    FirebaseDatabase.instance.reference().child('jobs_chat').child(jobId).push().set(message.toMap());
   }
 
   readMessage(int index) {
