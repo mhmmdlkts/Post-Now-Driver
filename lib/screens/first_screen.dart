@@ -4,7 +4,6 @@ import 'package:package_info/package_info.dart';
 import 'package:postnow/environment/global_variables.dart';
 import 'package:postnow/screens/maps_screen.dart';
 import 'package:postnow/screens/slpash_screen.dart';
-import 'package:postnow/services/auth_service.dart';
 import 'package:postnow/services/first_screen_service.dart';
 import 'auth_screen.dart';
 
@@ -24,22 +23,17 @@ class _FirstScreen extends State<FirstScreen> {
   @override
   void initState() {
     super.initState();
-
     checkUpdates();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (needsUpdate == null)
-      return SplashScreen();
-    if (needsUpdate)
+    if (needsUpdate == null || needsUpdate)
       return SplashScreen();
 
-    if (widget.snapshot.hasData) {
+    if (widget.snapshot.hasData)
       return MapsScreen(widget.snapshot.data);
-    } else {
-      return AuthScreen();
-    }
+    return AuthScreen();
   }
 
   checkUpdates() async {
