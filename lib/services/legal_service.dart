@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:postnow/services/global_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -30,6 +31,9 @@ class LegalService {
   }
 
   static void openWriteMail() async {
-
+    String email = "support@postnow.at" ;
+    String subject = Uri.encodeComponent("LOGIN.AUTO_FILL_EMAIL_SUBJECT".tr());
+    String url = 'mailto:$email?subject=$subject';
+    await launch(url);
   }
 }

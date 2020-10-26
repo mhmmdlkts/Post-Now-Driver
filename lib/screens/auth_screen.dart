@@ -165,7 +165,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             ),
                             Container(height: 3,),
                             ListView(
-                              padding: EdgeInsets.all(0),
+                              padding: EdgeInsets.zero,
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               children: [

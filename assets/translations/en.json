@@ -36,6 +36,7 @@
     "SIGN_IN": "Sign in",
     "SIGN_UP": "Sign up",
     "LOGIN_PROBLEMS": "Any problem?",
+    "AUTO_FILL_EMAIL_SUBJECT": "I have a problem by signing in the post now driver app",
     "ERROR_MESSAGES" : {
       "ERROR_INVALID_EMAIL" : "Your Email address appears to be invalid.",
       "ERROR_WRONG_PASSWORD" : "The password you entered is incorrect.",
@@ -69,6 +70,9 @@
       "HINT_LABEL": "Enter the content"
     },
     "SEND": "Send"
+  },
+  "DIRECT_JOB_OVERVIEW": {
+    "ANY_PROBLEMS": "Any problems with this job?"
   },
   "MAPS": {
     "GO_ONLINE" : "Go Online",

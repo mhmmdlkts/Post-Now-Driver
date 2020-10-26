@@ -24,7 +24,6 @@ import 'package:postnow/screens/signing_screen.dart';
 import 'package:postnow/Dialogs/message_toast.dart';
 import 'package:postnow/screens/slpash_screen.dart';
 import 'package:postnow/services/global_service.dart';
-import 'package:postnow/services/global_service.dart';
 import 'package:postnow/services/legal_service.dart';
 import 'package:postnow/services/maps_service.dart';
 import 'package:postnow/services/auth_service.dart';
@@ -214,19 +213,15 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
               padding: EdgeInsets.zero,
               children: <Widget>[
                 DrawerHeader(
-                  child: Text('SETTINGS'.tr(), style: TextStyle(fontSize: 20, color: Colors.white)),
+                  padding: EdgeInsets.zero,
                   decoration: BoxDecoration(
-                    color: Colors.blue,
+                      image: DecorationImage(image: NetworkImage(_user.photoURL),
+                          fit: BoxFit.cover)
                   ),
                 ),
                 ListTile(
                   title: Text('MAPS.SIDE_MENU.OVERVIEW'.tr()),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => OverviewScreen(_user))
-                    );
-                  },
+                  onTap: _openOverViewScreen,
                 ),
                 ListTile(
                   title: Text('MAPS.SIDE_MENU.PRIVACY_POLICY'.tr()),
@@ -449,12 +444,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
           child: InkWell(
             borderRadius: BorderRadius.circular(25.0),
             splashColor: Colors.black45,
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => OverviewScreen(_user))
-              );
-            },
+            onTap: _openOverViewScreen,
             child: Center(
               child: Container(
                 alignment: Alignment.center,
@@ -466,6 +456,13 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
         ),
       )
   );
+
+  void _openOverViewScreen () {
+    Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => OverviewScreen(_user, _homeLocationIcon, _packageLocationIcon))
+    );
+  }
 
   Widget _goOnlineOfflineMenu() => Positioned(
       bottom: 30,

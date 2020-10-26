@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:postnow/enums/job_status_enum.dart';
 import 'package:postnow/models/job.dart';
 import 'package:postnow/services/overview_service.dart';
@@ -8,10 +9,14 @@ import 'package:postnow/widgets/weekly_income_chart.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
+import 'direct_job_overview_screen.dart';
+
 
 class OverviewScreen extends StatefulWidget {
+  final BitmapDescriptor bitmapDescriptorDestination;
+  final BitmapDescriptor bitmapDescriptorOrigin;
   final User user;
-  OverviewScreen(this.user);
+  OverviewScreen(this.user, this.bitmapDescriptorDestination, this.bitmapDescriptorOrigin);
 
   @override
   _OverviewScreen createState() => _OverviewScreen(user);
@@ -122,17 +127,11 @@ class _OverviewScreen extends State<OverviewScreen> {
           ],
         ),
       ):Container(),
-      Divider(
-        height: 45,
-        thickness: 1,
-      ),
+      _divider(),
       ListView.separated(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        separatorBuilder: (context, index) => Divider(
-          height: 45,
-          thickness: 1,
-        ),
+        separatorBuilder: (context, index) => _divider(),
         itemCount: _overviewService.getTotalTripsCount(),
         itemBuilder: (BuildContext ctxt, int index) => _getSingleJobWidget(_overviewService.getJob(index)),
       ),
@@ -140,21 +139,34 @@ class _OverviewScreen extends State<OverviewScreen> {
     ],
   );
 
+  Widget _divider() => Divider(
+    height: 0,
+    thickness: 1,
+  );
+
   Widget _getSingleJobWidget(Job j) {
     if (j == null)
       return null;
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 5),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(getReadableFinishDay(j.acceptTime)),
-          if (j.status == Status.FINISHED)
-            Text(j.price.driverBecomes.toString() + " €")
-          else
-            Text(j.getStatusMessageKey().tr())
-        ],
-      ),
+    return InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => DirectJobOverview(_user, j, widget.bitmapDescriptorOrigin, widget.bitmapDescriptorDestination)),
+          );
+        },
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 5, vertical: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(getReadableFinishDay(j.acceptTime)),
+              if (j.status == Status.FINISHED)
+                Text(j.price.driverBecomes.toString() + " €")
+              else
+                Text(j.getStatusMessageKey().tr())
+            ],
+          ),
+        )
     );
   }
 
