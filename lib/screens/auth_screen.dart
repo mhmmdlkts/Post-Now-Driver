@@ -184,7 +184,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               constraints: const BoxConstraints(minWidth: double.infinity),
                               child: FlatButton(
                                   onPressed: () async {
-                                    LegalService.openRegisterDriver();
+                                    LegalService.openRegisterDriver(context);
                                   },
                                   child: RichText(
                                     textAlign: TextAlign.center,
@@ -204,7 +204,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 constraints: const BoxConstraints(minWidth: double.infinity),
                                 child: FlatButton(
                                     onPressed: () async {
-                                      LegalService.openPrivacyPolicy();
+                                      LegalService.openPrivacyPolicy(context);
                                     },
                                     child: Text(
                                       "LOGIN.AGREE_TERMS_AND_POLICY".tr(),

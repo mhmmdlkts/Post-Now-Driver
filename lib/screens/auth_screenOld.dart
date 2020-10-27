@@ -242,7 +242,7 @@ class _AuthScreenOldState extends State<AuthScreenOld> {
       Container(height: 10,),
       FlatButton(
           onPressed: () {
-            LegalService.openPrivacyPolicy();
+            LegalService.openPrivacyPolicy(context);
           },
           padding: EdgeInsets.symmetric(vertical: 8, horizontal: 50),
           child: Text(

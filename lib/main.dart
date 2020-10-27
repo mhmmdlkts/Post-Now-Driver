@@ -7,7 +7,7 @@ import 'services/auth_service.dart';
 import 'dart:ui' as ui;
 
 void main() {
-
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(
     EasyLocalization(
         supportedLocales: [Locale('en', ''), Locale('de', ''), Locale('tr', '')],

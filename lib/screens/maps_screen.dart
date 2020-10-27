@@ -226,7 +226,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
                 ListTile(
                   title: Text('MAPS.SIDE_MENU.PRIVACY_POLICY'.tr()),
                   onTap: () {
-                    LegalService.openPrivacyPolicy();
+                    LegalService.openPrivacyPolicy(context);
                   },
                 ),
                 ListTile(

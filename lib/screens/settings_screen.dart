@@ -55,7 +55,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           CupertinoTextField(readOnly: true, decoration: BoxDecoration( color: Colors.black12), onTap: _showAreYouCantChangeDialog, controller: _settingsService.accountPhoneCtrl, placeholder: "SETTINGS_SCREEN.ACCOUNT.PHONE_HINT".tr()),
           
           CSSpacer(showBorder: false),
-          CSButton(CSButtonType.DEFAULT_CENTER, "SETTINGS_SCREEN.SOFTWARE_LICENCES".tr(), (){ LegalService.openLicences();}),
+          CSButton(CSButtonType.DEFAULT_CENTER, "SETTINGS_SCREEN.SOFTWARE_LICENCES".tr(), (){ LegalService.openLicences(context);}),
           CSSpacer(showBorder: false),
           CSButton(CSButtonType.DESTRUCTIVE, "SETTINGS_SCREEN.SIGN_OUT".tr(),  (){ AuthService().signOut();})
         ],
