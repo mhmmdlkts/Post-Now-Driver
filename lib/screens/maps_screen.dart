@@ -126,7 +126,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     _changeMenuTyp(MenuTyp.WAITING);
 
     _firebaseMessaging.configure(onMessage: (Map<String, dynamic> message) {
-      switch (message["typ"]) {
+      switch (message["data"]["typ"]) {
         case "jobRequest":
           _showJobRequestDialog(Address.fromJson(json.decode(message["originAddress"])));
           break;
