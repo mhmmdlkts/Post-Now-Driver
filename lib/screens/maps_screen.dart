@@ -153,8 +153,6 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
 
     _mapsService.driverRef.child(_user.uid).child("isOnline").onValue.listen(_onOnlineStatusChanged);
 
-    _myJobListener();
-
     _nextInitializeDone('4');
   }
 
@@ -269,6 +267,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
      // print(code + "/" + _initCount.toString());
     _initDone++;
     if (_initCount == _initDone) {
+      _myJobListener();
       _initIsDone();
     }
   }
