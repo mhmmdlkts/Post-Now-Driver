@@ -75,10 +75,11 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   GoogleMapController _mapController;
   Marker _packageMarker, _destinationMarker;
   MenuTyp _menuTyp;
-  BottomCard _bottomCard;
+  BottomCard _bottomCard, _requestJobBottomCard;
+  StreamSubscription _requestJobListener;
   Position _myPosition;
   String _userPhone;
-  Job _job;
+  Job _job, _requestJob;
 
   _MapsScreenState(this._user) {
     _mapsService = MapsService(_user.uid);
@@ -125,30 +126,26 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
 
     _changeMenuTyp(MenuTyp.WAITING);
 
-    _firebaseMessaging.configure(onMessage: (Map<String, dynamic> message) {
-      switch (message["data"]["typ"]) {
-        case "jobRequest":
-          _showJobRequestDialog(Address.fromJson(json.decode(message["originAddress"])));
-          break;
-        case "message":
-          _showMessageToast(message["key"], message["name"], message["message"]);
-          break;
-        case "stayOnline":
-          _mapsService.updateAppStatus();
-          break;
-      }
-
-      return;
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) {
+        switch (message["data"]["typ"]) {
+          case "jobRequest":
+            _showJobRequestDialog(Address.fromJson(json.decode(message["originAddress"])));
+            break;
+          case "message":
+            _showMessageToast(message["key"], message["name"], message["message"]);
+            break;
+          case "stayOnline":
+            _mapsService.updateAppStatus();
+            break;
+        }
+        return;
     }, onResume: (Map<String, dynamic> message) {
       print('onResume: $message');
       return;
     }, onLaunch: (Map<String, dynamic> message) {
       print('onLaunch: $message');
       return;
-    });
-
-    _mapsService.driverRef.child(_user.uid).child("currentJob").onChildChanged.listen((Event e) {
-      _getPhoneNumberFromUser();
     });
 
     _mapsService.driverRef.child(_user.uid).child("isOnline").onValue.listen(_onOnlineStatusChanged);
@@ -254,7 +251,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
               ],
             ),
           ),
-        floatingActionButton: _bottomCard == null ? _currentPositionFButton() : null,
+        floatingActionButton: _bottomCard == null && _requestJobBottomCard == null ? _currentPositionFButton() : null,
       )
   );
 
@@ -268,6 +265,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     _initDone++;
     if (_initCount == _initDone) {
       _myJobListener();
+      _jobRequestListener();
       _initIsDone();
     }
   }
@@ -363,20 +361,15 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
       _addAddressMarker(null, null);
       if (_job.status == Status.PACKAGE_PICKED)
         _addAddressMarker(j.destinationAddress.coordinates, true);
-      else if (_job.status == Status.ON_ROAD)
+      else if (_job.status == Status.ON_ROAD || _job.status == Status.ACCEPTED)
         _addAddressMarker(j.originAddress.coordinates, false);
       switch (j.status) {
         case Status.WAITING:
           _setJob(j);
           _changeMenuTyp(MenuTyp.JOB_REQUEST);
-          until () async {
-            _audioPlayer = await _audioCache.loop('sounds/new_order.mp3');
-            while (MenuTyp.JOB_REQUEST == _menuTyp) {
-              await VibrationService.vibrateMessage();
-            }
-          }
-          until();
+          _playNewOrderSound("1");
           break;
+        case Status.ACCEPTED:
         case Status.ON_ROAD:
           _changeMenuTyp(MenuTyp.ON_JOB);
           break;
@@ -392,6 +385,23 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     });
   }
 
+  _playNewOrderSound (a) async {
+    _audioPlayer?.stop();
+    _audioPlayer = await _audioCache.loop('sounds/new_order.mp3');
+    while (_requestJobBottomCard != null) {
+      await VibrationService.vibrateMessage();
+    }
+    _audioPlayer?.stop();
+  }
+
+  _clearJobRequest() {
+    setState(() {
+      _requestJobListener?.cancel();
+      _requestJobBottomCard = null;
+      _audioPlayer?.stop();
+    });
+  }
+
   _onMapCreated(GoogleMapController controller) {
     setState(() {
       _mapController = controller;
@@ -404,6 +414,8 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   }
 
   Widget _getBottomMenu() {
+    if (_requestJobBottomCard != null)
+      return _requestJobBottomCard;
     switch (_menuTyp) {
       case MenuTyp.WAITING:
         return _goOnlineOfflineMenu();
@@ -550,21 +562,6 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   void _changeBottomCard(menuTyp) {
     switch (menuTyp)
     {
-      case MenuTyp.JOB_REQUEST:
-        _bottomCard = new BottomCard(
-          key: GlobalKey(),
-          maxHeight: _mapKey.currentContext.size.height,
-          floatingActionButton: _getFloatingButton(),
-          showDestinationAddress: false,
-          showOriginAddress: true,
-          job: _job,
-          headerText: 'DIALOGS.JOB_REQUEST.TITLE'.tr(),
-          mainButtonText: 'ACCEPT'.tr(),
-          onMainButtonPressed: _acceptJob,
-          shrinkWrap: false,
-          isSwipeButton: false,
-        );
-        break;
       case MenuTyp.ON_JOB:
         _bottomCard = new BottomCard(
           key: GlobalKey(),
@@ -687,14 +684,10 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     });
   }
 
-  _acceptJob() {
-    if (_job == null) {
-      print("No Job");
-      return;
-    }
-    
-    _mapsService.jobsRef.child(_job.key).update({"status": Job.statusToString(Status.ON_ROAD)});
-    // _mapsService.acceptJob(_job.key);
+  _acceptJob(String id) {
+    _mapsService.jobsRef.child(id).update({"status": Job.statusToString(Status.ACCEPTED)});
+    _clearJobRequest();
+    // _mapsService.acceptJob(id);
   }
 
   _takePackage() async {
@@ -759,7 +752,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
       if (value == null || !value) {
         _clearJob(withDialog: true)
       } else {
-        _acceptJob()
+        _acceptJob(_job.key)
       }
     });
   }
@@ -793,11 +786,47 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
       ]
   );
 
-  Future<void> _myJobListener() async {
-    _mapsService.driverRef.child(_user.uid).child("currentJob").onValue.listen((Event e){
+  Future<void> _jobRequestListener() async {
+
+    _mapsService.driverRef.child(_user.uid).child("jobRequest").onValue.listen((Event e) {
       final jobId = e.snapshot.value;
       if (jobId != null) {
+        _requestJobListener = _mapsService.jobsRef.child(jobId.toString()).onValue.listen((Event e){
+          Job j = Job.fromSnapshot(e.snapshot);
+          setState(() {
+            _playNewOrderSound("2");
+            _requestJobBottomCard = BottomCard(
+              key: GlobalKey(),
+              maxHeight: _mapKey.currentContext.size.height,
+              floatingActionButton: _getFloatingButton(),
+              showDestinationAddress: false,
+              showOriginAddress: true,
+              job: j,
+              headerText: 'DIALOGS.JOB_REQUEST.TITLE'.tr(),
+              mainButtonText: 'ACCEPT'.tr(),
+              onMainButtonPressed: () {
+                _acceptJob(j.key);
+              },
+              shrinkWrap: false,
+              isSwipeButton: false,
+            );
+          });
+        });
+      } else {
+        _clearJobRequest();
+      }
+    });
+
+
+  }
+
+  Future<void> _myJobListener() async {
+    _mapsService.driverRef.child(_user.uid).child("jobQueue").onValue.listen((Event e) {
+      final val = e.snapshot.value;
+      if (val != null && val is List && val.length > 0) {
+        final jobId = e.snapshot.value[0];
         _mapsService.jobsRef.child(jobId.toString()).onValue.listen((Event e){
+          print(jobId);
           Job j = Job.fromSnapshot(e.snapshot);
           _setJob(j);
           _onMyJobChanged(j);
@@ -805,6 +834,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
       } else {
         _clearJob();
       }
+      _getPhoneNumberFromUser();
     });
   }
 
