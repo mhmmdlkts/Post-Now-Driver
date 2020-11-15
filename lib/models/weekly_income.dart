@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:postnow/enums/days_enum.dart';
 import 'package:postnow/enums/job_status_enum.dart';
 import 'package:postnow/models/daily_income.dart';
@@ -47,6 +49,12 @@ class WeeklyIncome {
   int getTotalTripsCount() {
     return jobs.length;
   }
+
+  double getMaxIncome() => dailyIncomes.reduce((val1, val2) {
+    if (val1.income < val2.income)
+      return val2;
+    return val1;
+  }).income;
   
   DailyIncome monday() => dailyIncomes[0];
   DailyIncome tuesday() => dailyIncomes[1];

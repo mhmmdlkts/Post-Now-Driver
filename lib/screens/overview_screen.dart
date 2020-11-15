@@ -141,16 +141,18 @@ class _OverviewScreen extends State<OverviewScreen> {
   Widget _getSingleJobWidget(Job j) {
     if (j == null)
       return null;
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => DirectJobOverview(_user, j, widget.bitmapDescriptorOrigin, widget.bitmapDescriptorDestination)),
-        );
-      },
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-        color: Colors.lightBlueAccent,
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+      color: Colors.lightBlueAccent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(18),
+        highlightColor: Colors.lightBlue,
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => DirectJobOverview(_user, j, widget.bitmapDescriptorOrigin, widget.bitmapDescriptorDestination)),
+          );
+        },
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Row(

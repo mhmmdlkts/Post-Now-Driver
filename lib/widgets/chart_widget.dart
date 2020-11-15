@@ -109,7 +109,7 @@ class _ChartWidgetState extends State<ChartWidget> {
           width: width,
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
-            y: widget._weeklyIncome.getTotalIncome(),
+            y: widget._weeklyIncome.getMaxIncome(),
             colors: [Colors.transparent],
           ),
         ),
