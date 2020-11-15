@@ -23,6 +23,7 @@ import 'package:postnow/screens/settings_screen.dart';
 import 'package:postnow/screens/signing_screen.dart';
 import 'package:postnow/Dialogs/message_toast.dart';
 import 'package:postnow/screens/slpash_screen.dart';
+import 'package:postnow/services/chat_service.dart';
 import 'package:postnow/services/global_service.dart';
 import 'package:postnow/services/legal_service.dart';
 import 'package:postnow/services/maps_service.dart';
@@ -75,7 +76,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   GoogleMapController _mapController;
   Marker _packageMarker, _destinationMarker;
   MenuTyp _menuTyp;
-  BottomCard _bottomCard, _requestJobBottomCard;
+  BottomCard _bottomCard, _requestJobBottomCard, _loadingBottomCard;
   StreamSubscription _requestJobListener;
   Position _myPosition;
   String _userPhone;
@@ -160,6 +161,20 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
         _content(),
         _isInitialized ? Container() : SplashScreen(),
       ],
+    );
+  }
+
+  void _initLoadingBottomCard() {
+    _loadingBottomCard = BottomCard(
+      key: GlobalKey(),
+      maxHeight: 1000, // the reason of the bug is maybe beq of this line :)
+      floatingActionButton: _getFloatingButton(),
+      showDestinationAddress: false,
+      showOriginAddress: false,
+      isLoading: true,
+      headerText: 'PLEASE_WAIT'.tr(),
+      shrinkWrap: false,
+      isSwipeButton: false,
     );
   }
 
@@ -262,6 +277,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
 
   void _nextInitializeDone(String code) {
      // print(code + "/" + _initCount.toString());
+    _initLoadingBottomCard();
     _initDone++;
     if (_initCount == _initDone) {
       _myJobListener();
@@ -417,6 +433,8 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     if (_requestJobBottomCard != null)
       return _requestJobBottomCard;
     switch (_menuTyp) {
+      case MenuTyp.LOADING:
+        return _loadingBottomCard;
       case MenuTyp.WAITING:
         return _goOnlineOfflineMenu();
       case MenuTyp.JOB_REQUEST:
@@ -686,6 +704,8 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
 
   _acceptJob(String id) {
     _mapsService.jobsRef.child(id).update({"status": Job.statusToString(Status.ACCEPTED)});
+    if (_job == null)
+      _changeMenuTyp(MenuTyp.LOADING);
     _clearJobRequest();
     // _mapsService.acceptJob(id);
   }
@@ -758,7 +778,6 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   }
 
   _showMessageToast(key, name, message) {
-    print(message);
     VibrationService.vibrateMessage();
     _audioCache.play('sounds/push_notification.mp3');
     showToastWidget(

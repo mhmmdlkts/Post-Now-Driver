@@ -5,4 +5,5 @@ enum MenuTyp {
   IN_ORIGIN_RANGE,
   PACKAGE_PICKED,
   COMPLETED,
+  LOADING
 }
