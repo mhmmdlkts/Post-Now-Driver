@@ -44,7 +44,6 @@ dependencies:
   package_info: ^0.4.3
   store_redirect: ^1.0.2
   flutter_html: ^1.0.2
-  charts_flutter: ^0.9.0
   flutter_speed_dial: ^1.2.5
   url_launcher: ^5.6.0
   swipebuttonflutter: ^0.1.2
@@ -54,6 +53,7 @@ dependencies:
   vibration: ^1.7.1
   flutter_cupertino_settings: ^0.3.1
   flutter_inappwebview: ^4.0.0+4
+  fl_chart: ^0.12.0
 
 dev_dependencies:
   flutter_test:

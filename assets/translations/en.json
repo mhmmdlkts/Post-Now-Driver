@@ -151,14 +151,14 @@
     }
   },
   "ENUMS": {
-    "DAYS": { "COMMENT": "---IM a comment don't translate me--- The Day shorted days should primary",
-      "MONDAY": "Mo",
-      "TUESDAY": "Tu",
-      "WEDNESDAY": "We",
-      "THURSDAY": "Th",
-      "FRIDAY": "Fr",
-      "SATURDAY": "Sa",
-      "SUNDAY": "Su"
+    "DAYS": {
+      "MONDAY": "Monday",
+      "TUESDAY": "Tuesday",
+      "WEDNESDAY": "Wednesday",
+      "THURSDAY": "Thursday",
+      "FRIDAY": "Friday",
+      "SATURDAY": "Saturday",
+      "SUNDAY": "Sunday"
     }
   },
   "DIALOGS": {

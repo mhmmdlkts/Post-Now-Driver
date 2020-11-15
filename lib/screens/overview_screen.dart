@@ -1,13 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:postnow/enums/job_status_enum.dart';
+import 'package:postnow/models/daily_income.dart';
 import 'package:postnow/models/job.dart';
 import 'package:postnow/services/overview_service.dart';
-import 'package:postnow/widgets/weekly_income_chart.dart';
+import 'package:postnow/widgets/chart_widget.dart';
 import 'package:intl/intl.dart';
-import 'package:intl/date_symbol_data_local.dart';
 
 import 'direct_job_overview_screen.dart';
 
@@ -28,7 +29,9 @@ class _OverviewScreen extends State<OverviewScreen> {
   OverviewService _overviewService;
   PageController _pageController;
   int _chosenWeek;
-  double _selectedIncome;
+  DailyIncome _selectedIncome;
+  int _maxPage = 52 * 5;
+  int _lastWeek;
 
   _OverviewScreen(this._user) {
     _overviewService = OverviewService(_user);
@@ -37,8 +40,9 @@ class _OverviewScreen extends State<OverviewScreen> {
   @override
   void initState() {
     super.initState();
-    _chosenWeek = _overviewService.currentWeek();
-    _pageController = PageController(initialPage: _chosenWeek);
+    _lastWeek = _overviewService.currentWeek();
+    _chosenWeek = _lastWeek;
+    _pageController = PageController(initialPage: _getPageIndex());
 
     _initOverview();
   }
@@ -55,15 +59,11 @@ class _OverviewScreen extends State<OverviewScreen> {
           brightness: Brightness.dark,
         ),
         body: PageView.builder(
+          itemCount: _maxPage,
           controller: _pageController,
           onPageChanged: (index) {
-            int extraWeek = 0;
-              if (index < _chosenWeek)
-              extraWeek--;
-              if (index < _chosenWeek)
-              extraWeek++;
-            int year = _pageToYear(index);
-            _chosenWeek = _pageToWeek(index);
+            int year = _pageToYear(_pageToReadable(index));
+            _chosenWeek = _pageToWeek(_pageToReadable(index));
             _initOverview(year: year, week: _chosenWeek);
           },
           itemBuilder: (context, index) {
@@ -72,66 +72,65 @@ class _OverviewScreen extends State<OverviewScreen> {
         )
     );
   }
+
+  int _getPageIndex() => _maxPage + _lastWeek - _chosenWeek;
+  int _pageToReadable(int page) => _lastWeek + 1 + page - _maxPage;
+
   _getContent() => ListView(
     shrinkWrap: true,
     padding: EdgeInsets.only(left: 8, right: 8, top: 10),
     children: [
-      Container(height: 15,),
-      Text('OVERVIEW.TH_WEEK'.tr(namedArgs: {'week': _chosenWeek.toString()}), style: TextStyle(fontSize: 36), textAlign: TextAlign.center),
-      Container(height: 15,),
-      Stack(
-        alignment: Alignment.center,
-        children: [
-          Opacity(
-            opacity: !_isInitialized()?1:0,
-            child: Container(child: LinearProgressIndicator(minHeight: 12), padding: EdgeInsets.all(20),)
-          ),Opacity(
-            opacity: _isInitialized()?1:0,
-            child: Text(_overviewService.getTotalIncome().toStringAsFixed(2) + " €", style: TextStyle(fontSize: 36), textAlign: TextAlign.center),
-          ),
-        ],
-      ),
-      Opacity(
-        opacity: _selectedIncome != null?1:0,
-        child: Text(_selectedIncome.toString() + " €", style: TextStyle(fontSize: 20), textAlign: TextAlign.center),
-      ),
-      SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height/4,
-          child: Container(
-            padding: EdgeInsets.only(left: 5, bottom: 5),
-            child: WeeklyIncomeChart(_overviewService.weeklyIncome, (val) {
-              setState(() {
-                _selectedIncome = val;
-              });
-            }),
-          )
-      ),
+      ChartWidget(_overviewService.weeklyIncome, _chosenWeek, (val) {
+        setState(() {
+          _selectedIncome = val;
+        });
+      }),
       _isInitialized()?Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              children: [
-                Text(_overviewService.getTotalTripsCount().toString(), style: TextStyle(fontSize: 36), textAlign: TextAlign.center),
-                Text("OVERVIEW.TOTAL_TRIP_COUNT".tr(), style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
-              ],
+            Flexible(
+              flex: 1,
+              child: Card(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+                  color: Colors.lightBlue,
+                  child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Center(
+                        child: Column(
+                          children: [
+                            Text(_overviewService.getTotalTripsCount().toString(), style: TextStyle(fontSize: 36, color: Colors.white), textAlign: TextAlign.center),
+                            Text("OVERVIEW.TOTAL_TRIP_COUNT".tr(), style: TextStyle(fontSize: 16, color: Colors.white), textAlign: TextAlign.center),
+                          ],
+                        ),
+                      )
+                  )
+              ),
             ),
-            Column(
-              children: [
-                Text(_overviewService.getTotalDriveTime(), style: TextStyle(fontSize: 36), textAlign: TextAlign.center),
-                Text("OVERVIEW.TOTAL_DRIVE_TIME".tr(), style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
-              ],
+            Flexible(
+              flex: 1,
+              child: Card(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+                  color: Colors.lightBlue,
+                  child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Center(
+                        child: Column(
+                          children: [
+                            Text(_overviewService.getTotalDriveTime(), style: TextStyle(fontSize: 36, color: Colors.white), textAlign: TextAlign.center),
+                            Text("OVERVIEW.TOTAL_DRIVE_TIME".tr(), style: TextStyle(fontSize: 16, color: Colors.white), textAlign: TextAlign.center),
+                          ],
+                        ),
+                      )
+                  )
+              ),
             ),
           ],
         ),
       ):Container(),
-      _divider(),
-      ListView.separated(
+      ListView.builder(
+        reverse: true,
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        separatorBuilder: (context, index) => _divider(),
         itemCount: _overviewService.getTotalTripsCount(),
         itemBuilder: (BuildContext ctxt, int index) => _getSingleJobWidget(_overviewService.getJob(index)),
       ),
@@ -139,34 +138,33 @@ class _OverviewScreen extends State<OverviewScreen> {
     ],
   );
 
-  Widget _divider() => Divider(
-    height: 0,
-    thickness: 1,
-  );
-
   Widget _getSingleJobWidget(Job j) {
     if (j == null)
       return null;
     return InkWell(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => DirectJobOverview(_user, j, widget.bitmapDescriptorOrigin, widget.bitmapDescriptorDestination)),
-          );
-        },
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 5, vertical: 20),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => DirectJobOverview(_user, j, widget.bitmapDescriptorOrigin, widget.bitmapDescriptorDestination)),
+        );
+      },
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+        color: Colors.lightBlueAccent,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(getReadableFinishDay(j.acceptTime)),
+              Text(getReadableFinishDay(j.acceptTime), style: TextStyle(color: Colors.white)),
               if (j.status == Status.FINISHED)
-                Text(j.price.driverBecomes.toString() + " €")
+                Text(j.price.driverBecomes.toString() + " €", style: TextStyle(color: Colors.white))
               else
-                Text(j.getStatusMessageKey().tr())
+                Text(j.getStatusMessageKey().tr(), style: TextStyle(color: Colors.white))
             ],
-          ),
+          )
         )
+      )
     );
   }
 
