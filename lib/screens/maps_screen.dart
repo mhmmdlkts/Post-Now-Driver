@@ -266,7 +266,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
               ],
             ),
           ),
-        floatingActionButton: _bottomCard == null && _requestJobBottomCard == null ? _currentPositionFButton() : null,
+        floatingActionButton: _bottomCard == null && _menuTyp != MenuTyp.LOADING && _requestJobBottomCard == null ? _currentPositionFButton() : null,
       )
   );
 
