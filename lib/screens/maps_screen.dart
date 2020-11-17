@@ -23,7 +23,6 @@ import 'package:postnow/screens/settings_screen.dart';
 import 'package:postnow/screens/signing_screen.dart';
 import 'package:postnow/Dialogs/message_toast.dart';
 import 'package:postnow/screens/slpash_screen.dart';
-import 'package:postnow/services/chat_service.dart';
 import 'package:postnow/services/global_service.dart';
 import 'package:postnow/services/legal_service.dart';
 import 'package:postnow/services/maps_service.dart';
@@ -329,6 +328,8 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     Future.delayed(Duration(milliseconds: delayMS), () {
       if (mounted) setState(() {
         _onlineOfflineButtonState = ButtonState.idle;
+        if (!_isInitialized)
+          return;
         if (_onlineStatus == OnlineStatus.ONLINE) {
           _audioCache.play('sounds/positive.mp3');
           VibrationService.vibrateGoOnline();
@@ -450,14 +451,14 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   _launchNavigation(Job job) async {
     final availableMaps = await maps.MapLauncher.installedMaps;
 
-    LatLng currentTarget = _menuTyp == MenuTyp.PACKAGE_PICKED? job.getDestination() : job.getOrigin();
+    Address currentTarget = _menuTyp == MenuTyp.PACKAGE_PICKED? job.destinationAddress : job.originAddress;
 
     if (await maps.MapLauncher.isMapAvailable(maps.MapType.google) && currentTarget != null) {
       await maps.MapLauncher.launchMap(
-        description: job.getOriginAddress(),
+        description: currentTarget.doorName,
         mapType: maps.MapType.google,
-        coords: maps.Coords(currentTarget.latitude, currentTarget.longitude),
-        title: job.name,
+        coords: maps.Coords(47.8, 13.0),
+        title: currentTarget.getAddress(),
       );
     }
   }
@@ -555,11 +556,9 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   FloatingActionButton _getFloatingButton() {
     if (_locationFocused && !_isOnJob())
       return null;
-    else if (!_locationFocused)
-      return _currentPositionFButton();
     else if (_isOnJob())
       return _navigateFButton();
-    return null;
+    return _currentPositionFButton();
   }
 
   void _changeMenuTyp(menuTyp, {bool forceRefresh = false}) async {
@@ -664,7 +663,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   );
 
   bool _isOnJob() {
-    return _menuTyp == MenuTyp.ON_JOB;
+    return _menuTyp == MenuTyp.ON_JOB || _menuTyp == MenuTyp.PACKAGE_PICKED;
   }
 
   bool _isInRange(LatLng point) {
@@ -673,7 +672,6 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
 
   _openMessageScreen(key, name) async {
     bool _isDriverApp = await GlobalService.isDriverApp();
-    print("beklee: " + _isDriverApp.toString());
     await Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => ChatScreen(key, name, _isDriverApp))
@@ -845,7 +843,6 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
       if (val != null && val is List && val.length > 0) {
         final jobId = e.snapshot.value[0];
         _mapsService.jobsRef.child(jobId.toString()).onValue.listen((Event e){
-          print(jobId);
           Job j = Job.fromSnapshot(e.snapshot);
           _setJob(j);
           _onMyJobChanged(j);
@@ -902,7 +899,6 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
 
   String _getReadableTimeStamp() {
     final DateFormat formatter = DateFormat(DATE_FORMAT);
-    print(formatter.format(DateTime.now()));
     return formatter.format(DateTime.now());
   }
 }

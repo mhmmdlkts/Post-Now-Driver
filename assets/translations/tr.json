@@ -1,60 +1,106 @@
 {
   "APP_NAME": "Post Now Driver",
-  "OK": "Tamam",
-  "CANCEL": "İptal",
-  "ACCEPT": "Onayla",
-  "CLOSE": "Kapat",
-  "ERROR": "Hata",
-  "SETTINGS": "Ayarlar",
-  "THANKS": "Teşekkürler",
-  "SEND_MESSAGE": "Mesaj Gönder",
+  "OK": "OK",
+  "NO": "No",
+  "YES": "Yes",
+  "CANCEL": "Cancel",
+  "ACCEPT": "Accept",
+  "WARNING": "Dikkat",
+  "CLOSE": "Close",
+  "ERROR": "Error",
+  "FAILED": "Failed",
+  "SETTINGS": "Settings",
+  "THANKS": "Thanks",
+  "SEND_MESSAGE": "Send a message",
+  "PLEASE_WAIT": "Please wait",
   "LOGIN": {
-    "EMAIL_FIELD_HINT": "E-posta adresinizi giriniz",
-    "EMAIL_FIELD_VALIDATOR_ENTER_NAME": "E-posta adresinizi giriniz",
-    "PASSWORD_FIELD_HINT": "Şifrenizi giriniz",
-    "PASSWORD_FIELD_VALIDATOR_ENTER_NAME": "Şifrenizi giriniz",
-    "NAME_FIELD_HINT": "İsminizi giriniz",
-    "NAME_FIELD_VALIDATOR_ENTER_NAME": "Lütfen isminizi giriniz",
-    "SURNAME_FIELD_HINT": "Soyisminizi giriniz",
-    "SURNAME_FIELD_VALIDATOR_ENTER_NAME": "Lütfen soyisminizi giriniz",
-    "PHONE_FIELD_HINT": "Örnek: +436601231212",
-    "PHONE_FIELD_VALIDATOR_ENTER_NAME": "Lütfen telefon numaranızı giriniz",
-    "SMS_CODE_FIELD_HINT": "Örnek: 123456",
-    "SMS_CODE_FIELD_VALIDATOR_ENTER_NAME": "Lütfen gelen doğrulama kodunu giriniz",
-    "SIGN_IN": "Giriş yap",
-    "SIGN_UP": "Kayıt ol",
+    "NAME_FIELD_TITLE": "Name",
+    "NAME_FIELD_HINT": "Your Name",
+    "NAME_FIELD_VALIDATOR_ENTER_NAME": "Enter your name.",
+    "SURNAME_FIELD_HINT": "Surname",
+    "SURNAME_FIELD_VALIDATOR_ENTER_NAME": "Enter your surname.",
+    "PHONE_FIELD_HINT": "Phone Number Example: +436601231212",
+    "PHONE_FIELD_VALIDATOR_ENTER_NAME": "Enter your phone number.",
+    "SMS_CODE_FIELD_HINT": "Example: 123456",
+    "SMS_CODE_FIELD_VALIDATOR_ENTER_NAME": "Enter your validation code",
+    "TITLE": "Welcome Back",
+    "SUBTITLE": "Hello there, sign in to continue!",
+    "EMAIL_FIELD_TITLE": "Email",
+    "EMAIL_FIELD_HINT": "Your email",
+    "EMAIL_FIELD_VALIDATOR_ENTER_NAME": "Please enter your email address.",
+    "PASSWORD_FIELD_TITLE": "Password",
+    "PASSWORD_FIELD_HINT": "Your Password",
+    "PASSWORD_FIELD_VALIDATOR_ENTER_NAME": "Please enter your password.",
+    "AGREE_TERMS_AND_POLICY": "By sign in, you agree to our Terms & Privacy Policy",
+    "CONTINUE_BUTTON": "Sign In",
+    "DON'T_HAVE_AN_ACCOUNT": "Don't have an account?",
+    "SIGN_IN": "Sign in",
+    "SIGN_UP": "Sign up",
+    "LOGIN_PROBLEMS": "Any problem?",
+    "AUTO_FILL_EMAIL_SUBJECT": "I have a problem by signing in the post now driver app",
     "ERROR_MESSAGES" : {
-      "ERROR_INVALID_EMAIL" : "E-posta adresiniz geçersiz.",
-      "ERROR_WRONG_PASSWORD" : "Girdiğiniz şifre yanlış.",
-      "ERROR_USER_NOT_FOUND" : "Bu e-posta adresiyle kayıtlı bir kullanıcı bulunmamaktadır.",
-      "ERROR_USER_DISABLED" : "Bu e-posta adresiyle kayıtlı kullanıcı hizmet dışı edilmiştir.",
-      "ERROR_TOO_MANY_REQUESTS" : "Çok fazla deneme yaptınız. Sonra tekrar deneyiniz.",
-      "ERROR_OPERATION_NOT_ALLOWED" : "E-posta ve şifre ile oturum açma etkinleştirilmedi.",
-      "ERROR_EMAIL_ALREADY_IN_USE" : "Bu e-posta adresiyle kayıtlı başka bir kullanıcı var."
+      "ERROR_INVALID_EMAIL" : "Your Email address appears to be invalid.",
+      "ERROR_WRONG_PASSWORD" : "The password you entered is incorrect.",
+      "ERROR_USER_NOT_FOUND" : "A user with this email address does not exist.",
+      "ERROR_USER_DISABLED" : "User with this Email adress has been disabled.",
+      "ERROR_TOO_MANY_REQUESTS" : "Too many requests try again later.",
+      "ERROR_OPERATION_NOT_ALLOWED" : "Signing in with Email and password is not enabled.",
+      "ERROR_EMAIL_ALREADY_IN_USE" : "The email address is already in use by another user."
     }
   },
+  "CONTACT_FORM": {
+    "TITLE": "Contact Form",
+    "NAME": {
+      "LABEL": "Name",
+      "HINT_LABEL": "Enter your name"
+    },
+    "EMAIL": {
+      "LABEL": "Email",
+      "HINT_LABEL": "Enter your email"
+    },
+    "PHONE": {
+      "LABEL": "Phone",
+      "HINT_LABEL": "Enter your phone"
+    },
+    "SUBJECT": {
+      "LABEL": "Subject",
+      "HINT_LABEL": "Enter the subject"
+    },
+    "CONTENT": {
+      "LABEL": "Content",
+      "HINT_LABEL": "Enter the content"
+    },
+    "SEND": "Send"
+  },
+  "DIRECT_JOB_OVERVIEW": {
+    "ANY_PROBLEMS": "Any problems with this job?"
+  },
   "MAPS": {
-    "GO_ONLINE" : "Online Ol",
-    "GO_OFFLINE" : "Offline Ol",
-    "TAKE_PACKAGE" : "Paketi al",
-    "NO_LOCATION_INFORMATION_MESSAGE" : "Konum bilgisine ulaşılamıyor",
+    "GO_ONLINE" : "Go Online",
+    "GO_OFFLINE" : "Go Offline",
+    "YOU_ARE_ONLINE" : "You are online",
+    "YOU_ARE_OFFLINE" : "You are offline",
+    "TAKE_PACKAGE" : "Pick up package",
+    "NO_LOCATION_INFORMATION_MESSAGE" : "Location information is not available.",
     "SIDE_MENU": {
       "OVERVIEW": "Gecmis auftraglar",
-      "LEGAL": "Legal",
-      "CONTACT": "Iletisim",
-      "SIGN_OUT": "Çıkış yap"
+      "PRIVACY_POLICY": "Privacy Policy",
+      "SOFTWARE_LICENCES": "Software Licences",
+      "CONTACT": "Contact",
+      "SIGN_OUT": "Sign out"
     },
     "BOTTOM_MENUS": {
       "ON_JOB": {
-        "YOUR_CUSTOMER": "Müşteri: {name}",
-        "PACKAGE_ADDRESS": "Gönderici Adresi: {address}\nAsagi gelecek\nPacket will gived by Name: {name}",
-        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Gönderici Adresi: {address}\nPacket will gived by Name: {name}"
+        "CASH": "Müsteri nakit ödeme yapmayi tercih etti. Müsteriden {cash} € tahsil ediniz.",
+        "YOUR_CUSTOMER": "Customer: {name}",
+        "PACKAGE_ADDRESS": "Sender adress: {address}\nAsagi gelecek\nPacket will gived by Name: {name}",
+        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Sender adress: {address}\nPacket will gived by Name: {name}"
       },
-      "PACKAGE_PICKED": {
-        "YOUR_CUSTOMER": "Müşteri: {name}",
-        "PACKAGE_ADDRESS": "Alici Adresi: {address}\nAsagi gelecek\nPacket will picked by Name: {name}",
-        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Alici Adresi: {address}\nPacket will picked by Name: {name}",
-        "LET_HIM_SIGNING": "İmzala {name}"
+      "PACKAGE_PICKED" : {
+        "YOUR_CUSTOMER": "Customer: {name}",
+        "PACKAGE_ADDRESS": "Receiver adress: {address}\nAsagi gelecek\nPacket will picked by Name: {name}",
+        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Receiver adress: {address}\nPacket will picked by Name: {name}",
+        "LET_HIM_SIGNING": "Let {name} sign"
       }
     }
   },
@@ -66,41 +112,98 @@
       "CONTACT": "Contact"
     }
   },
+  "SETTINGS_SCREEN": {
+    "ACCOUNT": {
+      "TITLE": "Account",
+      "NAME_HINT": "Name",
+      "PHONE_HINT": "Phone",
+      "EMAIL_HINT": "Email"
+    },
+    "SOFTWARE_LICENCES": "License",
+    "SIGN_OUT": "Logout"
+  },
   "CHAT": {
-    "TYPE_MESSAGE_HERE": "Mesajınızı buraya giriniz..."
+    "TYPE_MESSAGE_HERE": "Enter your message..."
   },
   "SIGNING": {
-    "CLEAR": "Temizle",
-    "SIGN": "İmzala",
-    "SIGN_TERMS": "Through this signature I hereby acknowledge that I have received the delivery safely and without any damage.”"
+    "CLEAR": "Clear",
+    "SIGN": "Sign",
+    "SIGN_TERMS": "Through this signature I hereby acknowledge that I have received the delivery safely and without any damage."
   },
   "OVERVIEW": {
     "TITLE": "Gecmis auftraglar",
-    "TH_WEEK": "{week}. Hafta",
+    "TH_WEEK": "{week}. Week",
     "TOTAL_TRIP_COUNT": "Total Trip Count",
-    "TOTAL_DRIVE_TIME": "Total Drive Time"
+    "TOTAL_DRIVE_TIME": "Total Drive Time",
+    "SINGLE_ITEM": {
+      "DRIVER_CANCELED": "Driver Canceled",
+      "CUSTOMER_CANCELED": "Customer Canceled"
+    }
   },
   "MODELS": {
+    "JOB": {
+      "WAITING": "Waiting for carrier.",
+      "ON_ROAD": "The carrier accepted your order.",
+      "PACKAGE_PICKED": "The carrier picked up the package.",
+      "FINISHED": "Your package has been delivered.",
+      "CANCELLED": "Order has been cancelled.",
+      "DRIVER_CANCELED": "Driver Canceled",
+      "CUSTOMER_CANCELED": "Customer Canceled"
+    }
   },
   "ENUMS": {
-    "DAYS": { "COMMENT": "---IM a comment don't translate me--- The Day shorted days should primary",
-      "MONDAY": "Pa",
-      "TUESDAY": "Sa",
-      "WEDNESDAY": "Ça",
-      "THURSDAY": "Pe",
-      "FRIDAY": "Cu",
-      "SATURDAY": "Ct",
-      "SUNDAY": "Pz"
+    "DAYS": {
+      "MONDAY": "Monday",
+      "TUESDAY": "Tuesday",
+      "WEDNESDAY": "Wednesday",
+      "THURSDAY": "Thursday",
+      "FRIDAY": "Friday",
+      "SATURDAY": "Saturday",
+      "SUNDAY": "Sunday"
     }
   },
   "DIALOGS": {
+    "PERMISSIONTYPENUM": {
+      "CAMERA": {
+        "TITLE": "Kamera izni verin",
+        "MESSAGE": "Fotograf cekebilmek icin kameraniza erisebilmemiz gerek",
+        "ALLOW": "Izin ver"
+      },
+      "LOCATION": {
+        "TITLE": "Konum izni verin",
+        "MESSAGE": "Uyulamayi daha iyi kullanabilmek icin konum izni verin",
+        "ALLOW": "Izin ver"
+      }
+    },
+    "CASH_WARN": {
+      "TITLE": "Nakit ücreti {cash} €",
+      "MESSAGE": "Müsteriden {cash} € luk hizmet bedelini tahsil ettim."
+    },
+    "I_AM_BACK": {
+      "TITLE": "Seni bekliyoruz",
+      "MESSAGE": "Özlendin kral nerdesin",
+      "POSITIVE": "Geldim"
+    },
     "JOB_REQUEST": {
-      "TITLE": "Yeni sipariş!"
+      "TITLE": "New Delivery!"
     },
     "UPDATE_AVAILABLE": {
       "TITLE": "Yeni Güncelleme Mevcut",
       "BODY": "Uyulamayi kullanabilmek icin en güncel sürümü kullaniyor olmaniz gerek.",
       "BUTTON": "Güncelle"
+    },
+    "ARE_YOU_SURE_CANCEL": {
+      "CONTENT_WITH_AMOUNT": "Iptal etmek istedigineemin misin? Senden {amount} para kesebiliriz aglama sonra.",
+      "CONTENT": "Iptal etmek istedigineemin misin?"
+    },
+    "JOB_SETTINGS": {
+      "CANCEL_JOB" : "Yolculugu iptal et"
+    },
+    "SETTINGS": {
+      "YOU_CANT_CHANGE": {
+        "MESSAGE": "Bu alani degiistirmeye ihtiyaciniz varsa bizimle letisime gecin",
+        "CONTACT": "Iletisime gec"
+      }
     }
   }
 }
