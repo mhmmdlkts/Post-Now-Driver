@@ -31,8 +31,9 @@ class _FirstScreen extends State<FirstScreen> {
     if (needsUpdate == null || needsUpdate)
       return SplashScreen();
 
-    if (widget.snapshot.hasData)
+    if (widget.snapshot.hasData) {
       return MapsScreen(widget.snapshot.data);
+    }
     return AuthScreen();
   }
 

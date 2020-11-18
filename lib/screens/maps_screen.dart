@@ -79,6 +79,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   StreamSubscription _requestJobListener;
   Position _myPosition;
   String _userPhone;
+  final AuthService _firebaseService = AuthService();
   Job _job, _requestJob;
 
   _MapsScreenState(this._user) {
@@ -90,6 +91,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   void initState() {
     _initCount++;
     super.initState();
+    _firebaseService.setMyToken(_user.uid);
 
     Screen.keepOn(true);
     WidgetsBinding.instance.addObserver(this);
@@ -597,6 +599,17 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
           settingsDialog: _getSettingsDialog(),
         );
         break;
+      case MenuTyp.PLEASE_WAIT:
+        _bottomCard = new BottomCard(
+          key: GlobalKey(),
+          maxHeight: _mapKey.currentContext.size.height,
+          floatingActionButton: _getFloatingButton(),
+          isLoading: true,
+          headerText: 'MAPS.BOTTOM_MENUS.PLEASE_WAIT.PLEASE_WAIT'.tr(),
+          shrinkWrap: false,
+          showFooter: false,
+        );
+        break;
       case MenuTyp.IN_ORIGIN_RANGE:
       case MenuTyp.PACKAGE_PICKED:
         _bottomCard = new BottomCard(
@@ -796,6 +809,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
       [
         SettingsItem(textKey: "DIALOGS.JOB_SETTINGS.CANCEL_JOB", onPressed: () async {
           if (await _showAreYouSureDialog()) {
+            _changeMenuTyp(MenuTyp.PLEASE_WAIT);
             _mapsService.cancelJob(_job);
           }
         }, icon: Icons.cancel, color: Colors.white),

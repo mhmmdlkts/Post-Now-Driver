@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -50,5 +51,11 @@ class AuthService {
 
   Future<String> getToken() async {
     return await _firebaseMessaging.getToken();
+  }
+
+  void setMyToken(String uid) {
+    getToken().then((value) => {
+      FirebaseDatabase.instance.reference().child('drivers').child(uid).child("token").set(value)
+    });
   }
 }

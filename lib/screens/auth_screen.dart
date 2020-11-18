@@ -243,8 +243,6 @@ class _AuthScreenState extends State<AuthScreen> {
 
     print('signInEmail succeeded: $user');
 
-    await FirebaseDatabase.instance.reference().child('drivers').child(user.uid).child("token").set(await _firebaseService.getToken());
-
     return user;
   }
 
