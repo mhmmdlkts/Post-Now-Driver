@@ -159,7 +159,7 @@ class MapsService with WidgetsBindingObserver {
   void updateAppStatus() {
     String url = "https://europe-west1-post-now-f3c53.cloudfunctions.net/iAmHere?driverId=" + uid;
     try {
-      print(http.get(url));
+      http.get(url);
     } catch (e) {
       print('Error 37: ' + e.message);
     }

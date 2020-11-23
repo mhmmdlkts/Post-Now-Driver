@@ -2,13 +2,16 @@ import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:postnow/decoration/my_colors.dart';
 import 'package:postnow/dialogs/settings_dialog.dart';
 import 'package:postnow/enums/job_status_enum.dart';
 import 'package:postnow/models/job.dart';
 import 'package:postnow/presentation/my_flutter_app_icons.dart';
 import 'package:postnow/screens/chat_screen.dart';
+import 'package:postnow/screens/shopping_list_view_screen.dart';
 import 'package:postnow/services/chat_service.dart';
 import 'package:postnow/services/global_service.dart';
+import 'package:postnow/services/shopping_list_service.dart';
 import 'package:swipebuttonflutter/swipebuttonflutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -29,6 +32,7 @@ class BottomCard extends StatefulWidget {
   final String headerText;
   final String phone;
   final String mainButtonText;
+  final bool showShopListButton;
   final bool isSwipeButton;
   final bool isLoading;
   final bool defaultOpen;
@@ -54,6 +58,7 @@ class BottomCard extends StatefulWidget {
     this.defaultOpen = false,
     this.onMainButtonPressed,
     this.onCancelButtonPressed,
+    this.showShopListButton = false,
     this.showFooter = true,
     this.showCash = false,
     this.settingsDialog,
@@ -69,6 +74,7 @@ class BottomState extends State<BottomCard> {
   final GlobalKey _contentKey = GlobalKey();
   final GlobalKey _headerKey = GlobalKey();
   ChatService _chatService;
+  ShoppingListService _listService;
 
   BottomState();
 
@@ -76,8 +82,10 @@ class BottomState extends State<BottomCard> {
   void initState() {
     super.initState();
 
-    if (widget.job != null)
+    if (widget.job != null) {
       _chatService = ChatService(widget.job.key, _onNewMessage);
+      _listService = ShoppingListService(widget.job.key, _onListChanged);
+    }
   }
 
   @override
@@ -111,7 +119,14 @@ class BottomState extends State<BottomCard> {
                   _addressWidget(true),
                   (widget.showOriginAddress || widget.showDestinationAddress) && widget.onMainButtonPressed != null ? Divider(thickness: 1, height: 25,) : Container(),
                   _getBody(),
-                  _getMainButton(widget.isSwipeButton),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      widget.showShopListButton && _listService!=null?Padding(padding: EdgeInsets.only(right: 10), child: _shoppingListFab(_listService.remain)):Container(),
+                      Flexible( child: _getMainButton(widget.isSwipeButton))
+                    ],
+                  ),
                   widget.job != null && widget.showFooter ? Divider(thickness: 1, height: 25,) : Container(),
                   _getCustomerName(),
                   Container(height: widget.body==null?10 + MediaQuery.of(context).padding.bottom:0),
@@ -198,15 +213,21 @@ class BottomState extends State<BottomCard> {
     bool _isDriverApp = await GlobalService.isDriverApp();
     await Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => ChatScreen(widget.job.key, widget.chatName, _isDriverApp))
+        MaterialPageRoute(builder: (context) => ChatScreen(widget.job.key, widget.chatName, _isDriverApp, listService: _listService,))
     );
   }
 
-  _onNewMessage() {
-    setState(() {
-
-    });
+  void _openShoppingListViewScreen() async {
+    if (widget.job == null)
+      return;
+    await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ShoppingListViewScreen(_listService, true))
+    );
   }
+
+  _onNewMessage() => setState(() {});
+  _onListChanged() => setState(() {});
 
   Widget _getHeader() {
     return Container(
@@ -279,17 +300,21 @@ class BottomState extends State<BottomCard> {
     if (widget.onMainButtonPressed == null)
       return Container();
     if (isSwipeButton) {
-      return SwipingButton(
-        text: widget.mainButtonText,
-        onSwipeCallback: () {
-          widget.onMainButtonPressed.call();
-        },
-        height: 56,
-        swipeButtonColor: Colors.black,
-        backgroundColor: Colors.lightBlueAccent,
+      return AbsorbPointer(
+        absorbing: false,
+        child: SwipingButton(
+          text: widget.mainButtonText,
+          onSwipeCallback: () {
+            widget.onMainButtonPressed.call();
+          },
+          height: 56,
+          swipeButtonColor: Colors.black,
+          backgroundColor: Colors.lightBlueAccent,
+        )
       );
     }
-    return ButtonTheme(
+    return SizedBox(
+      width: double.infinity, // match_parent
       height: 56,
       child: RaisedButton (
         color: Colors.lightBlueAccent,
@@ -392,6 +417,46 @@ class BottomState extends State<BottomCard> {
         ],
       ),
       onPressed: _openMessageScreen,
+    );
+  }
+
+  Widget _shoppingListFab(int itemsSize) {
+    return FloatingActionButton(
+      elevation: 1,
+      heroTag: "shopping_fab",
+      backgroundColor: primaryBlue,
+      child: Stack(
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: Icon(Icons.format_list_numbered_rounded, color: Colors.white,),
+          ),
+          (itemsSize > 0) ?
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Container(
+              width: 24,
+              height: 24,
+              child: Center(
+                child: Text(itemsSize.toString(),style: TextStyle(color: Colors.white),),
+              ),
+              decoration: new BoxDecoration(
+                color: Colors.orangeAccent,
+                borderRadius: new BorderRadius.all(const Radius.circular(50)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+              ),
+            ),
+          ) : Container(),
+        ],
+      ),
+      onPressed: _openShoppingListViewScreen,
     );
   }
 

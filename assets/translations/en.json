@@ -112,6 +112,9 @@
       "CONTACT": "Contact"
     }
   },
+  "SHOPPING_LIST": {
+    "TITLE": "Shopping List"
+  },
   "SETTINGS_SCREEN": {
     "ACCOUNT": {
       "TITLE": "Account",

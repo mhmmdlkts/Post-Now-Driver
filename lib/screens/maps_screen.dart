@@ -199,6 +199,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
                       .size
                       .height,
                   child: GoogleMap(
+                    compassEnabled: false,
                     key: _mapKey,
                     zoomControlsEnabled: false,
                     mapType: MapType.normal,
@@ -451,7 +452,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   }
 
   _launchNavigation(Job job) async {
-    final availableMaps = await maps.MapLauncher.installedMaps;
+    // final availableMaps = await maps.MapLauncher.installedMaps;
 
     Address currentTarget = _menuTyp == MenuTyp.PACKAGE_PICKED? job.destinationAddress : job.originAddress;
 
@@ -459,7 +460,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
       await maps.MapLauncher.launchMap(
         description: currentTarget.doorName,
         mapType: maps.MapType.google,
-        coords: maps.Coords(47.8, 13.0),
+        coords: maps.Coords(currentTarget.coordinates.latitude, currentTarget.coordinates.longitude),
         title: currentTarget.getAddress(),
       );
     }
@@ -590,6 +591,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
           showDestinationAddress: true,
           showOriginAddress: true,
           chatName: _job.name,
+          showShopListButton: true,
           phone: _userPhone,
           showCash: true,
           job: _job,
@@ -620,6 +622,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
           showDestinationAddress: true,
           showOriginAddress: false,
           chatName: _job.name,
+          showShopListButton: true,
           phone: _userPhone,
           job: _job,
           mainButtonText: 'MAPS.BOTTOM_MENUS.PACKAGE_PICKED.LET_HIM_SIGNING'.tr(namedArgs: {'name': _job.destinationAddress.doorName}),
