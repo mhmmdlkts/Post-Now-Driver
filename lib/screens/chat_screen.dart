@@ -62,7 +62,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  _onNewMessage() async { // TODO belki yeni gelen mesaj daha listede yok ayar cekmen gerekebilir
+  _onNewMessage() async {
     setState(() { });
     await Future.delayed(Duration(milliseconds: 30));
     setState(() {
@@ -104,7 +104,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
 
   Widget _conversationField() => Container(
     height: MediaQuery.of(context).size.height,
-    child: Column(
+    child: ListView(
       children: [
         _conversationBubbleShoppingList(widget.listService.shoppingList),
         ListView.builder (

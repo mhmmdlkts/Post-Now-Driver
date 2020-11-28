@@ -28,7 +28,7 @@ class _FirstScreen extends State<FirstScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (needsUpdate == null || needsUpdate)
+    if (needsUpdate??true)
       return SplashScreen();
 
     if (widget.snapshot.hasData) {
@@ -39,14 +39,14 @@ class _FirstScreen extends State<FirstScreen> {
 
   checkUpdates() async {
     final RemoteConfig remoteConfig = await RemoteConfig.instance;
-    await remoteConfig.fetch();
+    await remoteConfig.fetch().then((value) {}).catchError((onError)=>print(onError));
     await remoteConfig.activateFetched();
-
     final onlineVersion = remoteConfig.getInt(FIREBASE_REMOTE_CONFIG_VERSION_KEY);
     final int localVersion = int.parse((await PackageInfo.fromPlatform()).buildNumber);
 
-    needsUpdate = localVersion < onlineVersion;
-    if (mounted) setState(() { });
+    setState(() {
+      needsUpdate = localVersion < onlineVersion;
+    });
 
     if (needsUpdate)
       _firstScreenService.showUpdateAvailableDialog(context);

@@ -591,7 +591,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
           showDestinationAddress: true,
           showOriginAddress: true,
           chatName: _job.name,
-          showShopListButton: true,
+          showShopListButton: _job.shoppingList != null && _job.shoppingList.isNotEmpty,
           phone: _userPhone,
           showCash: true,
           job: _job,
@@ -622,7 +622,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
           showDestinationAddress: true,
           showOriginAddress: false,
           chatName: _job.name,
-          showShopListButton: true,
+          showShopListButton: _job.shoppingList != null && _job.shoppingList.isNotEmpty,
           phone: _userPhone,
           job: _job,
           mainButtonText: 'MAPS.BOTTOM_MENUS.PACKAGE_PICKED.LET_HIM_SIGNING'.tr(namedArgs: {'name': _job.destinationAddress.doorName}),
@@ -766,6 +766,8 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   }
 
   _getPhoneNumberFromUser() {
+    if (_job == null)
+      return;
     _mapsService.getPhoneNumberFromUser(_job).then((value) => {
       _userPhone = value,
       _refreshBottomCard()
@@ -850,8 +852,6 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
         _clearJobRequest();
       }
     });
-
-
   }
 
   Future<void> _myJobListener() async {
