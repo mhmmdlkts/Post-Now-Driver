@@ -187,7 +187,6 @@ class _ChartWidgetState extends State<ChartWidget> {
   }
 
   Future<dynamic> refreshState() async {
-    print('a');
     setState(() {});
     await Future<dynamic>.delayed(animDuration + const Duration(milliseconds: 50));
     if (!widget._weeklyIncome.isInitialized) {

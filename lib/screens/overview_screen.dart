@@ -40,7 +40,7 @@ class _OverviewScreen extends State<OverviewScreen> {
   @override
   void initState() {
     super.initState();
-    _lastWeek = _overviewService.currentWeek();
+    _lastWeek = _overviewService.dayOfWeek();
     _chosenWeek = _lastWeek;
     _pageController = PageController(initialPage: _getPageIndex());
 
@@ -176,11 +176,17 @@ class _OverviewScreen extends State<OverviewScreen> {
   }
 
   int _pageToYear(page) {
-    return _overviewService.currentYear() + (page/(proYearWeekCount + 1)).floor();
+    final a = _overviewService.currentYear() + ((page-1)/(proYearWeekCount)).floor();
+    return a;
   }
 
   int _pageToWeek(page) {
-    return (page % (proYearWeekCount));
+    int year = _pageToYear(page);
+    int a = page;// % (_overviewService.getYearsWeekCount(year));
+    for (int i = _overviewService.currentYear()-1; i >= year; i--) {
+      a += _overviewService.getYearsWeekCount(i);
+    }
+    return a;
   }
 
   _initOverview({int year, int week, isNext = false, isPrev = false}) {
