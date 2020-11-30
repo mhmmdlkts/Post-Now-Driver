@@ -81,7 +81,6 @@ class OverviewComponent extends StatelessWidget {
   }
 
   Color _getStatusTextColor() {
-    print(job.status.toString());
     switch (job.status) {
       case Status.CANCELLED:
       case Status.DRIVER_CANCELED:

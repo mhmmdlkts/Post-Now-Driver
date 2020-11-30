@@ -81,7 +81,6 @@ class OverviewService {
         w = 1;
       }
     }
-
     return w;
   }
 

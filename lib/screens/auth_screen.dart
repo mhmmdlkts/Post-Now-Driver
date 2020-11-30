@@ -241,8 +241,6 @@ class _AuthScreenState extends State<AuthScreen> {
     final User currentUser = _firebaseService.getAuth().currentUser;
     assert(user.uid == currentUser.uid);
 
-    print('signInEmail succeeded: $user');
-
     return user;
   }
 
