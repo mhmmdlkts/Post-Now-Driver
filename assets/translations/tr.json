@@ -112,6 +112,9 @@
       "CONTACT": "Contact"
     }
   },
+  "SHOPPING_LIST": {
+    "TITLE": "Shopping List"
+  },
   "SETTINGS_SCREEN": {
     "ACCOUNT": {
       "TITLE": "Account",
@@ -138,6 +141,17 @@
     "SINGLE_ITEM": {
       "DRIVER_CANCELED": "Driver Canceled",
       "CUSTOMER_CANCELED": "Customer Canceled"
+    },
+    "MODELS": {
+      "JOB": {
+        "WAITING": "In Process",
+        "ON_ROAD": "In Process",
+        "PACKAGE_PICKED": "In Process",
+        "FINISHED": "Completed",
+        "CANCELLED": "Canceled",
+        "DRIVER_CANCELED": "Driver Canceled",
+        "CUSTOMER_CANCELED": "Customer Canceled"
+      }
     }
   },
   "MODELS": {

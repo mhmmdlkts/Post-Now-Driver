@@ -36,8 +36,8 @@ class OverviewComponent extends StatelessWidget {
               ],
             ),
             Container(height: 15,),
-            _getLineWidget(icon: Icons.date_range, msg: "Order date", val: _getStartDateReadable()),
-            _getLineWidget(icon: Icons.access_time_outlined, msg: "Order time", val: _getStartTimeReadable()),
+            _getLineWidget(icon: Icons.date_range, msg: "OVERVIEW.MODELS.ORDER_DATE".tr(), val: _getStartDateReadable()),
+            _getLineWidget(icon: Icons.access_time_outlined, msg: "OVERVIEW.MODELS.ORDER_TIME".tr(), val: _getStartTimeReadable()),
             _getLineWidget(icon: Icons.pin_drop_outlined, msg: job.originAddress.getAddress()),
             _getLineWidget(icon: Icons.person_pin_circle_outlined, msg: job.destinationAddress.getAddress()),
           ],
@@ -47,7 +47,7 @@ class OverviewComponent extends StatelessWidget {
   }
 
   String _getPrice() {
-    return job.price.total.toStringAsFixed(2) + " €";
+    return job.price.driverBecomes.toStringAsFixed(2) + " €";
   }
 
   String _getStartTimeReadable() {
