@@ -811,15 +811,15 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   }
 
   _getSettingsDialog() => SettingsDialog(
-      [
-        SettingsItem(textKey: "DIALOGS.JOB_SETTINGS.CANCEL_JOB", onPressed: () async {
-          if (await _showAreYouSureDialog()) {
-            _changeMenuTyp(MenuTyp.PLEASE_WAIT);
-            _mapsService.cancelJob(_job);
-          }
-        }, icon: Icons.cancel, color: Colors.white),
-        SettingsItem(textKey: "CLOSE", onPressed: () {}, icon: Icons.close, color: Colors.redAccent),
-      ]
+    [
+      SettingsItem(textKey: "DIALOGS.JOB_SETTINGS.CANCEL_JOB", onPressed: () async {
+        if (await _showAreYouSureDialog()) {
+          _changeMenuTyp(MenuTyp.PLEASE_WAIT);
+          _mapsService.cancelJob(_job);
+        }
+      }, icon: Icons.cancel, color: Colors.white),
+      SettingsItem(textKey: "CLOSE", onPressed: () {}, icon: Icons.close, color: Colors.redAccent),
+    ]
   );
 
   Future<void> _jobRequestListener() async {
