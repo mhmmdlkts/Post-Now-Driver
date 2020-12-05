@@ -350,7 +350,7 @@ class BottomState extends State<BottomCard> {
         .tr(namedArgs: {'address': widget.job.getOriginAddress(), 'name': widget.job.originAddress.doorName});
     if (isDestination == null)
       return Container();
-    Widget getRow(markerPath, visible, enabled, text) {
+    Widget getAddressRow(markerPath, visible, enabled, text) {
       const double opacity = 0.6;
       return Row(
         children: [
@@ -373,8 +373,8 @@ class BottomState extends State<BottomCard> {
         ],
       );
     }
-    return getRow(
-        isDestination ?"assets/home_map_marker.png":"assets/package_map_marker.png",
+    return getAddressRow(
+        isDestination ?"assets/home_map_marker.png":(widget.job.hasShoppingList()?"assets/shop_map_marker.png":"assets/package_map_marker.png"),
         isVisible(),
         isEnabled(),
         isDestination? getDestinationAddressText() : getOriginAddressText()
@@ -392,7 +392,6 @@ class BottomState extends State<BottomCard> {
           ),
           (count > 0) ?
           Align(
-
             alignment: Alignment.bottomRight,
             child: Container(
               width: 24,

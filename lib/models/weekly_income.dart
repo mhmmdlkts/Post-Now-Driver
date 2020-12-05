@@ -26,7 +26,7 @@ class WeeklyIncome {
     dailyIncomes[6] = DailyIncome(Days.SUNDAY);
   }
 
-  void addJob(Job job) { // TODO where all do you use -1 for weekday
+  void addJob(Job job) {
     if (job.status == Status.FINISHED)
       dailyIncomes[job.finishTime.weekday - 1].income += job.price.driverBecomes;
     jobs.add(job);
