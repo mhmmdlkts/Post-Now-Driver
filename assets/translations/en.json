@@ -5,7 +5,7 @@
   "YES": "Yes",
   "CANCEL": "Cancel",
   "ACCEPT": "Accept",
-  "WARNING": "Dikkat",
+  "WARNING": "Attention",
   "CLOSE": "Close",
   "ERROR": "Error",
   "FAILED": "Failed",
@@ -31,21 +31,21 @@
     "PASSWORD_FIELD_TITLE": "Password",
     "PASSWORD_FIELD_HINT": "Your Password",
     "PASSWORD_FIELD_VALIDATOR_ENTER_NAME": "Please enter your password.",
-    "AGREE_TERMS_AND_POLICY": "By sign in, you agree to our Terms & Privacy Policy",
+    "AGREE_TERMS_AND_POLICY": "By signing in, you agree to our Privacy Policy and Privacy Policy and Terms & Conditions",
     "CONTINUE_BUTTON": "Sign In",
     "DON'T_HAVE_AN_ACCOUNT": "Don't have an account?",
     "SIGN_IN": "Sign in",
     "SIGN_UP": "Sign up",
-    "LOGIN_PROBLEMS": "Any problem?",
-    "AUTO_FILL_EMAIL_SUBJECT": "I have a problem by signing in the post now driver app",
+    "LOGIN_PROBLEMS": "Any problems?",
+    "AUTO_FILL_EMAIL_SUBJECT": "I can't sign in to my Post Now driver app",
     "ERROR_MESSAGES" : {
-      "ERROR_INVALID_EMAIL" : "Your Email address appears to be invalid.",
+      "ERROR_INVALID_EMAIL" : "Your email address appears to be invalid.",
       "ERROR_WRONG_PASSWORD" : "The password you entered is incorrect.",
       "ERROR_USER_NOT_FOUND" : "A user with this email address does not exist.",
-      "ERROR_USER_DISABLED" : "User with this Email adress has been disabled.",
+      "ERROR_USER_DISABLED" : "User with this email adress has been disabled.",
       "ERROR_TOO_MANY_REQUESTS" : "Too many requests try again later.",
-      "ERROR_OPERATION_NOT_ALLOWED" : "Signing in with Email and password is not enabled.",
-      "ERROR_EMAIL_ALREADY_IN_USE" : "The email address is already in use by another user."
+      "ERROR_OPERATION_NOT_ALLOWED" : "Signing in with email and password is not enabled.",
+      "ERROR_EMAIL_ALREADY_IN_USE" : "This email address is already being used."
     }
   },
   "CONTACT_FORM": {
@@ -83,7 +83,7 @@
     "TAKE_PACKAGE" : "Pick up package",
     "NO_LOCATION_INFORMATION_MESSAGE" : "Location information is not available.",
     "SIDE_MENU": {
-      "OVERVIEW": "Gecmis auftraglar",
+      "OVERVIEW": "Order Historyr",
       "PRIVACY_POLICY": "Privacy Policy",
       "SOFTWARE_LICENCES": "Software Licences",
       "CONTACT": "Contact",
@@ -91,7 +91,7 @@
     },
     "BOTTOM_MENUS": {
       "ON_JOB": {
-        "CASH": "Müsteri nakit ödeme yapmayi tercih etti. Müsteriden {cash} € tahsil ediniz.",
+        "CASH": "The costumer will be paying in cash: {cash} €",
         "YOUR_CUSTOMER": "Customer: {name}",
         "PACKAGE_ADDRESS": "Sender adress: {address}\nAsagi gelecek\nPacket will gived by Name: {name}",
         "PACKAGE_ADDRESS_EXTRA_SERVICE": "Sender adress: {address}\nPacket will gived by Name: {name}"
@@ -122,7 +122,7 @@
       "PHONE_HINT": "Phone",
       "EMAIL_HINT": "Email"
     },
-    "SOFTWARE_LICENCES": "License",
+    "SOFTWARE_LICENCES": "Licence",
     "SIGN_OUT": "Logout"
   },
   "CHAT": {
@@ -151,20 +151,20 @@
         "PACKAGE_PICKED": "In Process",
         "FINISHED": "Completed",
         "CANCELLED": "Canceled",
-        "DRIVER_CANCELED": "Driver Canceled",
-        "CUSTOMER_CANCELED": "Customer Canceled"
+        "DRIVER_CANCELED": "Driver cancelled",
+        "CUSTOMER_CANCELED": "Customer cancelled"
       }
     }
   },
   "MODELS": {
     "JOB": {
-      "WAITING": "Waiting for carrier.",
-      "ON_ROAD": "The carrier accepted your order.",
-      "PACKAGE_PICKED": "The carrier picked up the package.",
+      "WAITING": "Waiting for driver.",
+      "ON_ROAD": "The driver accepted your order.",
+      "PACKAGE_PICKED": "The driver picked up the package.",
       "FINISHED": "Your package has been delivered.",
       "CANCELLED": "Order has been cancelled.",
-      "DRIVER_CANCELED": "Driver Canceled",
-      "CUSTOMER_CANCELED": "Customer Canceled"
+      "DRIVER_CANCELED": "Driver cancelled",
+      "CUSTOMER_CANCELED": "Customer cancelled"
     }
   },
   "ENUMS": {
@@ -181,18 +181,18 @@
   "DIALOGS": {
     "PERMISSIONTYPENUM": {
       "CAMERA": {
-        "TITLE": "Kamera izni verin",
-        "MESSAGE": "Fotograf cekebilmek icin kameraniza erisebilmemiz gerek",
-        "ALLOW": "Izin ver"
+        "TITLE": "Allow Post Now Driver to take pictures.",
+        "MESSAGE": "Post Now needs to acces your camera.",
+        "ALLOW": "Allow"
       },
       "LOCATION": {
-        "TITLE": "Konum izni verin",
-        "MESSAGE": "Uyulamayi daha iyi kullanabilmek icin konum izni verin",
-        "ALLOW": "Izin ver"
+        "TITLE": "Allow Post Now Driver to access this device's location.",
+        "MESSAGE": "To better function give the app permission to acces the device's location.",
+        "ALLOW": "Allow"
       }
     },
     "CASH_WARN": {
-      "TITLE": "Nakit ücreti {cash} €",
+      "TITLE": "Cash price {cash} €",
       "MESSAGE": "Müsteriden {cash} € luk hizmet bedelini tahsil ettim."
     },
     "I_AM_BACK": {
@@ -204,9 +204,9 @@
       "TITLE": "New Delivery!"
     },
     "UPDATE_AVAILABLE": {
-      "TITLE": "Yeni Güncelleme Mevcut",
-      "BODY": "Uyulamayi kullanabilmek icin en güncel sürümü kullaniyor olmaniz gerek.",
-      "BUTTON": "Güncelle"
+      "TITLE": "New update available.",
+      "BODY": "Install the latest update to use app",
+      "BUTTON": "Update Now!"
     },
     "ARE_YOU_SURE_CANCEL": {
       "CONTENT_WITH_AMOUNT": "Iptal etmek istedigineemin misin? Senden {amount} para kesebiliriz aglama sonra.",

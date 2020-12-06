@@ -1,178 +1,194 @@
 {
   "APP_NAME": "Post Now Driver",
   "OK": "OK",
-  "NO": "No",
-  "YES": "Yes",
-  "CANCEL": "Cancel",
-  "ACCEPT": "Accept",
-  "WARNING": "Dikkat",
-  "CLOSE": "Close",
-  "ERROR": "Error",
-  "FAILED": "Failed",
-  "SETTINGS": "Settings",
-  "THANKS": "Thanks",
-  "SEND_MESSAGE": "Send a message",
-  "PLEASE_WAIT": "Please wait",
+  "NO": "Nein",
+  "YES": "Ja",
+  "CANCEL": "Abbrechen",
+  "ACCEPT": "Akzeptieren",
+  "WARNING": "Achtung",
+  "CLOSE": "Schlißen",
+  "ERROR": "Fehler",
+  "FAILED": "Fehlgeschlagen",
+  "SETTINGS": "Einstellungen",
+  "THANKS": "Danke",
+  "SEND_MESSAGE": "Nachricht senden",
+  "PLEASE_WAIT": "Bitte warten",
   "LOGIN": {
     "NAME_FIELD_TITLE": "Name",
-    "NAME_FIELD_HINT": "Your Name",
-    "NAME_FIELD_VALIDATOR_ENTER_NAME": "Enter your name.",
-    "SURNAME_FIELD_HINT": "Surname",
-    "SURNAME_FIELD_VALIDATOR_ENTER_NAME": "Enter your surname.",
-    "PHONE_FIELD_HINT": "Phone Number Example: +436601231212",
-    "PHONE_FIELD_VALIDATOR_ENTER_NAME": "Enter your phone number.",
-    "SMS_CODE_FIELD_HINT": "Example: 123456",
-    "SMS_CODE_FIELD_VALIDATOR_ENTER_NAME": "Enter your validation code",
-    "TITLE": "Welcome Back",
-    "SUBTITLE": "Hello there, sign in to continue!",
+    "NAME_FIELD_HINT": "Dein Name",
+    "NAME_FIELD_VALIDATOR_ENTER_NAME": "Bitte gib deinen Namen ein.",
+    "SURNAME_FIELD_HINT": "Nachname",
+    "SURNAME_FIELD_VALIDATOR_ENTER_NAME": "Bitte gib deinen Nachnamen ein.",
+    "PHONE_FIELD_HINT": "Telefonnummer, z.B.: +436601231212",
+    "PHONE_FIELD_VALIDATOR_ENTER_NAME": "Bitte gib deine Telefonnummer ein.",
+    "SMS_CODE_FIELD_HINT": "z.B.: 123456",
+    "SMS_CODE_FIELD_VALIDATOR_ENTER_NAME": "Gib deinen SMS-Bestätigungscode ein.",
+    "TITLE": "Willkommen zurück",
+    "SUBTITLE": "Hallo, melde dich an, um fortzufahren!",
     "EMAIL_FIELD_TITLE": "Email",
-    "EMAIL_FIELD_HINT": "Your email",
-    "EMAIL_FIELD_VALIDATOR_ENTER_NAME": "Please enter your email address.",
-    "PASSWORD_FIELD_TITLE": "Password",
-    "PASSWORD_FIELD_HINT": "Your Password",
-    "PASSWORD_FIELD_VALIDATOR_ENTER_NAME": "Please enter your password.",
-    "AGREE_TERMS_AND_POLICY": "By sign in, you agree to our Terms & Privacy Policy",
-    "CONTINUE_BUTTON": "Sign In",
-    "DON'T_HAVE_AN_ACCOUNT": "Don't have an account?",
-    "SIGN_IN": "Sign in",
-    "SIGN_UP": "Sign up",
-    "LOGIN_PROBLEMS": "Any problem?",
-    "AUTO_FILL_EMAIL_SUBJECT": "I have a problem by signing in the post now driver app",
+    "EMAIL_FIELD_HINT": "Deine E-Mail-Adresse",
+    "EMAIL_FIELD_VALIDATOR_ENTER_NAME": "Bitte gib deine E-Mail-Adresse ein.",
+    "PASSWORD_FIELD_TITLE": "Passwort",
+    "PASSWORD_FIELD_HINT": "Dein Passwort",
+    "PASSWORD_FIELD_VALIDATOR_ENTER_NAME": "Bitte gib dein Passwort ein.",
+    "AGREE_TERMS_AND_POLICY": "Mit deiner Anmeldung stimmst du unseren Nutzungsbedingungen und Datenschutzbestimmungen zu",
+    "CONTINUE_BUTTON": "Anmelden",
+    "DON'T_HAVE_AN_ACCOUNT": "Hast du kein Nutzerkonto?",
+    "SIGN_IN": "Anmelden",
+    "SIGN_UP": "Registrieren",
+    "LOGIN_PROBLEMS": "Probleme beim Anmelden?",
+    "AUTO_FILL_EMAIL_SUBJECT": "Ich habe Probleme, mich bei der Post Now Driver App anzumelden.",
     "ERROR_MESSAGES" : {
-      "ERROR_INVALID_EMAIL" : "Your Email address appears to be invalid.",
-      "ERROR_WRONG_PASSWORD" : "The password you entered is incorrect.",
-      "ERROR_USER_NOT_FOUND" : "A user with this email address does not exist.",
-      "ERROR_USER_DISABLED" : "User with this Email adress has been disabled.",
-      "ERROR_TOO_MANY_REQUESTS" : "Too many requests try again later.",
-      "ERROR_OPERATION_NOT_ALLOWED" : "Signing in with Email and password is not enabled.",
-      "ERROR_EMAIL_ALREADY_IN_USE" : "The email address is already in use by another user."
+      "ERROR_INVALID_EMAIL" : "Deine E-Mail-Adresse scheint ungültig zu sein.",
+      "ERROR_WRONG_PASSWORD" : "Das eingegebene Passwort ist falsch.",
+      "ERROR_USER_NOT_FOUND" : "Ein Benutzer mit dieser E-Mail-Adresse existiert nicht.",
+      "ERROR_USER_DISABLED" : "Der Benutzer mit dieser E-Mail-Adresse wurde deaktiviert.",
+      "ERROR_TOO_MANY_REQUESTS" : "Zu viele Anfragen versuchen es später erneut.",
+      "ERROR_OPERATION_NOT_ALLOWED" : "Die Anmeldung mit E-Mail und Passwort ist nicht aktiviert.",
+      "ERROR_EMAIL_ALREADY_IN_USE" : "Diese E-Mail-Adresse wird bereits verwendet."
     }
   },
   "CONTACT_FORM": {
-    "TITLE": "Contact Form",
+    "TITLE": "Kontaktformular",
     "NAME": {
       "LABEL": "Name",
-      "HINT_LABEL": "Enter your name"
+      "HINT_LABEL": "Bitte gib deinen Namen ein."
     },
     "EMAIL": {
       "LABEL": "Email",
-      "HINT_LABEL": "Enter your email"
+      "HINT_LABEL": "Bitte gib deine E-Mail-Adresse ein."
     },
     "PHONE": {
-      "LABEL": "Phone",
-      "HINT_LABEL": "Enter your phone"
+      "LABEL": "Telefonnummer",
+      "HINT_LABEL": "Bitte gib deine Telefonnummer ein."
     },
     "SUBJECT": {
-      "LABEL": "Subject",
-      "HINT_LABEL": "Enter the subject"
+      "LABEL": "Betreff",
+      "HINT_LABEL": "Gib einen Betreff ein."
     },
     "CONTENT": {
-      "LABEL": "Content",
-      "HINT_LABEL": "Enter the content"
+      "LABEL": "Inhalt",
+      "HINT_LABEL": "Gib einen Inhalt ein"
     },
-    "SEND": "Send"
+    "SEND": "Senden"
   },
   "DIRECT_JOB_OVERVIEW": {
-    "ANY_PROBLEMS": "Any problems with this job?"
+    "ANY_PROBLEMS": "Probleme mit diesem Auftrag?"
   },
   "MAPS": {
-    "GO_ONLINE" : "Go Online",
-    "GO_OFFLINE" : "Go Offline",
-    "YOU_ARE_ONLINE" : "You are online",
-    "YOU_ARE_OFFLINE" : "You are offline",
-    "TAKE_PACKAGE" : "Pick up package",
-    "NO_LOCATION_INFORMATION_MESSAGE" : "Location information is not available.",
+    "GO_ONLINE" : "Online gehen!",
+    "GO_OFFLINE" : "Offline gehen!",
+    "YOU_ARE_ONLINE" : "Du bist online!",
+    "YOU_ARE_OFFLINE" : "Du bist offline!",
+    "TAKE_PACKAGE" : "Bestellung abholen.",
+    "NO_LOCATION_INFORMATION_MESSAGE" : "Standortinformationen sind nicht verfügbar.",
     "SIDE_MENU": {
-      "OVERVIEW": "Gecmis auftraglar",
-      "PRIVACY_POLICY": "Privacy Policy",
-      "SOFTWARE_LICENCES": "Software Licences",
-      "CONTACT": "Contact",
-      "SIGN_OUT": "Sign out"
+      "OVERVIEW": "Auftragsverlauf",
+      "PRIVACY_POLICY": "Datenschutzerklärung",
+      "SOFTWARE_LICENCES": "Softwarelizenzen",
+      "CONTACT": "Kontakt",
+      "SIGN_OUT": "Abmelden"
     },
     "BOTTOM_MENUS": {
       "ON_JOB": {
         "CASH": "Müsteri nakit ödeme yapmayi tercih etti. Müsteriden {cash} € tahsil ediniz.",
-        "YOUR_CUSTOMER": "Customer: {name}",
-        "PACKAGE_ADDRESS": "Sender adress: {address}\nAsagi gelecek\nPacket will gived by Name: {name}",
-        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Sender adress: {address}\nPacket will gived by Name: {name}"
+        "YOUR_CUSTOMER": "Absender: {name}",
+        "PACKAGE_ADDRESS": "Absenderadresse: {address}\nÜbergabe vor dem Haus\nLieferung wird übergeben von: {name}",
+        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Absenderadresse: {address}\nLieferung wird übergeben von: {name}"
       },
       "PACKAGE_PICKED" : {
-        "YOUR_CUSTOMER": "Customer: {name}",
-        "PACKAGE_ADDRESS": "Receiver adress: {address}\nAsagi gelecek\nPacket will picked by Name: {name}",
-        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Receiver adress: {address}\nPacket will picked by Name: {name}",
-        "LET_HIM_SIGNING": "Let {name} sign"
+        "YOUR_CUSTOMER": "Empfänger: {name}",
+        "PACKAGE_ADDRESS": "Empfängeradresse: {address}\nÜbernahme vor dem Haus\nLieferung wird angenommen von: {name}",
+        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Empfängeradresse: {address}\nLieferung wird angenommen von: {name}",
+        "LET_HIM_SIGNING": "Unterschrift von {name}"
       }
     }
   },
   "LEGAL": {
-    "TITLE": "Legal",
+    "TITLE": "Rechtliches",
     "LegalTyp": {
-      "PRIVACY_POLICY": "Privacy Policy",
-      "SOFTWARE_LICENCES": "Software Licences",
-      "CONTACT": "Contact"
+      "PRIVACY_POLICY": "Datenschutzerklärung",
+      "SOFTWARE_LICENCES": "Softwarelizenzen",
+      "CONTACT": "Kontakt"
     }
+  },
+  "SHOPPING_LIST": {
+    "TITLE": "Einkaufsliste"
   },
   "SETTINGS_SCREEN": {
     "ACCOUNT": {
-      "TITLE": "Account",
+      "TITLE": "Nutzerkonto",
       "NAME_HINT": "Name",
-      "PHONE_HINT": "Phone",
-      "EMAIL_HINT": "Email"
+      "PHONE_HINT": "Telefonnummer",
+      "EMAIL_HINT": "Email Adresse"
     },
-    "SOFTWARE_LICENCES": "License",
-    "SIGN_OUT": "Logout"
+    "SOFTWARE_LICENCES": "Lizenzen",
+    "SIGN_OUT": "Abmelden"
   },
   "CHAT": {
-    "TYPE_MESSAGE_HERE": "Enter your message..."
+    "TYPE_MESSAGE_HERE": "Gib deine Nachricht ein..."
   },
   "SIGNING": {
     "CLEAR": "Clear",
-    "SIGN": "Sign",
-    "SIGN_TERMS": "Through this signature I hereby acknowledge that I have received the delivery safely and without any damage."
+    "SIGN": "Unterschrift",
+    "SIGN_TERMS": "Durch diese Unterschrift bestätige ich hiermit, dass ich die Lieferung sicher und ohne Beschädigung erhalten habe."
   },
   "OVERVIEW": {
-    "TITLE": "Gecmis auftraglar",
-    "TH_WEEK": "{week}. Week",
-    "TOTAL_TRIP_COUNT": "Total Trip Count",
-    "TOTAL_DRIVE_TIME": "Total Drive Time",
+    "TITLE": "Auftragsverlauf",
+    "TH_WEEK": "{week}. Woche",
+    "TOTAL_TRIP_COUNT": "Gesamtzahl der Fahrten",
+    "TOTAL_DRIVE_TIME": "Gesamtfahrzeit",
     "SINGLE_ITEM": {
-      "DRIVER_CANCELED": "Driver Canceled",
-      "CUSTOMER_CANCELED": "Customer Canceled"
+      "DRIVER_CANCELED": "Der Zusteller hat storniert.",
+      "CUSTOMER_CANCELED": "Der Kunde hat storniert."
+  },
+  "MODELS": {
+    "ORDER_DATE": "Auftragsdatum",
+    "ORDER_TIME": "Auftragszeit",
+    "JOB": {
+      "WAITING": "Warten auf Zusteller.",
+      "ON_ROAD": "Der Zusteller hat deinen Auftrag angenommen.",
+      "PACKAGE_PICKED": "Der Zusteller hat die Bestellung abgeholt.",
+      "FINISHED": "Deine Bestellung wurde geliefert.",
+      "CANCELLED": "Auftrag wurde storniert.",
+      "DRIVER_CANCELED": "Der Zusteller hat storniert.",
+      "CUSTOMER_CANCELED": "Der Kunde hat storniert."
+      }
     }
   },
   "MODELS": {
     "JOB": {
-      "WAITING": "Waiting for carrier.",
-      "ON_ROAD": "The carrier accepted your order.",
-      "PACKAGE_PICKED": "The carrier picked up the package.",
+      "WAITING": "Waiting for driver.",
+      "ON_ROAD": "The driver accepted your order.",
+      "PACKAGE_PICKED": "The driver picked up the package.",
       "FINISHED": "Your package has been delivered.",
       "CANCELLED": "Order has been cancelled.",
-      "DRIVER_CANCELED": "Driver Canceled",
-      "CUSTOMER_CANCELED": "Customer Canceled"
+      "DRIVER_CANCELED": "Driver cancelled",
+      "CUSTOMER_CANCELED": "Customer cancelled"
     }
   },
   "ENUMS": {
     "DAYS": {
-      "MONDAY": "Monday",
-      "TUESDAY": "Tuesday",
-      "WEDNESDAY": "Wednesday",
-      "THURSDAY": "Thursday",
-      "FRIDAY": "Friday",
-      "SATURDAY": "Saturday",
-      "SUNDAY": "Sunday"
+      "MONDAY": "Montag",
+      "TUESDAY": "Dienstag",
+      "WEDNESDAY": "Mittwoch",
+      "THURSDAY": "Donnerstag",
+      "FRIDAY": "Freitag",
+      "SATURDAY": "Samstag",
+      "SUNDAY": "Sonntag"
     }
   },
   "DIALOGS": {
     "PERMISSIONTYPENUM": {
       "CAMERA": {
-        "TITLE": "Kamera izni verin",
-        "MESSAGE": "Fotograf cekebilmek icin kameraniza erisebilmemiz gerek",
-        "ALLOW": "Izin ver"
+        "TITLE": "Zulassen, dass Post Now Bilder aufnimmt?",
+        "MESSAGE": "Post Now muss auf Ihre Kamera zugreifen.",
+        "ALLOW": "Zulassen"
       },
       "LOCATION": {
-        "TITLE": "Konum izni verin",
-        "MESSAGE": "Uyulamayi daha iyi kullanabilmek icin konum izni verin",
-        "ALLOW": "Izin ver"
+        "TITLE": "Zulassen, dass Post Now den Gerätestandort abruft?",
+        "MESSAGE": "Um eine bessere Funktion zu gewährleisten, gib der App die Berechtigung, auf den Gerätestandort zuzugreifen",
+        "ALLOW": "Zulassen"
       }
     },
     "CASH_WARN": {
@@ -180,29 +196,29 @@
       "MESSAGE": "Müsteriden {cash} € luk hizmet bedelini tahsil ettim."
     },
     "I_AM_BACK": {
-      "TITLE": "Seni bekliyoruz",
-      "MESSAGE": "Özlendin kral nerdesin",
-      "POSITIVE": "Geldim"
+      "TITLE": "Bist du wieder da?",
+      "MESSAGE": "",
+      "POSITIVE": "Ja"
     },
     "JOB_REQUEST": {
-      "TITLE": "New Delivery!"
+      "TITLE": "Neuer Auftrag!"
     },
     "UPDATE_AVAILABLE": {
-      "TITLE": "Yeni Güncelleme Mevcut",
-      "BODY": "Uyulamayi kullanabilmek icin en güncel sürümü kullaniyor olmaniz gerek.",
-      "BUTTON": "Güncelle"
+      "TITLE": "Neues Update verfügbar.",
+      "BODY": "Um die App nutzen zu können, muss das neueste Update installiert sein.",
+      "BUTTON": "Jetzt aktualisieren!"
     },
     "ARE_YOU_SURE_CANCEL": {
-      "CONTENT_WITH_AMOUNT": "Iptal etmek istedigineemin misin? Senden {amount} para kesebiliriz aglama sonra.",
-      "CONTENT": "Iptal etmek istedigineemin misin?"
+      "CONTENT_WITH_AMOUNT": "Für die Stornierung deiner Bestellung werden dir {amount} € berechnet.",
+        "CONTENT": "Bist du sicher, dass du stornieren möchtest?"
     },
     "JOB_SETTINGS": {
-      "CANCEL_JOB" : "Yolculugu iptal et"
+      "CANCEL_JOB" : "Auftrag stornieren."
     },
     "SETTINGS": {
       "YOU_CANT_CHANGE": {
-        "MESSAGE": "Bu alani degiistirmeye ihtiyaciniz varsa bizimle letisime gecin",
-        "CONTACT": "Iletisime gec"
+        "MESSAGE": "Wenn du deine Daten ändern willst, kontaktiere uns.",
+        "CONTACT": "Kontaktiere uns"
       }
     }
   }
