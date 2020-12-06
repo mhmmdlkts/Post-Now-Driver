@@ -16,13 +16,13 @@
   "LOGIN": {
     "NAME_FIELD_TITLE": "Name",
     "NAME_FIELD_HINT": "Your Name",
-    "NAME_FIELD_VALIDATOR_ENTER_NAME": "Enter your name.",
+    "NAME_FIELD_VALIDATOR_ENTER_NAME": "Please enter your name.",
     "SURNAME_FIELD_HINT": "Surname",
-    "SURNAME_FIELD_VALIDATOR_ENTER_NAME": "Enter your surname.",
-    "PHONE_FIELD_HINT": "Phone Number Example: +436601231212",
+    "SURNAME_FIELD_VALIDATOR_ENTER_NAME": "Please enter your surname.",
+    "PHONE_FIELD_HINT": "Example: +436601231212",
     "PHONE_FIELD_VALIDATOR_ENTER_NAME": "Enter your phone number.",
     "SMS_CODE_FIELD_HINT": "Example: 123456",
-    "SMS_CODE_FIELD_VALIDATOR_ENTER_NAME": "Enter your validation code",
+    "SMS_CODE_FIELD_VALIDATOR_ENTER_NAME": "Enter your SMS verification code.",
     "TITLE": "Welcome Back",
     "SUBTITLE": "Hello there, sign in to continue!",
     "EMAIL_FIELD_TITLE": "Email",
@@ -36,39 +36,39 @@
     "DON'T_HAVE_AN_ACCOUNT": "Don't have an account?",
     "SIGN_IN": "Sign in",
     "SIGN_UP": "Sign up",
-    "LOGIN_PROBLEMS": "Any problems?",
-    "AUTO_FILL_EMAIL_SUBJECT": "I can't sign in to my Post Now driver app",
+    "LOGIN_PROBLEMS": "Having trouble signing in?",
+    "AUTO_FILL_EMAIL_SUBJECT": "I'm having trouble signing in to Post Now Driver App",
     "ERROR_MESSAGES" : {
-      "ERROR_INVALID_EMAIL" : "Your email address appears to be invalid.",
-      "ERROR_WRONG_PASSWORD" : "The password you entered is incorrect.",
-      "ERROR_USER_NOT_FOUND" : "A user with this email address does not exist.",
-      "ERROR_USER_DISABLED" : "User with this email adress has been disabled.",
-      "ERROR_TOO_MANY_REQUESTS" : "Too many requests try again later.",
+      "ERROR_INVALID_EMAIL": "Your email address seems to be invalid.",
+      "ERROR_WRONG_PASSWORD": "The password you entered is incorrect.",
+      "ERROR_USER_NOT_FOUND": "A user with this email address does not exist.",
+      "ERROR_USER_DISABLED": "The user with this email address has been deactivated.",
+      "ERROR_TOO_MANY_REQUESTS" : "Too many requests, try again later.",
       "ERROR_OPERATION_NOT_ALLOWED" : "Signing in with email and password is not enabled.",
-      "ERROR_EMAIL_ALREADY_IN_USE" : "This email address is already being used."
+      "ERROR_EMAIL_ALREADY_IN_USE": "This email address is already in use."
     }
   },
   "CONTACT_FORM": {
     "TITLE": "Contact Form",
     "NAME": {
       "LABEL": "Name",
-      "HINT_LABEL": "Enter your name"
+      "HINT_LABEL": "Please enter your name."
     },
     "EMAIL": {
       "LABEL": "Email",
-      "HINT_LABEL": "Enter your email"
+      "HINT_LABEL": "Please enter your email address."
     },
     "PHONE": {
-      "LABEL": "Phone",
-      "HINT_LABEL": "Enter your phone"
+      "LABEL": "Telephone number",
+      "HINT_LABEL": "Please enter your phone number."
     },
     "SUBJECT": {
       "LABEL": "Subject",
-      "HINT_LABEL": "Enter the subject"
+      "HINT_LABEL": "Please enter a subject."
     },
     "CONTENT": {
       "LABEL": "Content",
-      "HINT_LABEL": "Enter the content"
+      "HINT_LABEL": "Enter a content"
     },
     "SEND": "Send"
   },
@@ -76,14 +76,14 @@
     "ANY_PROBLEMS": "Any problems with this job?"
   },
   "MAPS": {
-    "GO_ONLINE" : "Go Online",
-    "GO_OFFLINE" : "Go Offline",
-    "YOU_ARE_ONLINE" : "You are online",
-    "YOU_ARE_OFFLINE" : "You are offline",
+    "GO_ONLINE" : "Go Online!",
+    "GO_OFFLINE" : "Go Offline!",
+    "YOU_ARE_ONLINE" : "You are online!",
+    "YOU_ARE_OFFLINE" : "You are offline!",
     "TAKE_PACKAGE" : "Pick up package",
     "NO_LOCATION_INFORMATION_MESSAGE" : "Location information is not available.",
     "SIDE_MENU": {
-      "OVERVIEW": "Order Historyr",
+      "OVERVIEW": "Order History",
       "PRIVACY_POLICY": "Privacy Policy",
       "SOFTWARE_LICENCES": "Software Licences",
       "CONTACT": "Contact",
@@ -93,13 +93,13 @@
       "ON_JOB": {
         "CASH": "The costumer will be paying in cash: {cash} €",
         "YOUR_CUSTOMER": "Customer: {name}",
-        "PACKAGE_ADDRESS": "Sender adress: {address}\nAsagi gelecek\nPacket will gived by Name: {name}",
-        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Sender adress: {address}\nPacket will gived by Name: {name}"
+        "PACKAGE_ADDRESS": "Sender adress: {address}\nWill be handed over in front of the house\nDelivery will be handed over by: {name}",
+        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Sender adress: {address}\nDelivery will be handed over by: {name}"
       },
       "PACKAGE_PICKED" : {
         "YOUR_CUSTOMER": "Customer: {name}",
-        "PACKAGE_ADDRESS": "Receiver adress: {address}\nAsagi gelecek\nPacket will picked by Name: {name}",
-        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Receiver adress: {address}\nPacket will picked by Name: {name}",
+        "PACKAGE_ADDRESS": "Recipient adress: {address}\nPickup will be front of the house\nDelivery will be accepted by: {name}",
+        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Recipient adress: {address}\nDelivery will be accepted by: {name}",
         "LET_HIM_SIGNING": "Let {name} sign"
       }
     }
@@ -131,40 +131,40 @@
   "SIGNING": {
     "CLEAR": "Clear",
     "SIGN": "Sign",
-    "SIGN_TERMS": "Through this signature I hereby acknowledge that I have received the delivery safely and without any damage."
+    "SIGN_TERMS": "With this signature I hereby confirm that I have received the delivery safely and without damage."
   },
   "OVERVIEW": {
-    "TITLE": "Gecmis auftraglar",
+    "TITLE": "Order History",
     "TH_WEEK": "{week}. Week",
-    "TOTAL_TRIP_COUNT": "Total Trip Count",
-    "TOTAL_DRIVE_TIME": "Total Drive Time",
+    "TOTAL_TRIP_COUNT": "Total number of trips",
+    "TOTAL_DRIVE_TIME": "Total travel time",
     "SINGLE_ITEM": {
-      "DRIVER_CANCELED": "Driver Canceled",
-      "CUSTOMER_CANCELED": "Customer Canceled"
+      "DRIVER_CANCELED": "The deliverer has canceled.",
+      "CUSTOMER_CANCELED": "The customer has canceled."
     },
     "MODELS": {
       "ORDER_DATE": "Order Date",
       "ORDER_TIME": "Order Time",
       "JOB": {
-        "WAITING": "In Process",
-        "ON_ROAD": "In Process",
-        "PACKAGE_PICKED": "In Process",
-        "FINISHED": "Completed",
-        "CANCELLED": "Canceled",
-        "DRIVER_CANCELED": "Driver cancelled",
-        "CUSTOMER_CANCELED": "Customer cancelled"
+        "WAITING": "Waiting for Deliverer.",
+        "ON_ROAD": "The Deliverer has accepted your order.",
+        "PACKAGE_PICKED": "The Deliverer has picked up the order.",
+        "FINISHED": "Your order has been delivered.",
+        "CANCELED": "Order was canceled.",
+        "DRIVER_CANCELED": "The deliverer has canceled.",
+        "CUSTOMER_CANCELED": "The customer has canceled."
       }
     }
   },
   "MODELS": {
     "JOB": {
-      "WAITING": "Waiting for driver.",
-      "ON_ROAD": "The driver accepted your order.",
-      "PACKAGE_PICKED": "The driver picked up the package.",
-      "FINISHED": "Your package has been delivered.",
-      "CANCELLED": "Order has been cancelled.",
-      "DRIVER_CANCELED": "Driver cancelled",
-      "CUSTOMER_CANCELED": "Customer cancelled"
+      "WAITING": "Waiting for Deliverer.",
+      "ON_ROAD": "The Deliverer has accepted your order.",
+      "PACKAGE_PICKED": "The Deliverer has picked up the order.",
+      "FINISHED": "Your order has been delivered.",
+      "CANCELED": "Order was canceled.",
+      "DRIVER_CANCELED": "The deliverer has canceled.",
+      "CUSTOMER_CANCELED": "The customer has canceled."
     }
   },
   "ENUMS": {
@@ -182,12 +182,12 @@
     "PERMISSIONTYPENUM": {
       "CAMERA": {
         "TITLE": "Allow Post Now Driver to take pictures.",
-        "MESSAGE": "Post Now needs to acces your camera.",
+        "MESSAGE": "Post Now needs to access your camera.",
         "ALLOW": "Allow"
       },
       "LOCATION": {
         "TITLE": "Allow Post Now Driver to access this device's location.",
-        "MESSAGE": "To better function give the app permission to acces the device's location.",
+        "MESSAGE": "In order to guarantee a better function, give the app the authorization to access the device's location.",
         "ALLOW": "Allow"
       }
     },
@@ -196,29 +196,29 @@
       "MESSAGE": "Müsteriden {cash} € luk hizmet bedelini tahsil ettim."
     },
     "I_AM_BACK": {
-      "TITLE": "Seni bekliyoruz",
-      "MESSAGE": "Özlendin kral nerdesin",
-      "POSITIVE": "Geldim"
+      "TITLE": "Are you back?",
+      "MESSAGE": "",
+      "POSITIVE": "Yes"
     },
     "JOB_REQUEST": {
       "TITLE": "New Delivery!"
     },
     "UPDATE_AVAILABLE": {
       "TITLE": "New update available.",
-      "BODY": "Install the latest update to use app",
+      "BODY": "The latest update must be installed to use the app.",
       "BUTTON": "Update Now!"
     },
     "ARE_YOU_SURE_CANCEL": {
-      "CONTENT_WITH_AMOUNT": "Iptal etmek istedigineemin misin? Senden {amount} para kesebiliriz aglama sonra.",
-      "CONTENT": "Iptal etmek istedigineemin misin?"
+      "CONTENT_WITH_AMOUNT": "For the cancellation of your order you will be charged {amount} €.",
+      "CONTENT": "Are you sure you want to cancel?"
     },
     "JOB_SETTINGS": {
-      "CANCEL_JOB" : "Yolculugu iptal et"
+      "CANCEL_JOB" : "Cancel order."
     },
     "SETTINGS": {
       "YOU_CANT_CHANGE": {
-        "MESSAGE": "Bu alani degiistirmeye ihtiyaciniz varsa bizimle letisime gecin",
-        "CONTACT": "Iletisime gec"
+        "MESSAGE": "If you want to change your datas, contact us.",
+        "CONTACT": "Contact us"
       }
     }
   }

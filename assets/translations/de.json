@@ -158,13 +158,13 @@
   },
   "MODELS": {
     "JOB": {
-      "WAITING": "Waiting for driver.",
-      "ON_ROAD": "The driver accepted your order.",
-      "PACKAGE_PICKED": "The driver picked up the package.",
-      "FINISHED": "Your package has been delivered.",
-      "CANCELLED": "Order has been cancelled.",
-      "DRIVER_CANCELED": "Driver cancelled",
-      "CUSTOMER_CANCELED": "Customer cancelled"
+      "WAITING": "Warten auf Zusteller.",
+      "ON_ROAD": "Der Zusteller hat deinen Auftrag angenommen.",
+      "PACKAGE_PICKED": "Der Zusteller hat die Bestellung abgeholt.",
+      "FINISHED": "Deine Bestellung wurde geliefert.",
+      "CANCELLED": "Auftrag wurde storniert.",
+      "DRIVER_CANCELED": "Der Zusteller hat storniert.",
+      "CUSTOMER_CANCELED": "Der Kunde hat storniert."
     }
   },
   "ENUMS": {
