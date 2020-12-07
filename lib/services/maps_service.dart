@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:postnow/enums/online_status_enum.dart';
 import 'package:http/http.dart' as http;
+import 'package:postnow/environment/global_variables.dart';
 import 'dart:ui' as ui;
 
 import 'package:postnow/models/job.dart';
@@ -101,7 +102,7 @@ class MapsService with WidgetsBindingObserver {
   }
 
   void completeJob(String key, String sign) {
-    final url = "https://europe-west1-post-now-f3c53.cloudfunctions.net/finishJob?jobId=" + key + "&sign=" + sign;
+    final url = '${FIREBASE_URL}finishJob?jobId=$key&sign=$sign';
     try {
       http.get(url);
     } catch (e) {
@@ -110,7 +111,7 @@ class MapsService with WidgetsBindingObserver {
   }
 
   void acceptJob(String key) {
-    final url = "https://europe-west1-post-now-f3c53.cloudfunctions.net/acceptJob?jobId=" + key;
+    final url = '${FIREBASE_URL}acceptJob?jobId=$key';
     try {
       http.get(url);
     } catch (e) {
@@ -119,7 +120,7 @@ class MapsService with WidgetsBindingObserver {
   }
 
   void pickPackage(String key) {
-    final url = "https://europe-west1-post-now-f3c53.cloudfunctions.net/pickJobPackage?jobId=" + key;
+    final url = '${FIREBASE_URL}pickJobPackage?jobId=$key';
     try {
       http.get(url);
     } catch (e) {
@@ -143,7 +144,7 @@ class MapsService with WidgetsBindingObserver {
   }
 
   void cancelJob(Job j) async {
-    String url = "https://europe-west1-post-now-f3c53.cloudfunctions.net/cancelJob?jobId=" + j.key + "&requesterId=" + uid;
+    String url = '${FIREBASE_URL}cancelJob?jobId=${j.key}&requesterId=$uid';
 
     try {
       print(http.get(url));
@@ -157,7 +158,7 @@ class MapsService with WidgetsBindingObserver {
   }
 
   void updateAppStatus() {
-    String url = "https://europe-west1-post-now-f3c53.cloudfunctions.net/iAmHere?driverId=" + uid;
+    String url = '${FIREBASE_URL}iAmHere?driverId=$uid';
     try {
       http.get(url);
     } catch (e) {

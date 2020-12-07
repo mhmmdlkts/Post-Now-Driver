@@ -481,8 +481,8 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
             child: Center(
               child: Container(
                 alignment: Alignment.center,
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-                child: Text(_overviewService.getIncomeOfToday().toStringAsFixed(2) + " €", textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 20),),
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                child: Text(_overviewService.getIncomeOfToday().toStringAsFixed(2) + " €", textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 20)),
               ),
             )
           ),
@@ -503,6 +503,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   );
   
   Widget _goOnlineOfflineButton() => ProgressButton.icon(
+    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
       progressIndicator: CircularProgressIndicator(
         valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
       ),

@@ -28,13 +28,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
     super.initState();
     _settingsService = SettingsService(widget.user.uid, _allSaved);
     _settingsService.driverRef.onValue.listen((event) {
-      setState(() {
-        driver = Driver.fromSnapshot(event.snapshot);
-        _settingsService.accountNameCtrl.text = driver.name;
-        _settingsService.accountPhoneCtrl.text = driver.phone;
-        _settingsService.accountEmailCtrl.text = driver.email;
-        _settingsService.settings = driver.settings;
-      });
+      driver = Driver.fromSnapshot(event.snapshot);
+      _settingsService.accountNameCtrl.text = driver.name;
+      _settingsService.accountPhoneCtrl.text = driver.phone;
+      _settingsService.accountEmailCtrl.text = driver.email;
+      _settingsService.settings = driver.settings;
+      if (mounted)
+        setState(() { });
     }).onError((handleError) => {
       print(handleError)
     });
