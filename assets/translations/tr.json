@@ -77,10 +77,10 @@
   },
   "MAPS": {
     "GO_ONLINE" : "Çevrimiçi ol!",
-    "GO_OFFLINE" : "Çevrimdışı ol.",
+    "GO_OFFLINE" : "Çevrimdışı ol",
     "YOU_ARE_ONLINE" : "Çevrimiçisin!",
-    "YOU_ARE_OFFLINE" : "Çevrimdışısın.",
-    "TAKE_PACKAGE" : "Siparişi teslim al.",
+    "YOU_ARE_OFFLINE" : "Çevrimdışısın",
+    "TAKE_PACKAGE" : "Siparişi teslim al",
     "NO_LOCATION_INFORMATION_MESSAGE" : "Konum bilgisi mevcut değil.",
     "SIDE_MENU": {
       "OVERVIEW": "Sipariş Geçmişi",
@@ -99,8 +99,8 @@
       "PACKAGE_PICKED" : {
         "YOUR_CUSTOMER": "Customer: {name}",
         "PACKAGE_ADDRESS": "Alıcının adresi: {address}\nEvin önünde teslim alacak\nTeslim alacak kişi: {name}",
-        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Alıcının adresi: {address}\nTeslim alacak kişi: {name}",
-        "LET_HIM_SIGNING": "İmza {name} "
+        "PACKAGE_ADDRESS_E9XTRA_SERVICE": "Alıcının adresi: {address}\nTeslim alacak kişi: {name}",
+        "LET_HIM_SIGNING": "İmza {name}"
       }
     }
   },
