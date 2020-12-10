@@ -914,9 +914,4 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
       map["status"]= status.toString();
     _mapsService.driverRef.child(_user.uid).child("appStatus").update(map);*/
   }
-
-  String _getReadableTimeStamp() {
-    final DateFormat formatter = DateFormat(DATE_FORMAT);
-    return formatter.format(DateTime.now());
-  }
 }
