@@ -100,7 +100,7 @@
         "YOUR_CUSTOMER": "Empfänger: {name}",
         "PACKAGE_ADDRESS": "Empfängeradresse: {address}\nÜbernahme vor dem Haus\nLieferung wird angenommen von: {name}",
         "PACKAGE_ADDRESS_EXTRA_SERVICE": "Empfängeradresse: {address}\nLieferung wird angenommen von: {name}",
-        "LET_HIM_SIGNING": "Unterschrift von {name}"
+        "LET_HIM_SIGNING": "Bestellung an {name} zustellen"
       }
     }
   },
@@ -130,7 +130,7 @@
   },
   "SIGNING": {
     "CLEAR": "Clear",
-    "SIGN": "Unterschrift",
+    "SIGN": "Unterschreiben",
     "SIGN_TERMS": "Durch diese Unterschrift bestätige ich hiermit, dass ich die Lieferung sicher und ohne Beschädigung erhalten habe."
   },
   "OVERVIEW": {
