@@ -1,0 +1,37 @@
+{
+  "2020": {
+    "51": {
+      "START": {
+        "DAY": 14,
+        "MONTH": "DECEMBER"
+      },
+      "END": {
+        "DAY": 20,
+        "MONTH": "DECEMBER"
+      }
+    },
+    "52": {
+      "START": {
+        "DAY": 21,
+        "MONTH": "DECEMBER"
+      },
+      "END": {
+        "DAY": 27,
+        "MONTH": "DECEMBER"
+      }
+    },
+    "53": {
+      "START": {
+        "DAY": 28,
+        "MONTH": "DECEMBER"
+      },
+      "END": {
+        "DAY": 3,
+        "MONTH": "JANUARY"
+      }
+    }
+  },
+  "2021": {
+
+  }
+}

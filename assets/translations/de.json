@@ -48,6 +48,20 @@
       "ERROR_EMAIL_ALREADY_IN_USE" : "Diese E-Mail-Adresse wird bereits verwendet."
     }
   },
+  "MONTHS": {
+    "JANUARY": "January",
+    "FEBRUARY": "February",
+    "MARCH": "March",
+    "APRIL": "April",
+    "MAY": "May",
+    "JUNE": "June",
+    "JULY": "July",
+    "AUGUST": "August",
+    "SEPTEMBER": "September",
+    "OCTOBER": "October",
+    "NOVEMBER": "November",
+    "DECEMBER": "December"
+  },
   "CONTACT_FORM": {
     "TITLE": "Kontaktformular",
     "NAME": {

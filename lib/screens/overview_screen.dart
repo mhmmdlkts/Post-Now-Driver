@@ -29,6 +29,7 @@ class _OverviewScreen extends State<OverviewScreen> {
   OverviewService _overviewService;
   PageController _pageController;
   int _chosenWeek;
+  int _chosenYear;
   DailyIncome _selectedIncome;
   int _maxPage = 52 * 5;
   int _lastWeek;
@@ -62,9 +63,9 @@ class _OverviewScreen extends State<OverviewScreen> {
           itemCount: _maxPage,
           controller: _pageController,
           onPageChanged: (index) {
-            int year = _pageToYear(_pageToReadable(index));
+            _chosenYear = _pageToYear(_pageToReadable(index));
             _chosenWeek = _pageToWeek(_pageToReadable(index));
-            _initOverview(year: year, week: _chosenWeek);
+            _initOverview(year: _chosenYear, week: _chosenWeek);
           },
           itemBuilder: (context, index) {
             return _getContent();
@@ -80,7 +81,7 @@ class _OverviewScreen extends State<OverviewScreen> {
     shrinkWrap: true,
     padding: EdgeInsets.only(left: 8, right: 8, top: 10),
     children: [
-      ChartWidget(_overviewService.weeklyIncome, _chosenWeek, (val) {
+      ChartWidget(_overviewService.weeklyIncome, _chosenWeek, _chosenYear, (val) {
         setState(() {
           _selectedIncome = val;
         });
