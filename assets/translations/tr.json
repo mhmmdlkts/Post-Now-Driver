@@ -114,7 +114,7 @@
         "YOUR_CUSTOMER": "Customer: {name}",
         "PACKAGE_ADDRESS": "Alıcının adresi: {address}\nEvin önünde teslim alacak\nTeslim alacak kişi: {name}",
         "PACKAGE_ADDRESS_E9XTRA_SERVICE": "Alıcının adresi: {address}\nTeslim alacak kişi: {name}",
-        "LET_HIM_SIGNING": "İmza {name}"
+        "LET_HIM_SIGNING": "Siparişi teslim et: {name}"
       }
     }
   },
@@ -144,7 +144,7 @@
   },
   "SIGNING": {
     "CLEAR": "Temizle",
-    "SIGN": "İmza",
+    "SIGN": "İmzala",
     "SIGN_TERMS": "Bu imza ile teslimatı güvenli ve hasarsız bir şekilde teslim aldığımı onaylıyorum"
   },
   "OVERVIEW": {
