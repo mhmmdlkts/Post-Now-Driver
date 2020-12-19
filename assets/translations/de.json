@@ -49,18 +49,18 @@
     }
   },
   "MONTHS": {
-    "JANUARY": "January",
-    "FEBRUARY": "February",
-    "MARCH": "March",
+    "JANUARY": "Januar",
+    "FEBRUARY": "Februar",
+    "MARCH": "März",
     "APRIL": "April",
-    "MAY": "May",
-    "JUNE": "June",
-    "JULY": "July",
+    "MAY": "Mai",
+    "JUNE": "Juni",
+    "JULY": "Juli",
     "AUGUST": "August",
     "SEPTEMBER": "September",
-    "OCTOBER": "October",
+    "OCTOBER": "Oktober",
     "NOVEMBER": "November",
-    "DECEMBER": "December"
+    "DECEMBER": "Dezember"
   },
   "CONTACT_FORM": {
     "TITLE": "Kontaktformular",

@@ -49,18 +49,18 @@
     }
   },
   "MONTHS": {
-    "JANUARY": "January",
-    "FEBRUARY": "February",
-    "MARCH": "March",
-    "APRIL": "April",
-    "MAY": "May",
-    "JUNE": "June",
-    "JULY": "July",
-    "AUGUST": "August",
-    "SEPTEMBER": "September",
-    "OCTOBER": "October",
-    "NOVEMBER": "November",
-    "DECEMBER": "December"
+    "JANUARY": "Ocak",
+    "FEBRUARY": "Şubat",
+    "MARCH": "Mart",
+    "APRIL": "Nisan",
+    "MAY": "Mayıs",
+    "JUNE": "Hayiran",
+    "JULY": "Temmuz",
+    "AUGUST": "Auğustos",
+    "SEPTEMBER": "Eylül",
+    "OCTOBER": "Ekim",
+    "NOVEMBER": "Kasım",
+    "DECEMBER": "Aralık"
   },
   "CONTACT_FORM": {
     "TITLE": "İletişim Formu",
