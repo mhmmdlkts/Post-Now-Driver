@@ -26,15 +26,15 @@
         "MONTH": "DECEMBER"
       },
       "END": {
-        "DAY": 03,
+        "DAY": 3,
         "MONTH": "JANUARY"
       }
     }
   },
   "2021": {
-	"01": {
+	"1": {
       "START": {
-        "DAY": 04,
+        "DAY": 4,
         "MONTH": "JANUARY"
       },
       "END": {
@@ -42,7 +42,7 @@
         "MONTH": "JANUARY"
       }
     },
-    "02": {
+    "2": {
       "START": {
         "DAY": 11,
         "MONTH": "JANUARY"
@@ -52,7 +52,7 @@
         "MONTH": "JANUARY"
       }
     },
-    "03": {
+    "3": {
       "START": {
         "DAY": 18,
         "MONTH": "JANUARY"
@@ -62,7 +62,7 @@
         "MONTH": "JANUARY"
       }
     },
-    "04": {
+    "4": {
       "START": {
         "DAY": 25,
         "MONTH": "JANUARY"
@@ -72,19 +72,19 @@
         "MONTH": "JANUARY"
       }
     },
-    "05": {
+    "5": {
       "START": {
-        "DAY": 01,
+        "DAY": 1,
         "MONTH": "FEBRUARY"
       },
       "END": {
-        "DAY": 07,
+        "DAY": 7,
         "MONTH": "FEBRUARY"
       }
     },
-    "06": {
+    "6": {
       "START": {
-        "DAY": 08,
+        "DAY": 8,
         "MONTH": "FEBRUARY"
       },
       "END": {
@@ -92,7 +92,7 @@
         "MONTH": "FEBRUARY"
       }
     },
-    "07": {
+    "7": {
       "START": {
         "DAY": 15,
         "MONTH": "FEBRUARY"
@@ -102,7 +102,7 @@
         "MONTH": "FEBRUARY"
       }
     },
-    "08": {
+    "8": {
       "START": {
         "DAY": 22,
         "MONTH": "FEBRUARY"
@@ -112,19 +112,19 @@
         "MONTH": "FEBRUARY"
       }
     },
-    "09": {
+    "9": {
       "START": {
-        "DAY": 01,
+        "DAY": 1,
         "MONTH": "MARCH"
       },
       "END": {
-        "DAY": 07,
+        "DAY": 7,
         "MONTH": "MARCH"
       }
     },
     "10": {
       "START": {
-        "DAY": 08,
+        "DAY": 8,
         "MONTH": "MARCH"
       },
       "END": {
@@ -158,13 +158,13 @@
         "MONTH": "MARCH"
       },
       "END": {
-        "DAY": 04,
+        "DAY": 4,
         "MONTH": "APRIL"
       }
     },
     "14": {
       "START": {
-        "DAY": 05,
+        "DAY": 5,
         "MONTH": "APRIL"
       },
       "END": {
@@ -198,17 +198,17 @@
         "MONTH": "APRIL"
       },
       "END": {
-        "DAY": 02,
+        "DAY": 2,
         "MONTH": "MAY"
       }
     },
     "18": {
       "START": {
-        "DAY": 03,
+        "DAY": 3,
         "MONTH": "MAY"
       },
       "END": {
-        "DAY": 09,
+        "DAY": 9,
         "MONTH": "MAY"
       }
     },
@@ -248,13 +248,13 @@
         "MONTH": "MAY"
       },
       "END": {
-        "DAY": 06,
+        "DAY": 6,
         "MONTH": "JUNE"
       }
     },
     "23": {
       "START": {
-        "DAY": 07,
+        "DAY": 7,
         "MONTH": "JUNE"
       },
       "END": {
@@ -288,13 +288,13 @@
         "MONTH": "JUNE"
       },
       "END": {
-        "DAY": 04,
+        "DAY": 4,
         "MONTH": "JULY"
       }
     },
     "27": {
       "START": {
-        "DAY": 05,
+        "DAY": 5,
         "MONTH": "JULY"
       },
       "END": {
@@ -328,23 +328,23 @@
         "MONTH": "JULY"
       },
       "END": {
-        "DAY": 01,
+        "DAY": 1,
         "MONTH": "AUGUST"
       }
     },
     "31": {
       "START": {
-        "DAY": 02,
+        "DAY": 2,
         "MONTH": "AUGUST"
       },
       "END": {
-        "DAY": 08,
+        "DAY": 8,
         "MONTH": "AUGUST"
       }
     },
     "32": {
       "START": {
-        "DAY": 09,
+        "DAY": 9,
         "MONTH": "AUGUST"
       },
       "END": {
@@ -378,13 +378,13 @@
         "MONTH": "AUGUST"
       },
       "END": {
-        "DAY": 05,
+        "DAY": 5,
         "MONTH": "SEPTEMBER"
       }
     },
     "36": {
       "START": {
-        "DAY": 06,
+        "DAY": 6,
         "MONTH": "SEPTEMBER"
       },
       "END": {
@@ -418,13 +418,13 @@
         "MONTH": "SEPTEMBER"
       },
       "END": {
-        "DAY": 03,
+        "DAY": 3,
         "MONTH": "OCTOBER"
       }
     },
     "40": {
       "START": {
-        "DAY": 04,
+        "DAY": 4,
         "MONTH": "OCTOBER"
       },
       "END": {
@@ -464,17 +464,17 @@
     },
     "44": {
       "START": {
-        "DAY": 01,
+        "DAY": 1,
         "MONTH": "NOVEMBER"
       },
       "END": {
-        "DAY": 07,
+        "DAY": 7,
         "MONTH": "NOVEMBER"
       }
     },
     "45": {
       "START": {
-        "DAY": 08,
+        "DAY": 8,
         "MONTH": "NOVEMBER"
       },
       "END": {
@@ -508,13 +508,13 @@
         "MONTH": "NOVEMBER"
       },
       "END": {
-        "DAY": 05,
+        "DAY": 5,
         "MONTH": "DECEMBER"
       }
     },
     "49": {
       "START": {
-        "DAY": 06,
+        "DAY": 6,
         "MONTH": "DECEMBER"
       },
       "END": {
@@ -548,7 +548,9 @@
         "MONTH": "DECEMBER"
       },
       "END": {
-        "DAY":02,
+        "DAY":2,
         "MONTH": "JANUARY"
-  }
+      }
+    }
+	}
 }
