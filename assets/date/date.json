@@ -1,5 +1,505 @@
 {
   "2020": {
+  	"1": {
+      "START": {
+        "DAY": 30,
+        "MONTH": "DECEMBER"
+      },
+      "END": {
+        "DAY": 5,
+        "MONTH": "JANUARY"
+      }
+    },
+    "2": {
+      "START": {
+        "DAY": 6,
+        "MONTH": "JANUARY"
+      },
+      "END": {
+        "DAY": 12,
+        "MONTH": "JANUARY"
+      }
+    },
+    "3": {
+      "START": {
+        "DAY": 13,
+        "MONTH": "JANUARY"
+      },
+      "END": {
+        "DAY": 19,
+        "MONTH": "JANUARY"
+      }
+    },
+    "4": {
+      "START": {
+        "DAY": 20,
+        "MONTH": "JANUARY"
+      },
+      "END": {
+        "DAY": 26,
+        "MONTH": "JANUARY"
+      }
+    },
+    "5": {
+      "START": {
+        "DAY": 27,
+        "MONTH": "JANUARY"
+      },
+      "END": {
+        "DAY": 2,
+        "MONTH": "FEBRUARY"
+      }
+    },
+    "6": {
+      "START": {
+        "DAY": 3,
+        "MONTH": "FEBRUARY"
+      },
+      "END": {
+        "DAY": 9,
+        "MONTH": "FEBRUARY"
+      }
+    },
+    "7": {
+      "START": {
+        "DAY": 10,
+        "MONTH": "FEBRUARY"
+      },
+      "END": {
+        "DAY": 16,
+        "MONTH": "FEBRUARY"
+      }
+    },
+    "8": {
+      "START": {
+        "DAY": 17,
+        "MONTH": "FEBRUARY"
+      },
+      "END": {
+        "DAY": 23,
+        "MONTH": "FEBRUARY"
+      }
+    },
+    "9": {
+      "START": {
+        "DAY": 24,
+        "MONTH": "FEBRUARY"
+      },
+      "END": {
+        "DAY": 1,
+        "MONTH": "MARCH"
+      }
+    },
+    "10": {
+      "START": {
+        "DAY": 2,
+        "MONTH": "MARCH"
+      },
+      "END": {
+        "DAY": 8,
+        "MONTH": "MARCH"
+      }
+    },
+    "11": {
+      "START": {
+        "DAY": 9,
+        "MONTH": "MARCH"
+      },
+      "END": {
+        "DAY": 15,
+        "MONTH": "MARCH"
+      }
+    },
+    "12": {
+      "START": {
+        "DAY":16,
+        "MONTH": "MARCH"
+      },
+      "END": {
+        "DAY": 22,
+        "MONTH": "MARCH"
+      }
+    },
+    "13": {
+      "START": {
+        "DAY": 23,
+        "MONTH": "MARCH"
+      },
+      "END": {
+        "DAY": 29,
+        "MONTH": "MARCH"
+      }
+    },
+    "14": {
+      "START": {
+        "DAY": 30,
+        "MONTH": "MARCH"
+      },
+      "END": {
+        "DAY": 5,
+        "MONTH": "APRIL"
+      }
+    },
+    "15": {
+      "START": {
+        "DAY": 6,
+        "MONTH": "APRIL"
+      },
+      "END": {
+        "DAY": 12,
+        "MONTH": "APRIL"
+      }
+    },
+    "16": {
+      "START": {
+        "DAY": 13,
+        "MONTH": "APRIL"
+      },
+      "END": {
+        "DAY": 19,
+        "MONTH": "APRIL"
+      }
+    },
+    "17": {
+      "START": {
+        "DAY": 20,
+        "MONTH": "APRIL"
+      },
+      "END": {
+        "DAY": 26,
+        "MONTH": "APRIL"
+      }
+    },
+    "18": {
+      "START": {
+        "DAY": 27,
+        "MONTH": "APRIL"
+      },
+      "END": {
+        "DAY": 3,
+        "MONTH": "MAY"
+      }
+    },
+    "19": {
+      "START": {
+        "DAY": 4,
+        "MONTH": "MAY"
+      },
+      "END": {
+        "DAY": 10,
+        "MONTH": "MAY"
+      }
+    },
+    "20": {
+      "START": {
+        "DAY": 11,
+        "MONTH": "MAY"
+      },
+      "END": {
+        "DAY": 17,
+        "MONTH": "MAY"
+      }
+    },
+    "21": {
+      "START": {
+        "DAY": 18,
+        "MONTH": "MAY"
+      },
+      "END": {
+        "DAY": 24,
+        "MONTH": "MAY"
+      }
+    },
+    "22": {
+      "START": {
+        "DAY": 25,
+        "MONTH": "MAY"
+      },
+      "END": {
+        "DAY": 31,
+        "MONTH": "MAY"
+      }
+    },
+    "23": {
+      "START": {
+        "DAY": 1,
+        "MONTH": "JUNE"
+      },
+      "END": {
+        "DAY": 7,
+        "MONTH": "JUNE"
+      }
+    },
+    "24": {
+      "START": {
+        "DAY": 8,
+        "MONTH": "JUNE"
+      },
+      "END": {
+        "DAY": 14,
+        "MONTH": "JUNE"
+      }
+    },
+    "25": {
+      "START": {
+        "DAY": 15,
+        "MONTH": "JUNE"
+      },
+      "END": {
+        "DAY": 21,
+        "MONTH": "JUNE"
+      }
+    },
+    "26": {
+      "START": {
+        "DAY": 22,
+        "MONTH": "JUNE"
+      },
+      "END": {
+        "DAY": 28,
+        "MONTH": "JUNE"
+      }
+    },
+    "27": {
+      "START": {
+        "DAY": 29,
+        "MONTH": "JUNE"
+      },
+      "END": {
+        "DAY": 5,
+        "MONTH": "JULY"
+      }
+    },
+    "28": {
+      "START": {
+        "DAY": 6,
+        "MONTH": "JULY"
+      },
+      "END": {
+        "DAY": 12,
+        "MONTH": "JULY"
+      }
+    },
+    "29": {
+      "START": {
+        "DAY": 13,
+        "MONTH": "JULY"
+      },
+      "END": {
+        "DAY": 19,
+        "MONTH": "JULY"
+      }
+    },
+    "30": {
+      "START": {
+        "DAY": 20,
+        "MONTH": "JULY"
+      },
+      "END": {
+        "DAY": 26,
+        "MONTH": "JULY"
+      }
+    },
+    "31": {
+      "START": {
+        "DAY": 27,
+        "MONTH": "JULY"
+      },
+      "END": {
+        "DAY": 2,
+        "MONTH": "AUGUST"
+      }
+    },
+    "32": {
+      "START": {
+        "DAY": 3,
+        "MONTH": "AUGUST"
+      },
+      "END": {
+        "DAY": 9,
+        "MONTH": "AUGUST"
+      }
+    },
+    "33": {
+      "START": {
+        "DAY": 10,
+        "MONTH": "AUGUST"
+      },
+      "END": {
+        "DAY": 16,
+        "MONTH": "AUGUST"
+      }
+    },
+    "34": {
+      "START": {
+        "DAY": 17,
+        "MONTH": "AUGUST"
+      },
+      "END": {
+        "DAY": 23,
+        "MONTH": "AUGUST"
+      }
+    },
+    "35": {
+      "START": {
+        "DAY": 24,
+        "MONTH": "AUGUST"
+      },
+      "END": {
+        "DAY": 30,
+        "MONTH": "AUGUST"
+      }
+    },
+    "36": {
+      "START": {
+        "DAY": 31,
+        "MONTH": "AUGUST"
+      },
+      "END": {
+        "DAY": 6,
+        "MONTH": "SEPTEMBER"
+      }
+    },
+    "37": {
+      "START": {
+        "DAY": 7,
+        "MONTH": "SEPTEMBER"
+      },
+      "END": {
+        "DAY": 13,
+        "MONTH": "SEPTEMBER"
+      }
+    },
+    "38": {
+      "START": {
+        "DAY": 14,
+        "MONTH": "SEPTEMBER"
+      },
+      "END": {
+        "DAY": 20,
+        "MONTH": "SEPTEMBER"
+      }
+    },
+    "39": {
+      "START": {
+        "DAY": 21,
+        "MONTH": "SEPTEMBER"
+      },
+      "END": {
+        "DAY": 27,
+        "MONTH": "SEPTEMBER"
+      }
+    },
+    "40": {
+      "START": {
+        "DAY": 28,
+        "MONTH": "SEPTEMBER"
+      },
+      "END": {
+        "DAY": 4,
+        "MONTH": "OCTOBER"
+      }
+    },
+    "41": {
+      "START": {
+        "DAY": 5,
+        "MONTH": "OCTOBER"
+      },
+      "END": {
+        "DAY": 11,
+        "MONTH": "OCTOBER"
+      }
+    },
+    "42": {
+      "START": {
+        "DAY": 12,
+        "MONTH": "OCTOBER"
+      },
+      "END": {
+        "DAY": 18,
+        "MONTH": "OCTOBER"
+      }
+    },
+    "43": {
+      "START": {
+        "DAY": 19,
+        "MONTH": "OCTOBER"
+      },
+      "END": {
+        "DAY": 25,
+        "MONTH": "OCTOBER"
+      }
+    },
+    "44": {
+      "START": {
+        "DAY": 26,
+        "MONTH": "OCTOBER"
+      },
+      "END": {
+        "DAY": 1,
+        "MONTH": "NOVEMBER"
+      }
+    },
+    "45": {
+      "START": {
+        "DAY": 2,
+        "MONTH": "NOVEMBER"
+      },
+      "END": {
+        "DAY": 8,
+        "MONTH": "NOVEMBER"
+      }
+    },
+    "46": {
+      "START": {
+        "DAY": 9,
+        "MONTH": "NOVEMBER"
+      },
+      "END": {
+        "DAY": 15,
+        "MONTH": "NOVEMBER"
+      }
+    },
+    "47": {
+      "START": {
+        "DAY": 16,
+        "MONTH": "NOVEMBER"
+      },
+      "END": {
+        "DAY": 22,
+        "MONTH": "NOVEMBER"
+      }
+    },
+    "48": {
+      "START": {
+        "DAY": 23,
+        "MONTH": "NOVEMBER"
+      },
+      "END": {
+        "DAY": 29,
+        "MONTH": "NOVEMBER"
+      }
+    },
+    "49": {
+      "START": {
+        "DAY": 30,
+        "MONTH": "NOVEMBER"
+      },
+      "END": {
+        "DAY": 6,
+        "MONTH": "DECEMBER"
+      }
+    },
+    "50": {
+      "START": {
+        "DAY": 7,
+        "MONTH": "DECEMBER"
+      },
+      "END": {
+        "DAY": 13,
+        "MONTH": "DECEMBER"
+      }
+    },
     "51": {
       "START": {
         "DAY": 14,
