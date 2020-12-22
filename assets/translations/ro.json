@@ -1,0 +1,239 @@
+{
+  "APP_NAME": "Post Now Deliverer",
+  "OK": "OK",
+  "NO": "Nu",
+  "YES": "Da",
+  "CANCEL": "Anulează",
+  "ACCEPT": "Acceptare",
+  "WARNING": "Atenție",
+  "CLOSE": "Închide",
+  "ERROR": "Eroare",
+  "FAILED": "A eșuat",
+  "SETTINGS": "Setări",
+  "THANKS": "Mulțumesc",
+  "SEND_MESSAGE": "Trimite un mesaj",
+  "PLEASE_WAIT": "Te rugăm să aștepți",
+  "LOGIN": {
+    "NAME_FIELD_TITLE": "Prenume",
+    "NAME_FIELD_HINT": "Numele tău",
+    "NAME_FIELD_VALIDATOR_ENTER_NAME": "Te rugăm să introduci numele tău.",
+    "SURNAME_FIELD_HINT": "Nume",
+    "SURNAME_FIELD_VALIDATOR_ENTER_NAME": "Te rugăm să introduci numele tău.",
+    "PHONE_FIELD_HINT": "Exemplu: +436601231212",
+    "PHONE_FIELD_VALIDATOR_ENTER_NAME": "Introdu numărul tău de telefon.",
+    "SMS_CODE_FIELD_HINT": "Exemplu: 123456",
+    "SMS_CODE_FIELD_VALIDATOR_ENTER_NAME": "Introdu codul tău de verificare trimis SMS.",
+    "TITLE": "Bun venit înapoi",
+    "SUBTITLE": "Bună ziua, conectează-te pentru a continua!",
+    "EMAIL_FIELD_TITLE": "E-mail",
+    "EMAIL_FIELD_HINT": "E-mailul tău",
+    "EMAIL_FIELD_VALIDATOR_ENTER_NAME": "Te rugăm să introduci adresa ta de e-mail.",
+    "PASSWORD_FIELD_TITLE": "Parolă",
+    "PASSWORD_FIELD_HINT": "Parola ta",
+    "PASSWORD_FIELD_VALIDATOR_ENTER_NAME": "Te rugăm să introduci parola ta.",
+    "AGREE_TERMS_AND_POLICY": "Prin conectare, ești de acord cu Politica noastră de Confidențialitate și Politica de confidențialitate și Termenii și condițiile",
+    "CONTINUE_BUTTON": "Conectează-te",
+    "DON'T_HAVE_AN_ACCOUNT": "Nu ai un cont?",
+    "SIGN_IN": "Conectează-te",
+    "SIGN_UP": "Înscrie-te",
+    "LOGIN_PROBLEMS": "Ai probleme la conectare?",
+    "AUTO_FILL_EMAIL_SUBJECT": "Am probleme cu conectarea la aplicația Post Now Deliverer",
+    "ERROR_MESSAGES" : {
+      "ERROR_INVALID_EMAIL": "Adresa ta de e-mail pare a fi invalidă.",
+      "ERROR_WRONG_PASSWORD": "Parola introdusă este incorectă.",
+      "ERROR_USER_NOT_FOUND": "Nu există un utilizator cu această adresă de e-mail.",
+      "ERROR_USER_DISABLED": "Utilizatorul cu această adresă de e-mail a fost dezactivat.",
+      "ERROR_TOO_MANY_REQUESTS" : "Prea multe solicitări, încearcă din nou mai târziu.",
+      "ERROR_OPERATION_NOT_ALLOWED" : "Conectarea cu e-mail și parolă nu este activată.",
+      "ERROR_EMAIL_ALREADY_IN_USE": "Această adresă de e-mail este deja utilizată."
+    }
+  },
+  "MONTHS": {
+    "JANUARY": "Ianuarie",
+    "FEBRUARY": "Februarie",
+    "MARCH": "Martie",
+    "APRIL": "Aprilie",
+    "MAY": "Mai",
+    "JUNE": "Iunie",
+    "JULY": "Iulie",
+    "AUGUST": "August",
+    "SEPTEMBER": "Septembrie",
+    "OCTOBER": "Octombrie",
+    "NOVEMBER": "Noiembrie",
+    "DECEMBER": "Decembrie"
+  },
+  "CONTACT_FORM": {
+    "TITLE": "Formular de contact",
+    "NAME": {
+      "LABEL": "Nume",
+      "HINT_LABEL": "Te rugăm să introduci numele tău."
+    },
+    "EMAIL": {
+      "LABEL": "E-mail",
+      "HINT_LABEL": "Te rugăm să introduci adresa ta de e-mail."
+    },
+    "PHONE": {
+      "LABEL": "Număr de telefon",
+      "HINT_LABEL": "Te rugăm să introduci numărul tău de telefon."
+    },
+    "SUBJECT": {
+      "LABEL": "Subiect",
+      "HINT_LABEL": "Te rugăm să introduci un subiect."
+    },
+    "CONTENT": {
+      "LABEL": "Conținut",
+      "HINT_LABEL": "Introdu conținut"
+    },
+    "SEND": "Trimite"
+  },
+  "DIRECT_JOB_OVERVIEW": {
+    "ANY_PROBLEMS": "Ai probleme cu această comandă?"
+  },
+  "MAPS": {
+    "GO_ONLINE" : "Intră online!",
+    "GO_OFFLINE" : "Ieși din online!",
+    "YOU_ARE_ONLINE" : "Ești online!",
+    "YOU_ARE_OFFLINE" : "Ești offline!",
+    "TAKE_PACKAGE" : "Ridică pachet",
+    "NO_LOCATION_INFORMATION_MESSAGE" : "Informațiile despre locație nu sunt disponibile.",
+    "SIDE_MENU": {
+      "OVERVIEW": "Istoricul comenzii",
+      "PRIVACY_POLICY": "Politica de confidențialitate",
+      "SOFTWARE_LICENCES": "Licențe software",
+      "CONTACT": "Contact",
+      "SIGN_OUT": "Deconectare"
+    },
+    "BOTTOM_MENUS": {
+      "ON_JOB": {
+        "CASH": "Clientul va plăti în numerar: {cash} €",
+        "YOUR_CUSTOMER": "Client: {name}",
+        "PACKAGE_ADDRESS": "Adresa expeditorului: {address}\nVa fi livrat în fața casei\nLivrarea va fi efectuată de: {name}",
+        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Adresa expeditorului: {address}\nLivrarea va fi efectuată de: {name}"
+      },
+      "PACKAGE_PICKED" : {
+        "YOUR_CUSTOMER": "Client: {name}",
+        "PACKAGE_ADDRESS": "Adresa destinatarului: {address}\nVa fi ridicat din fața casei\nLivrarea va fi acceptată de: {name}",
+        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Adresa destinatarului: {address}\nLivrarea va fi acceptată de: {name}",
+        "LET_HIM_SIGNING": "Permite ca {name} să semneze"
+      }
+    }
+  },
+  "LEGAL": {
+    "TITLE": "Juridic",
+    "LegalTyp": {
+      "PRIVACY_POLICY": "Politica de confidențialitate",
+      "SOFTWARE_LICENCES": "Licențe software",
+      "CONTACT": "Contact"
+    }
+  },
+  "SHOPPING_LIST": {
+    "TITLE": "Listă de cumpărături"
+  },
+  "SETTINGS_SCREEN": {
+    "ACCOUNT": {
+      "TITLE": "Cont",
+      "NAME_HINT": "Nume",
+      "PHONE_HINT": "Telefon",
+      "EMAIL_HINT": "E-mail"
+    },
+    "SOFTWARE_LICENCES": "Licență",
+    "SIGN_OUT": "Deconectare"
+  },
+  "CHAT": {
+    "TYPE_MESSAGE_HERE": "Introdu mesajul tău..."
+  },
+  "SIGNING": {
+    "CLEAR": "Șterge",
+    "SIGN": "Semnează",
+    "SIGN_TERMS": "Cu această semnătură confirm că am primit livrarea în siguranță și fără deteriorări."
+  },
+  "OVERVIEW": {
+    "TITLE": "Istoric comandă",
+    "TH_WEEK": "{week}. săptămână",
+    "TOTAL_TRIP_COUNT": "Numărul total de călători",
+    "TOTAL_DRIVE_TIME": "Timpul total de călătorie",
+    "SINGLE_ITEM": {
+      "DRIVER_CANCELED": "Curierul a anulat.",
+      "CUSTOMER_CANCELED": "Clientul a anulat."
+    },
+    "MODELS": {
+      "ORDER_DATE": "Data comenzii",
+      "ORDER_TIME": "Ora comenzii",
+      "JOB": {
+        "WAITING": "Se așteaptă curierul.",
+        "ON_ROAD": "Curierul a acceptat comanda ta.",
+        "PACKAGE_PICKED": "Curierul a preluat comanda.",
+        "FINISHED": "Comanda ta a fost livrată.",
+        "CANCELED": "Comanda a fost anulată.",
+        "DRIVER_CANCELED": "Curierul a anulat.",
+        "CUSTOMER_CANCELED": "Clientul a anulat."
+      }
+    }
+  },
+  "MODELS": {
+    "JOB": {
+      "WAITING": "Se așteaptă curierul.",
+      "ON_ROAD": "Curierul a acceptat comanda ta.",
+      "PACKAGE_PICKED": "Curierul a preluat comanda.",
+      "FINISHED": "Comanda ta a fost livrată.",
+      "CANCELED": "Comanda a fost anulată.",
+      "DRIVER_CANCELED": "Curierul a anulat.",
+      "CUSTOMER_CANCELED": "Clientul a anulat."
+    }
+  },
+  "ENUMS": {
+    "DAYS": {
+      "MONDAY": "Luni",
+      "TUESDAY": "Marți",
+      "WEDNESDAY": "Miercuri",
+      "THURSDAY": "Joi",
+      "FRIDAY": "Vineri",
+      "SATURDAY": "Sâmbătă",
+      "SUNDAY": "Duminică"
+    }
+  },
+  "DIALOGS": {
+    "PERMISSIONTYPENUM": {
+      "CAMERA": {
+        "TITLE": "Permite ca Post Now Deliverer să facă poze.",
+        "MESSAGE": "Post Now are nevoie să îți acceseze camera.",
+        "ALLOW": "Permite"
+      },
+      "LOCATION": {
+        "TITLE": "Permite ca Post Now Deliverer să acceseze locația acestui dispozitiv.",
+        "MESSAGE": "Pentru a garanta o funcționare mai bună, acordă aplicației autorizația de a accesa locația dispozitivului.",
+        "ALLOW": "Permite"
+      }
+    },
+    "CASH_WARN": {
+      "TITLE": "Preț {cash} €",
+      "MESSAGE": "Müsteriden {cash} € luk hizmet bedelini tahsil ettim."
+    },
+    "I_AM_BACK": {
+      "TITLE": "Te-ai întors?",
+      "MESSAGE": "",
+      "POSITIVE": "Da"
+    },
+    "JOB_REQUEST": {
+      "TITLE": "Comandă nouă!"
+    },
+    "UPDATE_AVAILABLE": {
+      "TITLE": "Actualizare disponibilă.",
+      "BODY": "Cea mai recentă actualizare trebuie instalată pentru a utiliza aplicația.",
+      "BUTTON": "Actualizează acum!"
+    },
+    "ARE_YOU_SURE_CANCEL": {
+      "CONTENT_WITH_AMOUNT": "Pentru anularea comenzii tale vei fi taxat cu {amount} €.",
+      "CONTENT": "Ești sigur că vrei să anulezi?"
+    },
+    "JOB_SETTINGS": {
+      "CANCEL_JOB" : "Anulează comandă."
+    },
+    "SETTINGS": {
+      "YOU_CANT_CHANGE": {
+        "MESSAGE": "Dacă dorești să-ți schimbi datele de contact, contactează-ne.",
+        "CONTACT": "Contactează-ne"
+      }
+    }
+  }
+}
