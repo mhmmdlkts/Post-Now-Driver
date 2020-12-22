@@ -9,6 +9,8 @@ class WeekYearToReadableDateInterval {
   static Map _dateJson = Map();
 
   static Future<void> init() async {
+    if (_dateJson.isNotEmpty)
+      return;
     await rootBundle.loadString("assets/date/date.json").then((value) {
       _dateJson = json.decode(value);
     });
