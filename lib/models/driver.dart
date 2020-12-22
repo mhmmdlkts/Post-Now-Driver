@@ -78,4 +78,6 @@ class Driver implements Comparable{
   }
 
   LatLng getLatLng() => LatLng(lat, long);
+
+  bool isActive() => active??false;
 }

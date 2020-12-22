@@ -205,6 +205,11 @@
         "ALLOW": "Allow"
       }
     },
+    "NO_ACCOUNT": {
+      "TITLE": "Wtf are you doing here?",
+      "BODY": "Bu uygulamayi kullanmaya yetkin yok.",
+      "BUTTON": "Close"
+    },
     "CASH_WARN": {
       "TITLE": "Cash price {cash} €",
       "MESSAGE": "Müsteriden {cash} € luk hizmet bedelini tahsil ettim."

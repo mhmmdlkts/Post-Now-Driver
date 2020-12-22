@@ -31,6 +31,9 @@ class _FirstScreen extends State<FirstScreen> {
       return SplashScreen();
 
     if (widget.snapshot.hasData) {
+      _fetchUser();
+      if (!(_firstScreenService.hasPermission()??false))
+        return SplashScreen();
       return MapsScreen(widget.snapshot.data);
     }
     return AuthScreen();
@@ -48,5 +51,13 @@ class _FirstScreen extends State<FirstScreen> {
     if (needsUpdate)
       _firstScreenService.showUpdateAvailableDialog(context);
   }
+
+  void _fetchUser() => _firstScreenService.fetchUser(widget.snapshot.data, context).then((value) {
+    if (!value)
+      return;
+    setState(() {});
+  }).catchError((e) {
+    print(e);
+  });
 
 }

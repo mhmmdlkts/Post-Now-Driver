@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_signature_pad/flutter_signature_pad.dart';
+import 'package:postnow/decoration/my_colors.dart';
 import 'package:postnow/services/signing_service.dart';
 
 class SigningScreen extends StatefulWidget {
@@ -38,15 +39,27 @@ class _SigningScreen extends State<SigningScreen> {
           children: <Widget>[
             _signingFieldWidget(),
             Text('SIGNING.SIGN_TERMS'.tr(namedArgs: {'name': widget.name})),
-            RaisedButton(
-              onPressed: _sign,
-              child: Text('SIGNING.SIGN'.tr(), style: TextStyle(fontSize: 20, color: Colors.white)),
-              color: Colors.lightBlueAccent,
+            Container(height: 20,),
+            ButtonTheme(
+              minWidth: double.infinity,
+              height: 56,
+              child: RaisedButton (
+                color: primaryBlue,
+                shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                child: Text("SIGNING.SIGN".tr(), style: TextStyle(color: Colors.white, fontSize: 24),),
+                onPressed: _sign,
+              ),
             ),
-            RaisedButton(
-              onPressed: _clear,
-              child: Text('SIGNING.CLEAR'.tr(), style: TextStyle(fontSize: 20, color: Colors.white)),
-              color: Colors.redAccent,
+            Container(height: 10,),
+            ButtonTheme(
+              minWidth: double.infinity,
+              height: 46,
+              child: RaisedButton (
+                color: Colors.redAccent,
+                shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                child: Text("SIGNING.CLEAR".tr(), style: TextStyle(color: Colors.white, fontSize: 24),),
+                onPressed: _clear,
+              ),
             ),
           ],
         ),
