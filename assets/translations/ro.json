@@ -205,6 +205,11 @@
         "ALLOW": "Permite"
       }
     },
+	 "NO_ACCOUNT": {
+      "TITLE": "Atenție!",
+      "BODY": "Nu sunteți autorizat să utilizați această aplicație.",
+      "BUTTON": "Închide"
+    },
     "CASH_WARN": {
       "TITLE": "Preț {cash} €",
       "MESSAGE": "Müsteriden {cash} € luk hizmet bedelini tahsil ettim."

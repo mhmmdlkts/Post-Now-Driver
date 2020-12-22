@@ -204,7 +204,12 @@
           "MESSAGE": "Kako bismo pružili bolju uslugu, dajte aplikaciji autorizaciju pristupa lokacije uređaja.",
           "ALLOW": "Omogućiti"
         }
-      },
+      }, 
+	  "NO_ACCOUNT": {
+      "TITLE": "Upozorenje!",
+      "BODY": "Niste ovlašćeni za upotrebu ove aplikacije.",
+      "BUTTON": "Zatvorite"
+    },
       "CASH_WARN": {
         "TITLE": "Cena u kešu {cash} €",
         "MESSAGE": "Müsteriden {cash} € luk hizmet bedelini tahsil ettim."

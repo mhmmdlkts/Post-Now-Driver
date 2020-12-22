@@ -206,8 +206,8 @@
       }
     },
     "NO_ACCOUNT": {
-      "TITLE": "Wtf are you doing here?",
-      "BODY": "Bu uygulamayi kullanmaya yetkin yok.",
+      "TITLE": "Warning!",
+      "BODY": "You are not authorized to use this application.",
       "BUTTON": "Close"
     },
     "CASH_WARN": {

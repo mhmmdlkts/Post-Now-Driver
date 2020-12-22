@@ -206,9 +206,9 @@
       }
     },
     "NO_ACCOUNT": {
-      "TITLE": "Wtf are you doing here?",
-      "BODY": "Bu uygulamayi kullanmaya yetkin yok.",
-      "BUTTON": "Close"
+      "TITLE": "Uyarı!",
+      "BODY": "Bu uygulamayı kullanma yetkiniz yok.",
+      "BUTTON": "Kapat"
     },
     "CASH_WARN": {
       "TITLE": "Nakit ücreti {cash} €",
