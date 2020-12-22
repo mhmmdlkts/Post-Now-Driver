@@ -10,7 +10,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     EasyLocalization(
-        supportedLocales: [Locale('en', ''), Locale('de', ''), Locale('tr', '')],
+        supportedLocales: [Locale('en', ''), Locale('de', ''), Locale('tr', ''), Locale('sr', ''), Locale('ro', '')],
         path: 'assets/translations',
         fallbackLocale: Locale('en', ''),
         saveLocale: true,

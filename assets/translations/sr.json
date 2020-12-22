@@ -1,0 +1,239 @@
+{
+    "APP_NAME": "Post Now Deliverer",
+    "OK": "Uredu",
+    "NO": "Ne",
+    "YES": "Da",
+    "CANCEL": "Otkažite",
+    "ACCEPT": "Prihvatite",
+    "WARNING": "Pažnja",
+    "CLOSE": "Zatvorite",
+    "ERROR": "Greška",
+    "FAILED": "Nije uspelo",
+    "SETTINGS": "Podešavanja",
+    "THANKS": "Hvala",
+    "SEND_MESSAGE": "Pošaljite poruku",
+    "PLEASE_WAIT": "Molimo sačekajte",
+    "LOGIN": {
+      "NAME_FIELD_TITLE": "Ime",
+      "NAME_FIELD_HINT": "Vaše ime",
+      "NAME_FIELD_VALIDATOR_ENTER_NAME": "Molimo unesite vaše ime.",
+      "SURNAME_FIELD_HINT": "Prezime",
+      "SURNAME_FIELD_VALIDATOR_ENTER_NAME": "Molimo unesite vaše prezime.",
+      "PHONE_FIELD_HINT": "Na primer: +436601231212",
+      "PHONE_FIELD_VALIDATOR_ENTER_NAME": "Unesite vaš broj telefona.",
+      "SMS_CODE_FIELD_HINT": "Na primer: 123456",
+      "SMS_CODE_FIELD_VALIDATOR_ENTER_NAME": "Unesite svoj SMS kod verifikacije.",
+      "TITLE": "Dobrodošli nazad",
+      "SUBTITLE": "Zdravo, prijavite se da nastavite!",
+      "EMAIL_FIELD_TITLE": "E-mail",
+      "EMAIL_FIELD_HINT": "Vaš e-mail",
+      "EMAIL_FIELD_VALIDATOR_ENTER_NAME": "Molimo unesite svoju e-mail adresu.",
+      "PASSWORD_FIELD_TITLE": "Lozinka",
+      "PASSWORD_FIELD_HINT": "Vaša lozinka",
+      "PASSWORD_FIELD_VALIDATOR_ENTER_NAME": "Molimo unesite vašu lozinku.",
+      "AGREE_TERMS_AND_POLICY": "Prijavom, slažete se sa našom Politikom privatnosti i Uslovima i odredbama korišćenja",
+      "CONTINUE_BUTTON": "Prijava",
+      "DON'T_HAVE_AN_ACCOUNT": "Nemate nalog?",
+      "SIGN_IN": "Prijava",
+      "SIGN_UP": "Registracija",
+      "LOGIN_PROBLEMS": "Imate poteškoće prilikom prijave?",
+      "AUTO_FILL_EMAIL_SUBJECT": "Imam poteškoće prilikom prijave na Post Now Deliverer aplikaciju",
+      "ERROR_MESSAGES" : {
+        "ERROR_INVALID_EMAIL": "Izgleda da je vaša e-mail adresa nevažeća.",
+        "ERROR_WRONG_PASSWORD": "Lozinka koju ste uneli je netačna.",
+        "ERROR_USER_NOT_FOUND": "Korisnik sa ovom e-mail adresom ne postoji.",
+        "ERROR_USER_DISABLED": "Korisnik sa ovom e-mail adresom je deeaktiviran.",
+        "ERROR_TOO_MANY_REQUESTS" : "Previše zahteva, pokušajte ponovo posle.",
+        "ERROR_OPERATION_NOT_ALLOWED" : "Nije omogućena prijava zz e-mail adresu i lozinku.",
+        "ERROR_EMAIL_ALREADY_IN_USE": "Ova e-mail adresa je već u upotrebi."
+      }
+    },
+    "MONTHS": {
+      "JANUARY": "Januar",
+      "FEBRUARY": "Februar",
+      "MARCH": "Mart",
+      "APRIL": "April",
+      "MAY": "Maj",
+      "JUNE": "Jun",
+      "JULY": "Juli",
+      "AUGUST": "Avgust",
+      "SEPTEMBER": "Septembar",
+      "OCTOBER": "Oktobar",
+      "NOVEMBER": "Novembar",
+      "DECEMBER": "Decembar"
+    },
+    "CONTACT_FORM": {
+      "TITLE": "Kontaktna forma",
+      "NAME": {
+        "LABEL": "Ime",
+        "HINT_LABEL": "Molimo unesite vaše ime."
+      },
+      "EMAIL": {
+        "LABEL": "E-mail",
+        "HINT_LABEL": "Molimo unesite vašu e-mail adresu."
+      },
+      "PHONE": {
+        "LABEL": "Broj telefona",
+        "HINT_LABEL": "Molimo unesite vaš broj telefona."
+      },
+      "SUBJECT": {
+        "LABEL": "Predmet",
+        "HINT_LABEL": "Molimo unesite predmet."
+      },
+      "CONTENT": {
+        "LABEL": "Sadržaj",
+        "HINT_LABEL": "Molimo unesite sadržaj"
+      },
+      "SEND": "Pošaljite"
+    },
+    "DIRECT_JOB_OVERVIEW": {
+      "ANY_PROBLEMS": "Imate li problema sa ovim poslom?"
+    },
+    "MAPS": {
+      "GO_ONLINE" : "Idite onlajn!",
+      "GO_OFFLINE" : "Idite oflajn!",
+      "YOU_ARE_ONLINE" : "Onlajn ste!",
+      "YOU_ARE_OFFLINE" : "Oflajn ste!",
+      "TAKE_PACKAGE" : "Preuzmite paket",
+      "NO_LOCATION_INFORMATION_MESSAGE" : "Informacije o lokaciji nisu dostupne.",
+      "SIDE_MENU": {
+        "OVERVIEW": "Istorija narudžbi",
+        "PRIVACY_POLICY": "Politika privatnosti",
+        "SOFTWARE_LICENCES": "Licence softvera",
+        "CONTACT": "Kontakt",
+        "SIGN_OUT": "Odjava"
+      },
+      "BOTTOM_MENUS": {
+        "ON_JOB": {
+          "CASH": "Kupac će platiti kešom: {cash} €",
+          "YOUR_CUSTOMER": "Kupac: {name}",
+          "PACKAGE_ADDRESS": "Adresa pošiljatelja: {address}\nBiće vam predato pred vašim domom\nDostavu će predati: {name}",
+          "PACKAGE_ADDRESS_EXTRA_SERVICE": "Adresa pošiljatelja: {address}\nDostavu će predati: {name}"
+        },
+        "PACKAGE_PICKED" : {
+          "YOUR_CUSTOMER": "Kupac: {name}",
+          "PACKAGE_ADDRESS": "Adresa primatelja: {address}\nDostavljeno pred kućom\nDostavu će preuzeti: {name}",
+          "PACKAGE_ADDRESS_EXTRA_SERVICE": "Adresa primatelja: {address}\nDostavu će preuzeti: {name}",
+          "LET_HIM_SIGNING": "Neka se {name} potpiše"
+        }
+      }
+    },
+    "LEGAL": {
+      "TITLE": "Pravno",
+      "LegalTyp": {
+        "PRIVACY_POLICY": "Politika privatnosti",
+        "SOFTWARE_LICENCES": "Licence softvera",
+        "CONTACT": "Kontakt"
+      }
+    },
+    "SHOPPING_LIST": {
+      "TITLE": "Lista za kupovinu"
+    },
+    "SETTINGS_SCREEN": {
+      "ACCOUNT": {
+        "TITLE": "Nalog",
+        "NAME_HINT": "Ime",
+        "PHONE_HINT": "Telefon",
+        "EMAIL_HINT": "E-mail"
+      },
+      "SOFTWARE_LICENCES": "Licenca",
+      "SIGN_OUT": "Odjava"
+    },
+    "CHAT": {
+      "TYPE_MESSAGE_HERE": "Unesite svoju poruku..."
+    },
+    "SIGNING": {
+      "CLEAR": "Završeno",
+      "SIGN": "Potpisati",
+      "SIGN_TERMS": "S ovim potpisom ovdje potvrđujem da sam preuzeo/la pošiljku bezbedno i bez oštećenja."
+    },
+    "OVERVIEW": {
+      "TITLE": "Istorija narudžbe",
+      "TH_WEEK": "{week}. Nedelja",
+      "TOTAL_TRIP_COUNT": "Ukupan broj putovanja",
+      "TOTAL_DRIVE_TIME": "Ukupno vreme u putu",
+      "SINGLE_ITEM": {
+        "DRIVER_CANCELED": "Dostavljač je otkazao.",
+        "CUSTOMER_CANCELED": "Kupac je otkazao."
+      },
+      "MODELS": {
+        "ORDER_DATE": "Datum narudžbe",
+        "ORDER_TIME": "Vreme narudžbe",
+        "JOB": {
+          "WAITING": "Čekamo na dostavljača.",
+          "ON_ROAD": "Dostavljač je prihvatio vašu nardužbu.",
+          "PACKAGE_PICKED": "Dostavljač je preuzeo narudžbu.",
+          "FINISHED": "Vaša narudžba je dostavljena.",
+          "CANCELED": "Narudžba je otkazana.",
+          "DRIVER_CANCELED": "Dostavljač je otkazao.",
+          "CUSTOMER_CANCELED": "Kupac je otkazao."
+        }
+      }
+    },
+    "MODELS": {
+      "JOB": {
+        "WAITING": "Čekanje na dostavljača.",
+        "ON_ROAD": "Dostavljač je privhatio vašu narudžbu.",
+        "PACKAGE_PICKED": "Dostavljač je preuzeo vašu narudžbu.",
+        "FINISHED": "Vaša narudžba je dostavljena.",
+        "CANCELED": "Narudžba je otkazana.",
+        "DRIVER_CANCELED": "Dostavljač je otkazao.",
+        "CUSTOMER_CANCELED": "Kupac je otkazao."
+      }
+    },
+    "ENUMS": {
+      "DAYS": {
+        "MONDAY": "Ponedeljak",
+        "TUESDAY": "Utorak",
+        "WEDNESDAY": "Sreda",
+        "THURSDAY": "Četvrtak",
+        "FRIDAY": "Petak",
+        "SATURDAY": "Subota",
+        "SUNDAY": "Nedelja"
+      }
+    },
+    "DIALOGS": {
+      "PERMISSIONTYPENUM": {
+        "CAMERA": {
+          "TITLE": "Omogućite dostavljaču Post Now pristup vašoj kameri.",
+          "MESSAGE": "Post Now terba pristup vašoj kameri.",
+          "ALLOW": "Omogućiti"
+        },
+        "LOCATION": {
+          "TITLE": "Omogućite Post Now dostavljaču pristup lokaciji ovog uređaja.",
+          "MESSAGE": "Kako bismo pružili bolju uslugu, dajte aplikaciji autorizaciju pristupa lokacije uređaja.",
+          "ALLOW": "Omogućiti"
+        }
+      },
+      "CASH_WARN": {
+        "TITLE": "Cena u kešu {cash} €",
+        "MESSAGE": "Müsteriden {cash} € luk hizmet bedelini tahsil ettim."
+      },
+      "I_AM_BACK": {
+        "TITLE": "Da li ste se vratili?",
+        "MESSAGE": "",
+        "POSITIVE": "Da"
+      },
+      "JOB_REQUEST": {
+        "TITLE": "Nova narudžba!"
+      },
+      "UPDATE_AVAILABLE": {
+        "TITLE": "Dostupno novo ažuriranje.",
+        "BODY": "Poslednje ažuriranje mora biti dostupno da koristite aplikaciju.",
+        "BUTTON": "Ažurirajte sada!"
+      },
+      "ARE_YOU_SURE_CANCEL": {
+        "CONTENT_WITH_AMOUNT": "Za otkazivanje vaše narudžbe biće vam naplaćeno {amount} €.",
+        "CONTENT": "Da li ste sigurni da želite otkazati?"
+      },
+      "JOB_SETTINGS": {
+        "CANCEL_JOB" : "Otkažite narudžbu."
+      },
+      "SETTINGS": {
+        "YOU_CANT_CHANGE": {
+          "MESSAGE": "Ako želite promeniti podatke, kontaktirajte nas.",
+          "CONTACT": "Kontaktirajte nas"
+        }
+      }
+    }
+  }
