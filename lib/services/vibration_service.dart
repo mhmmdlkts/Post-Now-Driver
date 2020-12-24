@@ -30,6 +30,18 @@ class VibrationService {
     }
   }
 
+  static vibrateCancel({n = 1}) async {
+    if (n == 0)
+      return;
+    if (await Vibration.hasCustomVibrationsSupport()) {
+      await Vibration.vibrate(duration: 500);
+    } else {
+      await Vibration.vibrate();
+    }
+    await Future.delayed(Duration(milliseconds: 1000));
+    vibrateCancel(n: n-1);
+  }
+
   static vibrateNewOrder() async {
     if (await Vibration.hasCustomVibrationsSupport()) {
       await Vibration.vibrate(pattern: [300, 500]);

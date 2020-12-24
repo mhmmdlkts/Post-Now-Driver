@@ -130,7 +130,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
 
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) {
-        switch (message["data"]["typ"]) {
+        switch (message["typ"]) {
           case "jobRequest":
             _showJobRequestDialog(Address.fromJson(json.decode(message["originAddress"])));
             break;
@@ -139,6 +139,9 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
             break;
           case "stayOnline":
             _mapsService.updateAppStatus();
+            break;
+          case "canceled":
+            _playCancelSound();
             break;
         }
         return;
@@ -387,7 +390,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
         case Status.WAITING:
           _setJob(j);
           _changeMenuTyp(MenuTyp.JOB_REQUEST);
-          _playNewOrderSound("1");
+          _playNewOrderSound();
           break;
         case Status.ACCEPTED:
         case Status.ON_ROAD:
@@ -405,11 +408,11 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     });
   }
 
-  _playNewOrderSound (a) async {
+  _playNewOrderSound () async {
     _audioPlayer?.stop();
     _audioPlayer = await _audioCache.loop('sounds/new_order.mp3');
     while (_requestJobBottomCard != null) {
-      await VibrationService.vibrateMessage();
+      await VibrationService.vibrateNewOrder();
     }
     _audioPlayer?.stop();
   }
@@ -421,6 +424,14 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
       _audioPlayer?.stop();
     });
   }
+
+  _playCancelSound () async {
+    _audioPlayer?.stop();
+    _audioPlayer = await _audioCache.play('sounds/order_canceled_sound.mp3');
+    VibrationService.vibrateCancel(n: 4);
+    _audioPlayer?.stop();
+  }
+
 
   _onMapCreated(GoogleMapController controller) {
     setState(() {
@@ -831,7 +842,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
         _requestJobListener = _mapsService.jobsRef.child(jobId.toString()).onValue.listen((Event e){
           Job j = Job.fromSnapshot(e.snapshot);
           setState(() {
-            _playNewOrderSound("2");
+            _playNewOrderSound();
             _requestJobBottomCard = BottomCard(
               key: GlobalKey(),
               maxHeight: _mapKey.currentContext.size.height,

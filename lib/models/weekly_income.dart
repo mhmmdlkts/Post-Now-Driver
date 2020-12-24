@@ -7,8 +7,9 @@ import 'package:postnow/models/job.dart';
 
 class WeeklyIncome {
   final List<DailyIncome> dailyIncomes = List(7);
-  final List<Job> jobs = List();
+  List<Job> jobs = List();
   bool isInitialized;
+  bool isSorted = false;
 
   WeeklyIncome() {
     isInitialized = false;
@@ -24,12 +25,13 @@ class WeeklyIncome {
     dailyIncomes[4] = DailyIncome(Days.FRIDAY);
     dailyIncomes[5] = DailyIncome(Days.SATURDAY);
     dailyIncomes[6] = DailyIncome(Days.SUNDAY);
+    isSorted = false;
   }
 
   void addJob(Job job) {
-    if (job.status == Status.FINISHED)
-      dailyIncomes[job.finishTime.weekday - 1].income += job.price.driverBecomes;
+    dailyIncomes[job.finishTime.weekday - 1].income += job.price.driverBecomes;
     jobs.add(job);
+    isSorted = false;
   }
 
   double getTotalIncome() {
@@ -65,6 +67,11 @@ class WeeklyIncome {
   DailyIncome sunday() => dailyIncomes[6];
 
   Job getJob(int index) {
+    if (!isSorted) {
+      isSorted = true;
+      jobs.sort();
+      jobs = List<Job>.from(jobs.reversed);
+    }
     if (jobs.isEmpty || index >= jobs.length)
       return null;
     return jobs[index];

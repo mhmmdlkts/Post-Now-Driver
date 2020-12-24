@@ -104,6 +104,6 @@ class OverviewService {
   String getTotalDriveTime() => weeklyIncome.getTotalDriveTime();
   double getTotalIncome() => weeklyIncome.getTotalIncome();
   int getTotalTripsCount() => weeklyIncome.getTotalTripsCount();
-  Job getJob(int index) => weeklyIncome.getJob(index);
   double getIncomeOfToday() => weeklyIncome.dailyIncomes[currentDayOfWeek()].income;
+  Job getJob(int index) =>  weeklyIncome.getJob(index);
 }
