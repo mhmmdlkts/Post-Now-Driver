@@ -1,0 +1,244 @@
+{
+  "APP_NAME": "Post Now Deliverer",
+  "OK": "Dobre",
+  "NO": "Nie",
+  "YES": "Áno",
+  "CANCEL": "Zrušiť",
+  "ACCEPT": "Prijať",
+  "WARNING": "Upozornenie",
+  "CLOSE": "Zavrieť",
+  "ERROR": "Chyba",
+  "FAILED": "Zlyhalo",
+  "SETTINGS": "Nastavenia",
+  "THANKS": "Vďaka",
+  "SEND_MESSAGE": "Poslať správu",
+  "PLEASE_WAIT": "Prosím čakať",
+  "LOGIN": {
+    "NAME_FIELD_TITLE": "Meno",
+    "NAME_FIELD_HINT": "Vaše Meno",
+    "NAME_FIELD_VALIDATOR_ENTER_NAME": "Prosím zadajte vaše meno.",
+    "SURNAME_FIELD_HINT": "Priezvisko",
+    "SURNAME_FIELD_VALIDATOR_ENTER_NAME": "Prosím zadajte vaše priezvisko.",
+    "PHONE_FIELD_HINT": "Príklad: +436601231212",
+    "PHONE_FIELD_VALIDATOR_ENTER_NAME": "Zadajte vaše telefónne číslo.",
+    "SMS_CODE_FIELD_HINT": "Príklad: 123456",
+    "SMS_CODE_FIELD_VALIDATOR_ENTER_NAME": "Zadajte váš SMS overovací kód.",
+    "TITLE": "Vitajte Naspäť",
+    "SUBTITLE": "Ahojte, pre pokračovanie sa prihláste!",
+    "EMAIL_FIELD_TITLE": "E-mail",
+    "EMAIL_FIELD_HINT": "Vás e-mail",
+    "EMAIL_FIELD_VALIDATOR_ENTER_NAME": "Prosím zadajte vašu e-mailovú adresu.",
+    "PASSWORD_FIELD_TITLE": "Heslo",
+    "PASSWORD_FIELD_HINT": "Vaše Heslo",
+    "PASSWORD_FIELD_VALIDATOR_ENTER_NAME": "Prosím zadajte vaše heslo.",
+    "AGREE_TERMS_AND_POLICY": "Prihlásením sa súhlasíte s našimi Zásadami Ochrany Osobných Údajov a Zmluvnými Podmienkami.",
+    "CONTINUE_BUTTON": "Prihlásiť sa",
+    "DON'T_HAVE_AN_ACCOUNT": "Nemáte účet?",
+    "SIGN_IN": "Prihlásiť sa",
+    "SIGN_UP": "Zaregistrovať sa",
+    "LOGIN_PROBLEMS": "Máte problém sa prihlásiť?",
+    "AUTO_FILL_EMAIL_SUBJECT": "Mám problém prihlásiť sa do Post Now Deliverer Aplikácie",
+    "ERROR_MESSAGES" : {
+      "ERROR_INVALID_EMAIL": "Vaša e-mailová adresa sa zdá byť neplatná.",
+      "ERROR_WRONG_PASSWORD": "Heslo ktoré ste zadali je nesprávne.",
+      "ERROR_USER_NOT_FOUND": "Užívateľ s touto e-mailovou adresou neexistuje.",
+      "ERROR_USER_DISABLED": "Užívateľ s touto e-mailovou adresou bol deaktivovaný.",
+      "ERROR_TOO_MANY_REQUESTS" : "Príliš veľa pokusov, skúste znovu neskôr.",
+      "ERROR_OPERATION_NOT_ALLOWED" : "Prihlásenie sa s týmto e-mailom a heslom nie je povolené.",
+      "ERROR_EMAIL_ALREADY_IN_USE": "Táto e-mailová adresa sa už používa."
+    }
+  },
+  "MONTHS": {
+    "JANUARY": "Január",
+    "FEBRUARY": "Február",
+    "MARCH": "Marec",
+    "APRIL": "Apríl",
+    "MAY": "Máj",
+    "JUNE": "Jún",
+    "JULY": "Júl",
+    "AUGUST": "August",
+    "SEPTEMBER": "September",
+    "OCTOBER": "Október",
+    "NOVEMBER": "November",
+    "DECEMBER": "December"
+  },
+  "CONTACT_FORM": {
+    "TITLE": "Kontaktný Formulár",
+    "NAME": {
+      "LABEL": "Meno",
+      "HINT_LABEL": "Prosím zadajte vaše meno."
+    },
+    "EMAIL": {
+      "LABEL": "E-mail",
+      "HINT_LABEL": "Prosím zadajte vašu e-mailovú adresu."
+    },
+    "PHONE": {
+      "LABEL": "Telefónne číslo",
+      "HINT_LABEL": "Prosím zadajte vaše telefónne číslo."
+    },
+    "SUBJECT": {
+      "LABEL": "Predmet",
+      "HINT_LABEL": "Prosím zadajte predmet."
+    },
+    "CONTENT": {
+      "LABEL": "Obsah",
+      "HINT_LABEL": "Zadajte obsah"
+    },
+    "SEND": "Poslať"
+  },
+  "DIRECT_JOB_OVERVIEW": {
+    "ANY_PROBLEMS": "Nejaké problémy s touto prácou?"
+  },
+  "MAPS": {
+    "GO_ONLINE" : "Ísť Online!",
+    "GO_OFFLINE" : "Ísť Offline!",
+    "YOU_ARE_ONLINE" : "Ste online!",
+    "YOU_ARE_OFFLINE" : "Ste offline!",
+    "TAKE_PACKAGE" : "Vyzdvihnúť balík",
+    "NO_LOCATION_INFORMATION_MESSAGE" : "Informácia o polohe nie je k dispozícii.",
+    "SIDE_MENU": {
+      "OVERVIEW": "História Objednávok",
+      "PRIVACY_POLICY": "Zásady Ochrany Osobných Údajov",
+      "SOFTWARE_LICENCES": "Softvérové Licencie",
+      "CONTACT": "Kontakt",
+      "SIGN_OUT": "Odhlásiť sa"
+    },
+    "BOTTOM_MENUS": {
+      "ON_JOB": {
+        "CASH": "Zákazník bude platiť v hotovosti: {cash} €",
+        "YOUR_CUSTOMER": "Zákazník: {name}",
+        "PACKAGE_ADDRESS": "Adresa odosielateľa: {address}\nBude odovzdaný pred domom\nDodávku odovzdá: {name}",
+        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Adresa odosielateľa: {address}\nDodávku odovzdá: {name}"
+      },
+      "PACKAGE_PICKED" : {
+        "YOUR_CUSTOMER": "Zákazník: {name}",
+        "PACKAGE_ADDRESS": "Adresa príjemcu: {address}\nVyzdvihnutie bude pred domom\nDodávku príjme: {name}",
+        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Adresa príjemcu: {address}\nDodávku príjme: {name}",
+        "LET_HIM_SIGNING": "Nech sa {name} podpíše"
+      }
+    }
+  },
+  "LEGAL": {
+    "TITLE": "Legálne",
+    "LegalTyp": {
+      "PRIVACY_POLICY": "Zásady Ochrany Osobných Údajov",
+      "SOFTWARE_LICENCES": "Softvérové Licencie",
+      "CONTACT": "Kontakt"
+    }
+  },
+  "SHOPPING_LIST": {
+    "TITLE": "Nákupný zoznam"
+  },
+  "SETTINGS_SCREEN": {
+    "ACCOUNT": {
+      "TITLE": "Účet",
+      "NAME_HINT": "Meno",
+      "PHONE_HINT": "Telefón",
+      "EMAIL_HINT": "E-mail"
+    },
+    "SOFTWARE_LICENCES": "Licencia",
+    "SIGN_OUT": "Odhlásiť sa"
+  },
+  "CHAT": {
+    "TYPE_MESSAGE_HERE": "Zadajte vašu správu..."
+  },
+  "SIGNING": {
+    "CLEAR": "Vymazať",
+    "SIGN": "Podpísať",
+    "SIGN_TERMS": "S týmto podpisom potvrdzujem, že som obdržal dodávku bezpečne a bez poškodenia."
+  },
+  "OVERVIEW": {
+    "TITLE": "História Objednávok",
+    "TH_WEEK": "{week}. Týždeň",
+    "TOTAL_TRIP_COUNT": "Celkový počet ciest",
+    "TOTAL_DRIVE_TIME": "Celkový čas ciest",
+    "SINGLE_ITEM": {
+      "DRIVER_CANCELED": "Zrušené Doručovateľom.",
+      "CUSTOMER_CANCELED": "Zrušené zákazníkom."
+    },
+    "MODELS": {
+      "ORDER_DATE": "Dátum Objednávky",
+      "ORDER_TIME": "Čas Objednávky",
+      "JOB": {
+        "WAITING": "Čaká sa na Doručovateľa.",
+        "ON_ROAD": "Doručovateľ prijal vašu objednávku.",
+        "PACKAGE_PICKED": "Doručovateľ vyzdvihol objednávku.",
+        "FINISHED": "Vaša objednávka bola doručená.",
+        "CANCELED": "Objednávka bola zrušená.",
+        "DRIVER_CANCELED": "Zrušené Doručovateľom.",
+        "CUSTOMER_CANCELED": "Zrušené zákazníkom."
+      }
+    }
+  },
+  "MODELS": {
+    "JOB": {
+      "WAITING": "Čaká sa na Doručovateľa.",
+      "ON_ROAD": "Doručovateľ prijal vašu objednávku.",
+      "PACKAGE_PICKED": "Doručovateľ vyzdvihol objednávku.",
+      "FINISHED": "Vaša objednávka bola doručená.",
+      "CANCELED": "Objednávka bola zrušená.",
+      "DRIVER_CANCELED": "Zrušené Doručovateľom.",
+      "CUSTOMER_CANCELED": "Zrušené zákazníkom."
+    }
+  },
+  "ENUMS": {
+    "DAYS": {
+      "MONDAY": "Pondelok",
+      "TUESDAY": "Utorok",
+      "WEDNESDAY": "Streda",
+      "THURSDAY": "Štvrtok",
+      "FRIDAY": "Piatok",
+      "SATURDAY": "Sobota",
+      "SUNDAY": "Nedeľa"
+    }
+  },
+  "DIALOGS": {
+    "PERMISSIONTYPENUM": {
+      "CAMERA": {
+        "TITLE": "Povoliť Post Now Deliverer urobiť fotografie.",
+        "MESSAGE": "Post Now potrebuje prístup k vašej kamere.",
+        "ALLOW": "Povoliť"
+      },
+      "LOCATION": {
+        "TITLE": "Povoliť Post Now Deliverer prístup k polohe tohto zariadenia.",
+        "MESSAGE": "Z dôvodu zaručenia lepšej funkčnosti, udeľte aplikácii oprávnenie na prístup k polohe zariadenia.",
+        "ALLOW": "Povoliť"
+      }
+    },
+    "NO_ACCOUNT": {
+      "TITLE": "Upozornenie!",
+      "BODY": "Nie ste oprávnení používať túto aplikáciu.",
+      "BUTTON": "Zavrieť"
+    },
+    "CASH_WARN": {
+      "TITLE": "Cena v hotovosti {cash} €",
+      "MESSAGE": "Zákazník bol účtovaní {cash} € za poplatok za službu."
+    },
+    "I_AM_BACK": {
+      "TITLE": "Ste naspäť?",
+      "MESSAGE": "",
+      "POSITIVE": "Áno"
+    },
+    "JOB_REQUEST": {
+      "TITLE": "Nová Objednávka!"
+    },
+    "UPDATE_AVAILABLE": {
+      "TITLE": "K dispozícii je nová aktualizácia.",
+      "BODY": "Na používanie aplikácie musí byť nainštalovaná najnovšia aktualizácia.",
+      "BUTTON": "Aktualizovať Teraz!"
+    },
+    "ARE_YOU_SURE_CANCEL": {
+      "CONTENT_WITH_AMOUNT": "Za zrušenie vašej objednávky budete účtovaný {amount} €.",
+      "CONTENT": "Ste si istý že chcete zrušiť?"
+    },
+    "JOB_SETTINGS": {
+      "CANCEL_JOB" : "Zrušiť objednávku."
+    },
+    "SETTINGS": {
+      "YOU_CANT_CHANGE": {
+        "MESSAGE": "Ak chcete zmeniť vaše údaje, kontaktujte nás.",
+        "CONTACT": "Kontaktujte nás"
+      }
+    }
+  }
+}
