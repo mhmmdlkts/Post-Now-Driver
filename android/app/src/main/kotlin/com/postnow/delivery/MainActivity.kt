@@ -1,4 +1,4 @@
-package com.mali.driver.postnow
+package com.postnow.delivery
 
 import io.flutter.embedding.android.FlutterActivity
 

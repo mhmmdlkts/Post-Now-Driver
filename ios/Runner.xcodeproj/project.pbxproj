@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		2400D42D24BE514A00BA2FF6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2400D42C24BE514A00BA2FF6 /* GoogleService-Info.plist */; };
+		24150FBD2597BB9200D3F7D6 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24150FBC2597BB9200D3F7D6 /* Config.swift */; };
 		275A9FE6D4DFB93BF3B464BB /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4B284E1114B334434454124 /* Pods_Runner.framework */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
@@ -36,6 +37,7 @@
 		211F5E40F3C51571A55124A3 /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
 		2400D42C24BE514A00BA2FF6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2400D42E24BFA57300BA2FF6 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
+		24150FBC2597BB9200D3F7D6 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		2619160D8E4B2457DC45E42C /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
 		36E600C9323E7CE28E158D7C /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 				1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */,
 				74858FAE1ED2DC5600515810 /* AppDelegate.swift */,
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
+				24150FBC2597BB9200D3F7D6 /* Config.swift */,
 			);
 			path = Runner;
 			sourceTree = "<group>";
@@ -297,6 +300,7 @@
 			files = (
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
+				24150FBD2597BB9200D3F7D6 /* Config.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -382,7 +386,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6KMT4H4CNE;
+				DEVELOPMENT_TEAM = 33ZTKVABMB;
 				ENABLE_BITCODE = NO;
 				FLUTTER_ROOT = /Users/mali/Flutter/flutter;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -400,9 +404,9 @@
 					"$(PROJECT_DIR)/Flutter",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.mali.driver.postnow;
+				PRODUCT_BUNDLE_IDENTIFIER = com.postnow.delivery;
 				PRODUCT_NAME = "Post Now Runner";
-				PROVISIONING_PROFILE_SPECIFIER = "Postnow Driver";
+				PROVISIONING_PROFILE_SPECIFIER = "Delivery Profile";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -526,7 +530,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6KMT4H4CNE;
+				DEVELOPMENT_TEAM = 33ZTKVABMB;
 				ENABLE_BITCODE = NO;
 				FLUTTER_ROOT = /Users/mali/Flutter/flutter;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -544,9 +548,9 @@
 					"$(PROJECT_DIR)/Flutter",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.mali.driver.postnow;
+				PRODUCT_BUNDLE_IDENTIFIER = com.postnow.delivery;
 				PRODUCT_NAME = "Post Now Runner";
-				PROVISIONING_PROFILE_SPECIFIER = "Postnow Driver";
+				PROVISIONING_PROFILE_SPECIFIER = "Delivery Profile";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -564,7 +568,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6KMT4H4CNE;
+				DEVELOPMENT_TEAM = 33ZTKVABMB;
 				ENABLE_BITCODE = NO;
 				FLUTTER_ROOT = /Users/mali/Flutter/flutter;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -582,9 +586,9 @@
 					"$(PROJECT_DIR)/Flutter",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.mali.driver.postnow;
+				PRODUCT_BUNDLE_IDENTIFIER = com.postnow.delivery;
 				PRODUCT_NAME = "Post Now Runner";
-				PROVISIONING_PROFILE_SPECIFIER = "Postnow Driver";
+				PROVISIONING_PROFILE_SPECIFIER = "Delivery Profile";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
