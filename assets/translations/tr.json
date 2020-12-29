@@ -37,7 +37,7 @@
     "SIGN_IN": "Oturum aç",
     "SIGN_UP": "Kaydol",
     "LOGIN_PROBLEMS": "Oturum açmada sorun mu yaşıyorsunuz?",
-    "AUTO_FILL_EMAIL_SUBJECT": "Post Now Driver uygulamasında oturum açarken sorun yaşıyorum.",
+    "AUTO_FILL_EMAIL_SUBJECT": "Post Now Delivery uygulamasında oturum açarken sorun yaşıyorum.",
     "ERROR_MESSAGES" : {
       "ERROR_INVALID_EMAIL" : "E-posta adresiniz geçersiz.",
       "ERROR_WRONG_PASSWORD" : "Girdiğiniz şifre yanlış.",
@@ -195,12 +195,12 @@
   "DIALOGS": {
     "PERMISSIONTYPENUM": {
       "CAMERA": {
-        "TITLE": "Post Now Driver'ın fotoğraf çekmesine izin ver.",
-        "MESSAGE": "Post Now Driver'ın kameranıza erişmesi gerekiyor.",
+        "TITLE": "Post Now Delivery'nin fotoğraf çekmesine izin ver.",
+        "MESSAGE": "Post Now Delivery'nin kameranıza erişmesi gerekiyor.",
         "ALLOW": "İzin ver"
       },
       "LOCATION": {
-        "TITLE": "Post Now Driver'ın bu cihazın konumuna erişmesine izin verin.",
+        "TITLE": "Post Now Delivery'nin bu cihazın konumuna erişmesine izin verin.",
         "MESSAGE": "Uygulamanın daha iyi çalışabilmesi için, uygulamaya cihazın konumuna erişme yetkisi verin.",
         "ALLOW": "İzin ver"
       }

@@ -37,7 +37,7 @@
     "SIGN_IN": "Anmelden",
     "SIGN_UP": "Registrieren",
     "LOGIN_PROBLEMS": "Probleme beim Anmelden?",
-    "AUTO_FILL_EMAIL_SUBJECT": "Ich habe Probleme, mich bei der Post Now Driver App anzumelden.",
+    "AUTO_FILL_EMAIL_SUBJECT": "Ich habe Probleme, mich bei der Post Now Delivery App anzumelden.",
     "ERROR_MESSAGES" : {
       "ERROR_INVALID_EMAIL" : "Deine E-Mail-Adresse scheint ungültig zu sein.",
       "ERROR_WRONG_PASSWORD" : "Das eingegebene Passwort ist falsch.",
