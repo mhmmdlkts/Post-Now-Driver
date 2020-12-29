@@ -10,7 +10,7 @@
   "ERROR": "Hata",
   "FAILED": "Başarısız",
   "SETTINGS": "Ayarlar",
-  "THANKS": "Teşekkürler",
+  "THANKS": "Siparişi tamamladınız.",
   "SEND_MESSAGE": "Mesaj gönder",
   "PLEASE_WAIT": "Lütfen bekleyin",
   "LOGIN": {
@@ -90,9 +90,9 @@
     "ANY_PROBLEMS": "Bu siparişle ilgili herhangi bir sorun var mı?"
   },
   "MAPS": {
-    "GO_ONLINE" : "Çevrimiçi ol!",
+    "GO_ONLINE" : "Çevrimiçi ol",
     "GO_OFFLINE" : "Çevrimdışı ol",
-    "YOU_ARE_ONLINE" : "Çevrimiçisin!",
+    "YOU_ARE_ONLINE" : "Çevrimiçisin",
     "YOU_ARE_OFFLINE" : "Çevrimdışısın",
     "TAKE_PACKAGE" : "Siparişi teslim al",
     "NO_LOCATION_INFORMATION_MESSAGE" : "Konum bilgisi mevcut değil.",
