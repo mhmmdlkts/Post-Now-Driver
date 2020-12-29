@@ -91,6 +91,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   void initState() {
     _initCount++;
     super.initState();
+
     _firebaseService.setMyToken(_user.uid);
 
     Screen.keepOn(true);
@@ -202,6 +203,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
                       .size
                       .height,
                   child: GoogleMap(
+                    mapToolbarEnabled: false,
                     compassEnabled: false,
                     key: _mapKey,
                     zoomControlsEnabled: false,
@@ -230,9 +232,19 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
                 DrawerHeader(
                   padding: EdgeInsets.zero,
                   decoration: BoxDecoration(
-                      image: DecorationImage(image: NetworkImage(_user.photoURL),
+                      image: _user.photoURL == null?null:DecorationImage(image: NetworkImage(_user.photoURL),
                           fit: BoxFit.cover)
                   ),
+                ),
+                Visibility(
+                  visible: _bottomCard != null,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    child: FlatButton(
+                        onPressed: () => _changeStatus(),
+                        child: Text((_onlineStatus == OnlineStatus.ONLINE? "MAPS.YOU_ARE_ONLINE" : "MAPS.YOU_ARE_OFFLINE").tr(), style: TextStyle(fontSize: 16, color: _onlineStatus == OnlineStatus.ONLINE?Colors.blue:Colors.redAccent),)
+                    ),
+                  )
                 ),
                 ListTile(
                   title: Text('MAPS.SIDE_MENU.OVERVIEW'.tr()),
@@ -619,7 +631,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
           maxHeight: _mapKey.currentContext.size.height,
           floatingActionButton: _getFloatingButton(),
           isLoading: true,
-          headerText: 'MAPS.BOTTOM_MENUS.PLEASE_WAIT.PLEASE_WAIT'.tr(),
+          headerText: 'PLEASE_WAIT'.tr(),
           shrinkWrap: false,
           showFooter: false,
         );

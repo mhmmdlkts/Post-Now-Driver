@@ -15,8 +15,7 @@ class SigningScreen extends StatefulWidget {
 class _SigningScreen extends State<SigningScreen> {
   final _signingService = SigningService();
   final _signatureFieldKey = GlobalKey<SignatureState>();
-
-  _SigningScreen();
+  bool _isEmpty = true;
 
   @override
   void initState() {
@@ -45,9 +44,9 @@ class _SigningScreen extends State<SigningScreen> {
               height: 56,
               child: RaisedButton (
                 color: primaryBlue,
-                shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                 child: Text("SIGNING.SIGN".tr(), style: TextStyle(color: Colors.white, fontSize: 24),),
-                onPressed: _sign,
+                onPressed: _isEmpty?null:_sign,
               ),
             ),
             Container(height: 10,),
@@ -74,7 +73,10 @@ class _SigningScreen extends State<SigningScreen> {
   }
 
   _clear() {
-    _signatureFieldKey.currentState.clear();
+    setState(() {
+      _signatureFieldKey.currentState.clear();
+      _isEmpty = true;
+    });
   }
 
   Widget _signingFieldWidget() => Container(
@@ -87,7 +89,9 @@ class _SigningScreen extends State<SigningScreen> {
       color: Colors.black,
       strokeWidth: 2.4,
       backgroundPainter: null,
-      onSign: null,
+      onSign: () => setState(() {
+        _isEmpty = false;
+      }),
       key: _signatureFieldKey,
     ),
   );
