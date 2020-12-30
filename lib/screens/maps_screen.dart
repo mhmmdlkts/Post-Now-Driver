@@ -194,14 +194,8 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
           body: Stack(
               children: <Widget>[
                 SizedBox(
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width, // or use fixed size like 200
-                  height: MediaQuery
-                      .of(context)
-                      .size
-                      .height,
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
                   child: GoogleMap(
                     mapToolbarEnabled: false,
                     compassEnabled: false,

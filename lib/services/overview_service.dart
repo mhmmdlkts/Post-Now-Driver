@@ -31,7 +31,7 @@ class OverviewService {
   Future<void> initCompletedJobs({int year, int week}) async {
     weeklyIncome.reset();
     await _jobsRef.child(_getChildKey(year, week)).child(user.uid).orderByChild("finished-time").once().then((DataSnapshot snapshot) => {
-    weeklyIncome.reset(),
+      weeklyIncome.reset(),
       if (snapshot.value != null) {
         snapshot.value.forEach((key, value) {
           Job j = Job.fromJson(value, key: key);
@@ -48,14 +48,6 @@ class OverviewService {
       year = currentYear();
     if (week == null) 
       week = dayOfWeek();
-    if (week < 0) {
-      year--;
-      week = 52;
-    }
-    if (week > 52) {
-      year++;
-      week = 0;
-    }
     return year.toString() + "-" + week.toString();
   }
 
