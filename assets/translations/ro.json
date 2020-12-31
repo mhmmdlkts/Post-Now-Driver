@@ -1,5 +1,5 @@
 {
-  "APP_NAME": "Post Now Deliverer",
+  "APP_NAME": "Post Now Delivery",
   "OK": "OK",
   "NO": "Nu",
   "YES": "Da",
@@ -37,7 +37,7 @@
     "SIGN_IN": "Conectează-te",
     "SIGN_UP": "Înscrie-te",
     "LOGIN_PROBLEMS": "Ai probleme la conectare?",
-    "AUTO_FILL_EMAIL_SUBJECT": "Am probleme cu conectarea la aplicația Post Now Deliverer",
+    "AUTO_FILL_EMAIL_SUBJECT": "Am probleme cu conectarea la aplicația Post Now Delivery",
     "ERROR_MESSAGES" : {
       "ERROR_INVALID_EMAIL": "Adresa ta de e-mail pare a fi invalidă.",
       "ERROR_WRONG_PASSWORD": "Parola introdusă este incorectă.",
@@ -195,12 +195,12 @@
   "DIALOGS": {
     "PERMISSIONTYPENUM": {
       "CAMERA": {
-        "TITLE": "Permite ca Post Now Deliverer să facă poze.",
+        "TITLE": "Permite ca Post Now Delivery să facă poze.",
         "MESSAGE": "Post Now are nevoie să îți acceseze camera.",
         "ALLOW": "Permite"
       },
       "LOCATION": {
-        "TITLE": "Permite ca Post Now Deliverer să acceseze locația acestui dispozitiv.",
+        "TITLE": "Permite ca Post Now Delivery să acceseze locația acestui dispozitiv.",
         "MESSAGE": "Pentru a garanta o funcționare mai bună, acordă aplicației autorizația de a accesa locația dispozitivului.",
         "ALLOW": "Permite"
       }

@@ -1,5 +1,5 @@
 {
-  "APP_NAME": "Post Now Deliverer",
+  "APP_NAME": "Post Now Delivey",
   "OK": "Dobre",
   "NO": "Nie",
   "YES": "Áno",
@@ -37,7 +37,7 @@
     "SIGN_IN": "Prihlásiť sa",
     "SIGN_UP": "Zaregistrovať sa",
     "LOGIN_PROBLEMS": "Máte problém sa prihlásiť?",
-    "AUTO_FILL_EMAIL_SUBJECT": "Mám problém prihlásiť sa do Post Now Deliverer Aplikácie",
+    "AUTO_FILL_EMAIL_SUBJECT": "Mám problém prihlásiť sa do Post Now Delivery Aplikácie",
     "ERROR_MESSAGES" : {
       "ERROR_INVALID_EMAIL": "Vaša e-mailová adresa sa zdá byť neplatná.",
       "ERROR_WRONG_PASSWORD": "Heslo ktoré ste zadali je nesprávne.",
@@ -195,12 +195,12 @@
   "DIALOGS": {
     "PERMISSIONTYPENUM": {
       "CAMERA": {
-        "TITLE": "Povoliť Post Now Deliverer urobiť fotografie.",
+        "TITLE": "Povoliť Post Now Delivery urobiť fotografie.",
         "MESSAGE": "Post Now potrebuje prístup k vašej kamere.",
         "ALLOW": "Povoliť"
       },
       "LOCATION": {
-        "TITLE": "Povoliť Post Now Deliverer prístup k polohe tohto zariadenia.",
+        "TITLE": "Povoliť Post Now Delivery prístup k polohe tohto zariadenia.",
         "MESSAGE": "Z dôvodu zaručenia lepšej funkčnosti, udeľte aplikácii oprávnenie na prístup k polohe zariadenia.",
         "ALLOW": "Povoliť"
       }

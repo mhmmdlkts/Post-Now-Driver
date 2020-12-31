@@ -1,5 +1,5 @@
 {
-    "APP_NAME": "Post Now Deliverer",
+    "APP_NAME": "Post Now Delivery",
     "OK": "Uredu",
     "NO": "Ne",
     "YES": "Da",
@@ -37,7 +37,7 @@
       "SIGN_IN": "Prijava",
       "SIGN_UP": "Registracija",
       "LOGIN_PROBLEMS": "Imate poteškoće prilikom prijave?",
-      "AUTO_FILL_EMAIL_SUBJECT": "Imam poteškoće prilikom prijave na Post Now Deliverer aplikaciju",
+      "AUTO_FILL_EMAIL_SUBJECT": "Imam poteškoće prilikom prijave na Post Now Delivery aplikaciju",
       "ERROR_MESSAGES" : {
         "ERROR_INVALID_EMAIL": "Izgleda da je vaša e-mail adresa nevažeća.",
         "ERROR_WRONG_PASSWORD": "Lozinka koju ste uneli je netačna.",
