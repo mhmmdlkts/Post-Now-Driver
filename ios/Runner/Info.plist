@@ -14,14 +14,15 @@
 	<string>6.0</string>
 	<key>CFBundleLocalizations</key>
 	<array>
-		<string>hr</string>
-		<string>bs</string>
 		<string>sk</string>
+		<string>bs</string>
+		<string>hr</string>
 		<string>sr</string>
 		<string>ro</string>
-		<string>en</string>
-		<string>de</string>
 		<string>tr</string>
+		<string>de</string>
+		<string>en</string>
+		<string>hu</string>
 	</array>
 	<key>CFBundleName</key>
 	<string>Post Now Delivery</string>

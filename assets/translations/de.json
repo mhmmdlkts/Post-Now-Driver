@@ -25,7 +25,7 @@
     "SMS_CODE_FIELD_VALIDATOR_ENTER_NAME": "Gib deinen SMS-Bestätigungscode ein.",
     "TITLE": "Willkommen zurück",
     "SUBTITLE": "Hallo, melde dich an, um fortzufahren!",
-    "EMAIL_FIELD_TITLE": "Email",
+    "EMAIL_FIELD_TITLE": "E-mail Adresse",
     "EMAIL_FIELD_HINT": "Deine E-Mail-Adresse",
     "EMAIL_FIELD_VALIDATOR_ENTER_NAME": "Bitte gib deine E-Mail-Adresse ein.",
     "PASSWORD_FIELD_TITLE": "Passwort",
@@ -69,7 +69,7 @@
       "HINT_LABEL": "Bitte gib deinen Namen ein."
     },
     "EMAIL": {
-      "LABEL": "Email",
+      "LABEL": "E-mail Adresse",
       "HINT_LABEL": "Bitte gib deine E-Mail-Adresse ein."
     },
     "PHONE": {
@@ -107,13 +107,13 @@
       "ON_JOB": {
         "CASH": "Müsteri nakit ödeme yapmayi tercih etti. Müsteriden {cash} € tahsil ediniz.",
         "YOUR_CUSTOMER": "Absender: {name}",
-        "PACKAGE_ADDRESS": "Absenderadresse: {address}\nÜbergabe vor dem Haus\nLieferung wird übergeben von: {name}",
-        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Absenderadresse: {address}\nLieferung wird übergeben von: {name}"
+        "PACKAGE_ADDRESS": "Absenderadresse: {address}\nÜbergabe vor dem Haus\n{name}",
+        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Absenderadresse: {address}\n{name}"
       },
       "PACKAGE_PICKED" : {
         "YOUR_CUSTOMER": "Empfänger: {name}",
-        "PACKAGE_ADDRESS": "Empfängeradresse: {address}\nÜbernahme vor dem Haus\nLieferung wird angenommen von: {name}",
-        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Empfängeradresse: {address}\nLieferung wird angenommen von: {name}",
+        "PACKAGE_ADDRESS": "Empfängeradresse: {address}\nÜbernahme vor dem Haus\n{name}",
+        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Empfängeradresse: {address}\n{name}",
         "LET_HIM_SIGNING": "Bestellung an {name} zustellen"
       }
     }
@@ -134,7 +134,7 @@
       "TITLE": "Nutzerkonto",
       "NAME_HINT": "Name",
       "PHONE_HINT": "Telefonnummer",
-      "EMAIL_HINT": "Email Adresse"
+      "EMAIL_HINT": "E-mail Adresse"
     },
     "SOFTWARE_LICENCES": "Lizenzen",
     "SIGN_OUT": "Abmelden"
@@ -195,12 +195,12 @@
   "DIALOGS": {
     "PERMISSIONTYPENUM": {
       "CAMERA": {
-        "TITLE": "Zulassen, dass Post Now Bilder aufnimmt?",
-        "MESSAGE": "Post Now muss auf Ihre Kamera zugreifen.",
+        "TITLE": "Zulassen, dass Post Now Delivery Bilder aufnimmt?",
+        "MESSAGE": "Post Now Delivery muss auf Ihre Kamera zugreifen.",
         "ALLOW": "Zulassen"
       },
       "LOCATION": {
-        "TITLE": "Zulassen, dass Post Now den Gerätestandort abruft?",
+        "TITLE": "Zulassen, dass Post Now Delivery den Gerätestandort abruft?",
         "MESSAGE": "Um eine bessere Funktion zu gewährleisten, gib der App die Berechtigung, auf den Gerätestandort zuzugreifen",
         "ALLOW": "Zulassen"
       }

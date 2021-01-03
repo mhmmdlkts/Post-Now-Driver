@@ -107,13 +107,13 @@
         "ON_JOB": {
           "CASH": "Kupac će platiti kešom: {cash} €",
           "YOUR_CUSTOMER": "Kupac: {name}",
-          "PACKAGE_ADDRESS": "Adresa pošiljatelja: {address}\nBiće vam predato pred vašim domom\nDostavu će predati: {name}",
-          "PACKAGE_ADDRESS_EXTRA_SERVICE": "Adresa pošiljatelja: {address}\nDostavu će predati: {name}"
+          "PACKAGE_ADDRESS": "Adresa pošiljatelja: {address}\nBiće vam predato pred vašim domom\n{name}",
+          "PACKAGE_ADDRESS_EXTRA_SERVICE": "Adresa pošiljatelja: {address}\n{name}"
         },
         "PACKAGE_PICKED" : {
           "YOUR_CUSTOMER": "Kupac: {name}",
-          "PACKAGE_ADDRESS": "Adresa primatelja: {address}\nDostavljeno pred kućom\nDostavu će preuzeti: {name}",
-          "PACKAGE_ADDRESS_EXTRA_SERVICE": "Adresa primatelja: {address}\nDostavu će preuzeti: {name}",
+          "PACKAGE_ADDRESS": "Adresa primatelja: {address}\nDostavljeno pred kućom\n{name}",
+          "PACKAGE_ADDRESS_EXTRA_SERVICE": "Adresa primatelja: {address}\n{name}",
           "LET_HIM_SIGNING": "Neka se {name} potpiše"
         }
       }
@@ -195,12 +195,12 @@
     "DIALOGS": {
       "PERMISSIONTYPENUM": {
         "CAMERA": {
-          "TITLE": "Omogućite dostavljaču Post Now pristup vašoj kameri.",
-          "MESSAGE": "Post Now terba pristup vašoj kameri.",
+          "TITLE": "Omogućite Post Now Delivery pristup vašoj kameri.",
+          "MESSAGE": "Post Now Delivery terba pristup vašoj kameri.",
           "ALLOW": "Omogućiti"
         },
         "LOCATION": {
-          "TITLE": "Omogućite Post Now dostavljaču pristup lokaciji ovog uređaja.",
+          "TITLE": "Omogućite Post Now Delivery pristup lokaciji ovog uređaja.",
           "MESSAGE": "Kako bismo pružili bolju uslugu, dajte aplikaciji autorizaciju pristupa lokacije uređaja.",
           "ALLOW": "Omogućiti"
         }
