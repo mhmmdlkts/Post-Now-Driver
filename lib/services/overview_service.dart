@@ -10,7 +10,7 @@ class OverviewService {
   
   OverviewService(this.user);
 
-  int getDayOfMonth(int year, int month) {
+  static int getDayOfMonth(int year, int month) {
     final List<int> days = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     if (year % 4 == 0) days[DateTime.february]++;
     return days[month];
@@ -21,7 +21,7 @@ class OverviewService {
       week = dayOfWeek();
     if (year == null)
       year = currentYear();
-    _jobsRef.child(_getChildKey(year, week)).child(user.uid).onValue.listen((Event e) {
+    _jobsRef.child(getChildKey(year, week)).child(user.uid).onValue.listen((Event e) {
       initCompletedJobs(year: year, week: week).then((value) {
         func.call();
       });
@@ -30,7 +30,7 @@ class OverviewService {
   
   Future<void> initCompletedJobs({int year, int week}) async {
     weeklyIncome.reset();
-    await _jobsRef.child(_getChildKey(year, week)).child(user.uid).orderByChild("finished-time").once().then((DataSnapshot snapshot) => {
+    await _jobsRef.child(getChildKey(year, week)).child(user.uid).orderByChild("finished-time").once().then((DataSnapshot snapshot) => {
       weeklyIncome.reset(),
       if (snapshot.value != null) {
         snapshot.value.forEach((key, value) {
@@ -41,13 +41,16 @@ class OverviewService {
     });
   }
 
-  String getCurrentChildKey() => _getChildKey(currentYear(), dayOfWeek());
-
-  String _getChildKey(int year, int week) {
-    if (year == null) 
+  static String getChildKey(int year, int week, {DateTime date, bool checkLastMonth = true}) {
+    if (year == null)
       year = currentYear();
-    if (week == null) 
+    if (week == null)
       week = dayOfWeek();
+    if (date == null)
+      date = DateTime.now();
+    if(week > 51 && date.toUtc().month == DateTime.january && checkLastMonth)
+      year--;
+
     return year.toString() + "-" + week.toString();
   }
 
@@ -55,11 +58,11 @@ class OverviewService {
     return DateTime.now().weekday-1;
   }
 
-  int currentYear() {
+  static int currentYear() {
     return DateTime.now().year;
   }
 
-  int dayOfWeek({DateTime date}) {
+  static int dayOfWeek({DateTime date}) {
     if (date == null)
       date = DateTime.now();
 
@@ -76,7 +79,7 @@ class OverviewService {
     return w;
   }
 
-  int getYearsWeekCount(int year) {
+  static int getYearsWeekCount(int year) {
     DateTime lastDay = DateTime(year, DateTime.december, 31);
     int count = dayOfWeek(date: lastDay);
     if (count == 1)
@@ -84,7 +87,7 @@ class OverviewService {
     return count;
   }
 
-  int dayOfYear(DateTime date) {
+  static int dayOfYear(DateTime date) {
     int total = 0;
     for (int i = 1; i < date.month; i++) {
       total += getDayOfMonth(date.year, i);

@@ -111,7 +111,7 @@ class MapsService with WidgetsBindingObserver {
   }
 
   void acceptJob(String key) {
-    final url = '${FIREBASE_URL}acceptJob?jobId=$key';
+    final url = '${FIREBASE_URL}jobAcceptedChange?jobId=$key&driverId=$uid';
     try {
       http.get(url);
     } catch (e) {

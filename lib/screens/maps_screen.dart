@@ -735,7 +735,9 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   }
 
   _acceptJob(String id) {
-    _mapsService.jobsRef.child(id).update({"status": Job.statusToString(Status.ACCEPTED)});
+    //_mapsService.jobsRef.child(id).update({"status": Job.statusToString(Status.ACCEPTED)});
+    _mapsService.acceptJob(id);
+
     if (_job == null)
       _changeMenuTyp(MenuTyp.LOADING);
     _clearJobRequest();

@@ -4,6 +4,8 @@ import 'dart:math';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';
 
+import 'overview_service.dart';
+
 class WeekYearToReadableDateInterval {
 
   static Map _dateJson = Map();
@@ -16,17 +18,22 @@ class WeekYearToReadableDateInterval {
     });
   }
 
-  static String getReadable({int year, int week}) {
-    String nullReturn;
+  static String getReadable({int year, int week, DateTime date}) {
+    String nullReturn = "OVERVIEW.TH_WEEK".tr(namedArgs: {'week': week.toString()});
     if (year == null && year == null)
       return nullReturn;
 
+    String key = OverviewService.getChildKey(year, week, checkLastMonth: false);
+    String _year = key.split("-").first;
+    String _week = key.split("-").last;
     Map obj = _dateJson;
     if (obj == null) return nullReturn;
-    obj = obj[year.toString()];
+    obj = obj[_year];
     if (obj == null) return nullReturn;
-    obj = obj[week.toString()];
+    obj = obj[_week];
     if (obj == null) return nullReturn;
+    if (date == null)
+      date = DateTime.now();
 
     return _getReadableDateFromObj(obj["START"]) + " - " + _getReadableDateFromObj(obj["END"]);
   }
