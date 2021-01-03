@@ -1,0 +1,244 @@
+{
+  "APP_NAME": "Post Now Delivery",
+  "OK": "OK",
+  "NO": "Nem",
+  "YES": "Igen",
+  "CANCEL": "Törlés",
+  "ACCEPT": "Elfogadás",
+  "WARNING": "Figyelem",
+  "CLOSE": "Bezár",
+  "ERROR": "Hiba",
+  "FAILED": "Sikertelen",
+  "SETTINGS": "Beállítások",
+  "THANKS": "Teljesítette a megrendelést.",
+  "SEND_MESSAGE": "Üzenet küldése",
+  "PLEASE_WAIT": "Kérjük, várjon",
+  "LOGIN": {
+    "NAME_FIELD_TITLE": "Név",
+    "NAME_FIELD_HINT": "Az ön Neve",
+    "NAME_FIELD_VALIDATOR_ENTER_NAME": "Kérjük, adja meg nevét.",
+    "SURNAME_FIELD_HINT": "Vezetékneve",
+    "SURNAME_FIELD_VALIDATOR_ENTER_NAME": "Kérjük, adja meg vezetéknevét.",
+    "PHONE_FIELD_HINT": "Példa: +436601231212",
+    "PHONE_FIELD_VALIDATOR_ENTER_NAME": "Kérjük, adja meg telefonszámát.",
+    "SMS_CODE_FIELD_HINT": "Példa: 123456",
+    "SMS_CODE_FIELD_VALIDATOR_ENTER_NAME": "Adja meg SMS ellenőrző kódját.",
+    "TITLE": "Üdvözöljük Vissza",
+    "SUBTITLE": "Szia, jelentkezzen be a folytatáshoz!",
+    "EMAIL_FIELD_TITLE": "E-mail",
+    "EMAIL_FIELD_HINT": "E-mail címe",
+    "EMAIL_FIELD_VALIDATOR_ENTER_NAME": "Kérjük, adja meg e-mail címét.",
+    "PASSWORD_FIELD_TITLE": "Jelszó",
+    "PASSWORD_FIELD_HINT": "Az ön jelszava",
+    "PASSWORD_FIELD_VALIDATOR_ENTER_NAME": "Kérjük, írja be a jelszavát.",
+    "AGREE_TERMS_AND_POLICY": "Bejelentkezéssel elfogadja az Adatvédelmi Irányelveinket és az Általános Szerződési Feltételeinket",
+    "CONTINUE_BUTTON": "Bejelentkezés",
+    "DON'T_HAVE_AN_ACCOUNT": "Nincs fiókja?",
+    "SIGN_IN": "Bejelentkezés",
+    "SIGN_UP": "Feliratkozás",
+    "LOGIN_PROBLEMS": "Gondja van a bejelentkezéssel?",
+    "AUTO_FILL_EMAIL_SUBJECT": "Problémám támadt a Post Now Delivery App alkalmazással történő bejelentkezéssel",
+    "ERROR_MESSAGES" : {
+      "ERROR_INVALID_EMAIL": "E-mail címe érvénytelen",
+      "ERROR_WRONG_PASSWORD": "A megadott jelszó helytelen.",
+      "ERROR_USER_NOT_FOUND": "Az e-mail címmel rendelkező felhasználó nem létezik.",
+      "ERROR_USER_DISABLED": "Az e-mail címmel rendelkező felhasználót deaktiváltuk.",
+      "ERROR_TOO_MANY_REQUESTS" : "Túl sok próbálkozás, próbálkozzon újra később.",
+      "ERROR_OPERATION_NOT_ALLOWED" : "E-mail-címmel és jelszóval nem lehet bejelentkezni.",
+      "ERROR_EMAIL_ALREADY_IN_USE": "Ez az e-mail cím már használatban van."
+    }
+  },
+  "MONTHS": {
+    "JANUARY": "Január",
+    "FEBRUARY": "Február",
+    "MARCH": "Március",
+    "APRIL": "Április",
+    "MAY": "Május",
+    "JUNE": "Június",
+    "JULY": "Július",
+    "AUGUST": "Augusztus",
+    "SEPTEMBER": "Szeptember",
+    "OCTOBER": "Október",
+    "NOVEMBER": "November",
+    "DECEMBER": "December"
+  },
+  "CONTACT_FORM": {
+    "TITLE": "Kapcsolatfelvételi űrlap",
+    "NAME": {
+      "LABEL": "Név",
+      "HINT_LABEL": "Kérjük, adja meg a nevét."
+    },
+    "EMAIL": {
+      "LABEL": "E-mail",
+      "HINT_LABEL": "Kérjük, adja meg e-mail címét."
+    },
+    "PHONE": {
+      "LABEL": "Telefonszám",
+      "HINT_LABEL": "Kérjük, adja meg telefonszámát."
+    },
+    "SUBJECT": {
+      "LABEL": "Tárgy",
+      "HINT_LABEL": "Kérjük, adjon meg tárgyat."
+    },
+    "CONTENT": {
+      "LABEL": "Tartalom",
+      "HINT_LABEL": "Adjon meg tartalmat"
+    },
+    "SEND": "Küldés"
+  },
+  "DIRECT_JOB_OVERVIEW": {
+    "ANY_PROBLEMS": "Van valami probléma ezzel a munkával?"
+  },
+  "MAPS": {
+    "GO_ONLINE" : "Menjen Online!",
+    "GO_OFFLINE" : "Menjen Offline!",
+    "YOU_ARE_ONLINE" : "Ön online!",
+    "YOU_ARE_OFFLINE" : "Ön offline!",
+    "TAKE_PACKAGE" : "Vegye fel a csomagot",
+    "NO_LOCATION_INFORMATION_MESSAGE" : "A helyadatok nem állnak rendelkezésre.",
+    "SIDE_MENU": {
+      "OVERVIEW": "Rendelési előzmények",
+      "PRIVACY_POLICY": "Adatvédelmi Irányelvek",
+      "SOFTWARE_LICENCES": "Szoftverlicencek",
+      "CONTACT": "Kapcsolat",
+      "SIGN_OUT": "Kijelentkezés"
+    },
+    "BOTTOM_MENUS": {
+      "ON_JOB": {
+        "CASH": "A vásárló készpénzben fizet: {cash} €",
+        "YOUR_CUSTOMER": "Vásárló: {name}",
+        "PACKAGE_ADDRESS": "Küldő címe: {address}\nWA ház előtt adják át\n{name}",
+        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Küldő címe: {address}\n{name}"
+      },
+      "PACKAGE_PICKED" : {
+        "YOUR_CUSTOMER": "Vásárló: {name}",
+        "PACKAGE_ADDRESS": "Fogadó címe: {address}\nAz átvétel a ház előtt lesz\n{name}",
+        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Fogadó címe: {address}\nA{name}",
+        "LET_HIM_SIGNING": "Let {name} sign"
+      }
+    }
+  },
+  "LEGAL": {
+    "TITLE": "Jogi",
+    "LegalTyp": {
+      "PRIVACY_POLICY": "Adatvédelmi Irányelvek",
+      "SOFTWARE_LICENCES": "Szoftverlicencek",
+      "CONTACT": "Kapcsolat"
+    }
+  },
+  "SHOPPING_LIST": {
+    "TITLE": "Bevásárló Lista"
+  },
+  "SETTINGS_SCREEN": {
+    "ACCOUNT": {
+      "TITLE": "Fiók",
+      "NAME_HINT": "Név",
+      "PHONE_HINT": "Telefonszám",
+      "EMAIL_HINT": "E-mail"
+    },
+    "SOFTWARE_LICENCES": "Engedélyek",
+    "SIGN_OUT": "Kijelentkezés"
+  },
+  "CHAT": {
+    "TYPE_MESSAGE_HERE": "Írja be az üzenetét..."
+  },
+  "SIGNING": {
+    "CLEAR": "Törlés",
+    "SIGN": "Aláírás",
+    "SIGN_TERMS": "Aláírásommal megerősítem, hogy biztonságosan és sérülésmentesen fogadtam a csomagot."
+  },
+  "OVERVIEW": {
+    "TITLE": "Rendelési előzmények",
+    "TH_WEEK": "{week}. Hét",
+    "TOTAL_TRIP_COUNT": "Utazások száma",
+    "TOTAL_DRIVE_TIME": "Teljes utazási idő",
+    "SINGLE_ITEM": {
+      "DRIVER_CANCELED": "A Szállító törölte.",
+      "CUSTOMER_CANCELED": "A vásárló törölte."
+    },
+    "MODELS": {
+      "ORDER_DATE": "Rendelés dátuma",
+      "ORDER_TIME": "Rendelés ideje",
+      "JOB": {
+        "WAITING": "Várakozás a Szállítóra.",
+        "ON_ROAD": "A Szállító elfogadta megrendelését.",
+        "PACKAGE_PICKED": "A Szállító átvette a csomagot.",
+        "FINISHED": "Megrendelését kézbesítettük.",
+        "CANCELED": "A megrendelést törölték.",
+        "DRIVER_CANCELED": "A Szállító törölte.",
+        "CUSTOMER_CANCELED": "A vásárló törölte."
+      }
+    }
+  },
+  "MODELS": {
+    "JOB": {
+      "WAITING": "Várakozás a Szállítóra.",
+      "ON_ROAD": "A Szállító elfogadta megrendelését.",
+      "PACKAGE_PICKED": "A Szállító átvette a csomagot.",
+      "FINISHED": "Megrendelését kézbesítettük.",
+      "CANCELED": "A megrendelést törölték.",
+      "DRIVER_CANCELED": "A Szállító törölte",
+      "CUSTOMER_CANCELED": "A vásárló törölte."
+    }
+  },
+  "ENUMS": {
+    "DAYS": {
+      "MONDAY": "Hétfő",
+      "TUESDAY": "Kedd",
+      "WEDNESDAY": "Szerda",
+      "THURSDAY": "Csütörtök",
+      "FRIDAY": "Péntek",
+      "SATURDAY": "Szombat",
+      "SUNDAY": "Vasárnap"
+    }
+  },
+  "DIALOGS": {
+    "PERMISSIONTYPENUM": {
+      "CAMERA": {
+        "TITLE": "Engedje meg, hogy a Post Now Delivery készítsen képeket.",
+        "MESSAGE": "A Post Now Delivery-nak hozzá kell férnie a kamerájához.",
+        "ALLOW": "Engedélyez"
+      },
+      "LOCATION": {
+        "TITLE": "Engedje meg, hogy a Post Now Delivery hozzáférjen a tartózkodási helyéhez.",
+        "MESSAGE": "A jobb szolgáltatás garantálása érdekében engedélyezze az alkalmazás számára, hogy hozzáférjen az eszköz helyéhez.",
+        "ALLOW": "Engedélyez"
+      }
+    },
+    "NO_ACCOUNT": {
+      "TITLE": "Figyelem!",
+      "BODY": "Ön nem jogosult az alkalmazás használatára.",
+      "BUTTON": "Bezár"
+    },
+    "CASH_WARN": {
+      "TITLE": "Készpénzes ár {cash} €",
+      "MESSAGE": "Müsteriden {cash} € luk hizmet bedelini tahsil ettim."
+    },
+    "I_AM_BACK": {
+      "TITLE": "Visszajött?",
+      "MESSAGE": "",
+      "POSITIVE": "Igen"
+    },
+    "JOB_REQUEST": {
+      "TITLE": "Új Megrendelés!"
+    },
+    "UPDATE_AVAILABLE": {
+      "TITLE": "Új frissítések.",
+      "BODY": "Az alkalmazás használatához telepíteni kell a legújabb frissítést.",
+      "BUTTON": "Frissítés most!"
+    },
+    "ARE_YOU_SURE_CANCEL": {
+      "CONTENT_WITH_AMOUNT": "A megrendelés lemondásáért {amount} €-t kell fizetnie.",
+      "CONTENT": "Biztosan lemondja?"
+    },
+    "JOB_SETTINGS": {
+      "CANCEL_JOB" : "Megrendelés törlése."
+    },
+    "SETTINGS": {
+      "YOU_CANT_CHANGE": {
+        "MESSAGE": "Ha módosítani szeretné adatait, vegye fel velünk a kapcsolatot.",
+        "CONTACT": "Lépjen kapcsolatba"
+      }
+    }
+  }
+}

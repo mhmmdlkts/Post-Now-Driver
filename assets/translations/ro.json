@@ -107,13 +107,13 @@
       "ON_JOB": {
         "CASH": "Clientul va plăti în numerar: {cash} €",
         "YOUR_CUSTOMER": "Client: {name}",
-        "PACKAGE_ADDRESS": "Adresa expeditorului: {address}\nVa fi livrat în fața casei\nLivrarea va fi efectuată de: {name}",
-        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Adresa expeditorului: {address}\nLivrarea va fi efectuată de: {name}"
+        "PACKAGE_ADDRESS": "Adresa expeditorului: {address}\nVa fi livrat în fața casei\n{name}",
+        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Adresa expeditorului: {address}\n{name}"
       },
       "PACKAGE_PICKED" : {
         "YOUR_CUSTOMER": "Client: {name}",
-        "PACKAGE_ADDRESS": "Adresa destinatarului: {address}\nVa fi ridicat din fața casei\nLivrarea va fi acceptată de: {name}",
-        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Adresa destinatarului: {address}\nLivrarea va fi acceptată de: {name}",
+        "PACKAGE_ADDRESS": "Adresa destinatarului: {address}\nVa fi ridicat din fața casei\n{name}",
+        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Adresa destinatarului: {address}\n{name}",
         "LET_HIM_SIGNING": "Permite ca {name} să semneze"
       }
     }
@@ -196,7 +196,7 @@
     "PERMISSIONTYPENUM": {
       "CAMERA": {
         "TITLE": "Permite ca Post Now Delivery să facă poze.",
-        "MESSAGE": "Post Now are nevoie să îți acceseze camera.",
+        "MESSAGE": "Post Now Delivery are nevoie să îți acceseze camera.",
         "ALLOW": "Permite"
       },
       "LOCATION": {

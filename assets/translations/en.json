@@ -37,7 +37,7 @@
     "SIGN_IN": "Sign in",
     "SIGN_UP": "Sign up",
     "LOGIN_PROBLEMS": "Having trouble signing in?",
-    "AUTO_FILL_EMAIL_SUBJECT": "I'm having trouble signing in to Post Now Deliverer App",
+    "AUTO_FILL_EMAIL_SUBJECT": "I'm having trouble signing in to Post Now Delivery App",
     "ERROR_MESSAGES" : {
       "ERROR_INVALID_EMAIL": "Your email address seems to be invalid.",
       "ERROR_WRONG_PASSWORD": "The password you entered is incorrect.",
@@ -107,13 +107,13 @@
       "ON_JOB": {
         "CASH": "The costumer will be paying in cash: {cash} €",
         "YOUR_CUSTOMER": "Customer: {name}",
-        "PACKAGE_ADDRESS": "Sender adress: {address}\nWill be handed over in front of the house\nDelivery will be handed over by: {name}",
-        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Sender adress: {address}\nDelivery will be handed over by: {name}"
+        "PACKAGE_ADDRESS": "Sender adress: {address}\nWill be handed over in front of the house\n{name}",
+        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Sender adress: {address}\n{name}"
       },
       "PACKAGE_PICKED" : {
         "YOUR_CUSTOMER": "Customer: {name}",
-        "PACKAGE_ADDRESS": "Recipient adress: {address}\nPickup will be front of the house\nDelivery will be accepted by: {name}",
-        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Recipient adress: {address}\nDelivery will be accepted by: {name}",
+        "PACKAGE_ADDRESS": "Recipient adress: {address}\nPickup will be front of the house\n{name}",
+        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Recipient adress: {address}\n{name}",
         "LET_HIM_SIGNING": "Let {name} sign"
       }
     }
@@ -195,12 +195,12 @@
   "DIALOGS": {
     "PERMISSIONTYPENUM": {
       "CAMERA": {
-        "TITLE": "Allow Post Now Deliverer to take pictures.",
-        "MESSAGE": "Post Now needs to access your camera.",
+        "TITLE": "Allow Post Now Delivery to take pictures.",
+        "MESSAGE": "Post Now Delivery needs to access your camera.",
         "ALLOW": "Allow"
       },
       "LOCATION": {
-        "TITLE": "Allow Post Now Deliverer to access this device's location.",
+        "TITLE": "Allow Post Now Delivery to access this device's location.",
         "MESSAGE": "In order to guarantee a better function, give the app the authorization to access the device's location.",
         "ALLOW": "Allow"
       }

@@ -1,5 +1,5 @@
 {
-  "APP_NAME": "Post Now Delivey",
+  "APP_NAME": "Post Now Delivery",
   "OK": "Dobre",
   "NO": "Nie",
   "YES": "Áno",
@@ -107,13 +107,13 @@
       "ON_JOB": {
         "CASH": "Zákazník bude platiť v hotovosti: {cash} €",
         "YOUR_CUSTOMER": "Zákazník: {name}",
-        "PACKAGE_ADDRESS": "Adresa odosielateľa: {address}\nBude odovzdaný pred domom\nDodávku odovzdá: {name}",
-        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Adresa odosielateľa: {address}\nDodávku odovzdá: {name}"
+        "PACKAGE_ADDRESS": "Adresa odosielateľa: {address}\nBude odovzdaný pred domom\n{name}",
+        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Adresa odosielateľa: {address}\n{name}"
       },
       "PACKAGE_PICKED" : {
         "YOUR_CUSTOMER": "Zákazník: {name}",
-        "PACKAGE_ADDRESS": "Adresa príjemcu: {address}\nVyzdvihnutie bude pred domom\nDodávku príjme: {name}",
-        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Adresa príjemcu: {address}\nDodávku príjme: {name}",
+        "PACKAGE_ADDRESS": "Adresa príjemcu: {address}\nVyzdvihnutie bude pred domom\n{name}",
+        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Adresa príjemcu: {address}\n{name}",
         "LET_HIM_SIGNING": "Nech sa {name} podpíše"
       }
     }

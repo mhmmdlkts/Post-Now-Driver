@@ -107,13 +107,13 @@
       "ON_JOB": {
         "CASH": "Müşteri nakit olarak ödeyecek: {cash} €",
         "YOUR_CUSTOMER": "Müşteri: {name}",
-        "PACKAGE_ADDRESS": "Gönderenin adresi: {address}\nEvin önünde teslim edilecek\nTeslim edecek kişi: {name}",
-        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Gönderenin adresi: {address}\nTeslim edecek kişi: {name}"
+        "PACKAGE_ADDRESS": "Gönderenin adresi: {address}\nEvin önünde teslim edilecek\n{name}",
+        "PACKAGE_ADDRESS_EXTRA_SERVICE": "Gönderenin adresi: {address}\n{name}"
       },
       "PACKAGE_PICKED" : {
         "YOUR_CUSTOMER": "Customer: {name}",
-        "PACKAGE_ADDRESS": "Alıcının adresi: {address}\nEvin önünde teslim alacak\nTeslim alacak kişi: {name}",
-        "PACKAGE_ADDRESS_E9XTRA_SERVICE": "Alıcının adresi: {address}\nTeslim alacak kişi: {name}",
+        "PACKAGE_ADDRESS": "Alıcının adresi: {address}\nEvin önünde teslim alacak\n{name}",
+        "PACKAGE_ADDRESS_E9XTRA_SERVICE": "Alıcının adresi: {address}\n{name}",
         "LET_HIM_SIGNING": "Siparişi teslim et: {name}"
       }
     }
