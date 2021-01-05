@@ -45,7 +45,7 @@
       "ERROR_USER_DISABLED" : "Bu e-posta adresiyle kayıtlı kullanıcı devre dışı bırakıldı.",
       "ERROR_TOO_MANY_REQUESTS" : "Çok fazla istek var, daha sonra tekrar deneyin.**",
       "ERROR_OPERATION_NOT_ALLOWED" : "E-posta ve şifre ile oturum açma etkinleştirilmedi.",
-      "ERROR_EMAIL_ALREADY_IN_USE" : "u e-posta adresi zaten kullanılıyor."
+      "ERROR_EMAIL_ALREADY_IN_USE" : "Bu e-posta adresi zaten kullanılıyor."
     }
   },
   "MONTHS": {
