@@ -2,8 +2,32 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>com.postnow.delivery</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+    <key>NSContactsUsageDescription</key>
+    <string>This app needs access to contact to provide the best possible user experience</string>
+    <key>NSCalendarsUsageDescription</key>
+    <string>This app needs access to calender to provide the best possible user experience</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>This app needs access to Photo Library to provide the best possible user experience</string>
+    <key>NSAppleMusicUsageDescription</key>
+    <string>This app needs access to Media Library to provide the best possible user experience</string>
+    <key>NSMotionUsageDescription</key>
+    <string>This app needs access to Motion to provide the best possible user experience</string>
+    <key>NSSpeechRecognitionUsageDescription</key>
+    <string>This app needs access to Speech Recognite to provide the best possible user experience</string>
+    <key>NSCameraUsageDescription</key>
+    <string>This app needs to acces the camera to send fotos while chatting.</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>This app needs access to location when open and in the background.</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>This app needs access to location when in the background.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>This app needs access to location in the background.</string>
 	<key>CFBundleDisplayName</key>
 	<string>Post Now Delivery</string>
 	<key>CFBundleExecutable</key>
@@ -35,7 +59,7 @@
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FirebaseAppDelegateProxyEnabled</key>
-	<false/>
+	<string>NO</string>
 	<key>FirebaseScreenReportingEnabled</key>
 	<true/>
 	<key>LSApplicationCategoryType</key>
@@ -60,14 +84,6 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-	<key>NSCameraUsageDescription</key>
-	<string>This app needs to acces the camera to send fotos while chatting.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>This app needs access to location when open and in the background.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>This app needs access to location when in the background.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app needs access to location in the background.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

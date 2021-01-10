@@ -46,7 +46,7 @@ dependencies:
   swipebuttonflutter: ^0.1.2
   progress_state_button: ^1.0.1
   circular_check_box: ^1.0.4
-  audioplayers: ^0.17.0
+  audioplayers: ^0.16.2
   vibration: ^1.7.1
   flutter_cupertino_settings: ^0.3.1
   flutter_inappwebview: ^4.0.0+4
