@@ -201,7 +201,7 @@
       },
       "LOCATION": {
         "TITLE": "Post Now Delivery'nin bu cihazın konumuna erişmesine izin verin.",
-        "MESSAGE": "Uygulamanın daha iyi çalışabilmesi için, uygulamaya cihazın konumuna erişme yetkisi verin.",
+        "MESSAGE": "Gelen siparişler en yakın teslimatçıya iletilir. Siparişleri alabilmeniz için Post Now Delivery'nin konumunuza erişmesine izin verin.",
         "ALLOW": "İzin ver"
       }
     },
@@ -212,7 +212,7 @@
     },
     "CASH_WARN": {
       "TITLE": "Nakit ücreti {cash} €",
-      "MESSAGE": "Müsteriden {cash} € luk hizmet bedelini tahsil ettim."
+      "MESSAGE": "Müşteriden {cash} €'luk hizmet bedelini tahsil ettim."
     },
     "I_AM_BACK": {
       "TITLE": "Döndün mü?",

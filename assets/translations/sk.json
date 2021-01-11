@@ -201,7 +201,7 @@
       },
       "LOCATION": {
         "TITLE": "Povoliť Post Now Delivery prístup k polohe tohto zariadenia.",
-        "MESSAGE": "Z dôvodu zaručenia lepšej funkčnosti, udeľte aplikácii oprávnenie na prístup k polohe zariadenia.",
+        "MESSAGE": "Prichádzajúce objednávky sa preposielajú k najbližšiemu doručovateľovi. Umožnite aplikácii Post Now Delivery prístup k vašej polohe, aby ste mohli prijímať objednávky.",
         "ALLOW": "Povoliť"
       }
     },
@@ -212,7 +212,7 @@
     },
     "CASH_WARN": {
       "TITLE": "Cena v hotovosti {cash} €",
-      "MESSAGE": "Zákazník bol účtovaní {cash} € za poplatok za službu."
+      "MESSAGE": "Od zákazníka som dostal poplatok za službu v hotovosti {cash} €."
     },
     "I_AM_BACK": {
       "TITLE": "Ste naspäť?",
