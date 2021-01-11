@@ -302,6 +302,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
       return false;
     _isInitDone = true;
     _initMyPosition().then((val) => {
+      print(val),
       Future.delayed(Duration(milliseconds: 400), () =>
           setState((){
             _isInitialized = true;
@@ -362,13 +363,17 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     }
   }
 
-  _changeStatus ({OnlineStatus value}) {
+  _changeStatus ({OnlineStatus value}) async {
     if (value == null)
       value = (_onlineStatus == OnlineStatus.ONLINE?OnlineStatus.OFFLINE:OnlineStatus.ONLINE);
     setState(() {
       _onlineOfflineButtonState = ButtonState.loading;
     });
-    if (!_mapsService.sendMyLocToDB(_myPosition)) {
+    if (value == OnlineStatus.ONLINE && (!_mapsService.sendMyLocToDB(_myPosition))) {
+      if (await _initMyPosition()) {
+        _changeStatus(value: value);
+        return;
+      }
       SnackBar snackBar = SnackBar(
         content: Text("MAPS.NO_LOCATION_INFORMATION_MESSAGE".tr()),
       );
@@ -548,9 +553,11 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
       state: _onlineOfflineButtonState
   );
 
-  Future<void> _initMyPosition() async {
-    while (await PermissionService.positionIsNotGranted(context, PermissionTypEnum.LOCATION)) {}
-
+  Future<bool> _initMyPosition() async {
+    if(await PermissionService.positionIsNotGranted(PermissionTypEnum.LOCATION, context: context)) {
+      await _changeStatus(value: OnlineStatus.OFFLINE);
+      return false;
+    }
     _setMyPosition(await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.low));
 
     Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high).then((value) => {
@@ -564,6 +571,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     await _mapController.moveCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: LatLng(_myPosition.latitude, _myPosition.longitude), zoom: 13)
     ));
+    return true;
   }
   
   _setMyPosition(Position pos) {
