@@ -201,7 +201,7 @@
       },
       "LOCATION": {
         "TITLE": "Zulassen, dass Post Now Delivery den Gerätestandort abruft?",
-        "MESSAGE": "Um eine bessere Funktion zu gewährleisten, gib der App die Berechtigung, auf den Gerätestandort zuzugreifen",
+        "MESSAGE": "Eingehende Bestellungen werden an den nächstgelegenen Zusteller weitergeleitet. Erlauben Sie Post Now Delivery, auf Ihren Standort zuzugreifen, damit Sie Bestellungen erhalten können.               ",
         "ALLOW": "Zulassen"
       }
     },
@@ -211,8 +211,8 @@
       "BUTTON": "Schlißen"
     },
     "CASH_WARN": {
-      "TITLE": "Nakit ücreti {cash} €",
-      "MESSAGE": "Müsteriden {cash} € luk hizmet bedelini tahsil ettim."
+      "TITLE": "Preis in bar: {cash} €",
+      "MESSAGE": "Ich habe vom Kunden eine Servicegebühr von {cash} € in bar erhalten."
     },
     "I_AM_BACK": {
       "TITLE": "Bist du wieder da?",

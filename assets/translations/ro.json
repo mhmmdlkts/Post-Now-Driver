@@ -201,7 +201,7 @@
       },
       "LOCATION": {
         "TITLE": "Permite ca Post Now Delivery să acceseze locația acestui dispozitiv.",
-        "MESSAGE": "Pentru a garanta o funcționare mai bună, acordă aplicației autorizația de a accesa locația dispozitivului.",
+        "MESSAGE": "Comenzile primite sunt transmise celui mai apropiat Livrator. Permiteți Trimiterea acum livrarea să vă acceseze locația, astfel încât să puteți primi comenzi.",
         "ALLOW": "Permite"
       }
     },
@@ -212,7 +212,7 @@
     },
     "CASH_WARN": {
       "TITLE": "Preț {cash} €",
-      "MESSAGE": "Müsteriden {cash} € luk hizmet bedelini tahsil ettim."
+      "MESSAGE": "Am primit taxa de servicii de {cash} € în numerar de la client."
     },
     "I_AM_BACK": {
       "TITLE": "Te-ai întors?",
