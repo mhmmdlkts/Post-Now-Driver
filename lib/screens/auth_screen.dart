@@ -226,6 +226,7 @@ class _AuthScreenState extends State<AuthScreen> {
   );
 
   Future<User> _handleSignInEmail() async {
+    // return signInAnonymously(); // This is for emulator tests
     _errorField = null;
     UserCredential result = await _firebaseService.getAuth().signInWithEmailAndPassword(email: _email, password: _password).catchError(_signInError);
 
@@ -241,6 +242,17 @@ class _AuthScreenState extends State<AuthScreen> {
     final User currentUser = _firebaseService.getAuth().currentUser;
     assert(user.uid == currentUser.uid);
 
+    return user;
+  }
+
+  Future<User> signInAnonymously() async {
+    User user;
+    FirebaseAuth.instance.signInAnonymously().then((result) {
+      setState(() {
+        user = result.user;
+
+      });
+    });
     return user;
   }
 

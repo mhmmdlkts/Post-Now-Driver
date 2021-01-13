@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
         future: Firebase.initializeApp(),
         builder: (context, snapshot) {
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             title: 'APP_NAME'.tr(),
             theme: ThemeData(
                 primarySwatch: Colors.lightBlue,
