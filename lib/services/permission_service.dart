@@ -16,6 +16,13 @@ class PermissionService {
         permissionStatus = await Permission.location.request();
         break;
 
+      case PermissionTypEnum.LOCATION:
+        permissionStatus = await Permission.location.status;
+        if (permissionStatus.isGranted)
+          return false;
+        permissionStatus = await Permission.location.request();
+        break;
+
       case PermissionTypEnum.CAMERA:
         permissionStatus = await Permission.camera.status;
         if (permissionStatus.isGranted)

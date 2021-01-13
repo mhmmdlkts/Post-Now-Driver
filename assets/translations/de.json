@@ -203,6 +203,11 @@
         "TITLE": "Zulassen, dass Post Now Delivery den Gerätestandort abruft?",
         "MESSAGE": "Eingehende Bestellungen werden an den nächstgelegenen Zusteller weitergeleitet. Erlauben Sie Post Now Delivery, auf Ihren Standort zuzugreifen, damit Sie Bestellungen erhalten können.               ",
         "ALLOW": "Zulassen"
+      },
+      "NOTIFICATION": {
+        "TITLE": "Diese App möchte Ihnen Benachrichtigungen senden",
+        "MESSAGE": "Benachrichtigungen können Warntöne und Symbolabzeichen enthalten.",
+        "ALLOW": "Zulassen"
       }
     },
     "NO_ACCOUNT": {

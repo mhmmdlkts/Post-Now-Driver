@@ -203,6 +203,11 @@
           "TITLE": "Omogućite Post Now Delivery pristup lokaciji ovog uređaja.",
           "MESSAGE": "Dolazne narudžbe prosljeđuju se najbližem Dostavljaču. Omogućite isporuku odmah putem da pristupi vašoj lokaciji kako biste mogli primati narudžbe.",
           "ALLOW": "Omogućiti"
+        },
+        "NOTIFICATION": {
+          "TITLE": "Ova aplikacija želi vam slati obavještenja",
+          "MESSAGE": "Obavijesti mogu sadržavati zvukove upozorenja i značke ikona.",
+          "ALLOW": "Omogućiti"
         }
       }, 
 	  "NO_ACCOUNT": {
