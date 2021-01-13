@@ -8,26 +8,6 @@
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
-	<key>NSContactsUsageDescription</key>
-	<string>This app needs access to contact to provide the best possible user experience</string>
-	<key>NSCalendarsUsageDescription</key>
-	<string>This app needs access to calender to provide the best possible user experience</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app needs access to Photo Library to provide the best possible user experience</string>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>This app needs access to Media Library to provide the best possible user experience</string>
-	<key>NSMotionUsageDescription</key>
-	<string>This app needs access to Motion to provide the best possible user experience</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>This app needs access to Speech Recognite to provide the best possible user experience</string>
-	<key>NSCameraUsageDescription</key>
-	<string>This app needs to acces the camera to send fotos while chatting.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Incoming orders are forwarded to the nearest Deliverer. Allow Post Now Delivery to acces your location so that you can get orders.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Incoming orders are forwarded to the nearest Deliverer. Allow Post Now Delivery to acces your location so that you can get orders.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Incoming orders are forwarded to the nearest Deliverer. Allow Post Now Delivery to acces your location so that you can get orders.</string>
 	<key>CFBundleDisplayName</key>
 	<string>Post Now Delivery</string>
 	<key>CFBundleExecutable</key>
@@ -84,6 +64,26 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>This app needs access to Media Library to provide the best possible user experience</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>This app needs access to calender to provide the best possible user experience</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This app needs to acces the camera to send fotos while chatting.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>This app needs access to contact to provide the best possible user experience</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Incoming orders are forwarded to the nearest Deliverer. Allow Post Now Delivery to acces your location so that you can get orders.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Incoming orders are forwarded to the nearest Deliverer. Allow Post Now Delivery to acces your location so that you can get orders.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Incoming orders are forwarded to the nearest Deliverer. Allow Post Now Delivery to acces your location so that you can get orders.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>This app needs access to Motion to provide the best possible user experience</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs access to Photo Library to provide the best possible user experience</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>This app needs access to Speech Recognite to provide the best possible user experience</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
