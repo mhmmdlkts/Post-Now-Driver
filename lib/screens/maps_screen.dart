@@ -12,11 +12,13 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:postnow/Dialogs/job_request_dialog.dart';
 import 'package:map_launcher/map_launcher.dart' as maps;
 import 'package:postnow/dialogs/custom_alert_dialog.dart';
+import 'package:postnow/dialogs/custom_notification_dialog.dart';
 import 'package:postnow/dialogs/settings_dialog.dart';
 import 'package:postnow/enums/job_status_enum.dart';
 import 'package:postnow/enums/online_status_enum.dart';
 import 'package:postnow/enums/permission_typ_enum.dart';
 import 'package:postnow/models/address.dart';
+import 'package:postnow/models/custom_notification.dart';
 import 'package:postnow/models/settings_item.dart';
 import 'package:postnow/screens/contact_form_screen.dart';
 import 'package:postnow/screens/overview_screen.dart';
@@ -35,6 +37,7 @@ import 'package:postnow/models/job.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:postnow/services/notification_service.dart';
 import 'package:postnow/services/overview_service.dart';
 import 'package:postnow/services/permission_service.dart';
 import 'package:postnow/services/vibration_service.dart';
@@ -129,6 +132,13 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
       _homeLocationIcon = BitmapDescriptor.fromBytes(value);
       _nextInitializeDone('3');
     })});
+
+    NotificationService.fetch(_user.uid).then((value) => {
+      NotificationService.notifications.forEach((element) async {
+        await _showCustomNotificationDialog(element);
+        await Future.delayed(Duration(milliseconds: 300));
+      })
+    });
 
     _changeMenuTyp(MenuTyp.WAITING);
 
@@ -839,6 +849,15 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
         _acceptJob(_job.key)
       }
     });
+  }
+
+  _showCustomNotificationDialog(CustomNotification customNotification) async {
+    await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CustomNotificationDialog(customNotification);
+        }
+    );
   }
 
   _showMessageToast(key, name, message) {
