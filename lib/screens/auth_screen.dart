@@ -19,6 +19,7 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   final AuthService _firebaseService = AuthService();
   final GlobalKey _formKey = new GlobalKey();
+  bool _sentPasswordResetEmail = false;
   String _email;
   String _password;
   String _errorMessage;
@@ -154,7 +155,8 @@ class _AuthScreenState extends State<AuthScreen> {
                             ConstrainedBox(
                               constraints: const BoxConstraints(minWidth: double.infinity),
                               child: FlatButton(
-                                  onPressed: () async {
+                                  onPressed: _sentPasswordResetEmail?null:() {
+                                    // _firebaseService.sendPasswordResetEmail(_email);
                                     LegalService.openWriteMail();
                                   },
                                   child: Text(

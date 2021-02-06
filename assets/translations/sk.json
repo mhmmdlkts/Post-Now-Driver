@@ -204,6 +204,11 @@
         "MESSAGE": "Prichádzajúce objednávky sa preposielajú k najbližšiemu doručovateľovi. Umožnite aplikácii Post Now Delivery prístup k vašej polohe, aby ste mohli prijímať objednávky.",
         "ALLOW": "Povoliť"
       },
+      "LOCATION_ALWAYS": {
+        "TITLE": "Povoliť Post Now Delivery prístup k polohe tohto zariadenia.",
+        "MESSAGE": "Prichádzajúce objednávky sa preposielajú k najbližšiemu doručovateľovi. Umožnite aplikácii Post Now Delivery prístup k vašej polohe, aby ste mohli prijímať objednávky.",
+        "ALLOW": "Povoliť"
+      },
       "NOTIFICATION": {
         "TITLE": "Táto aplikácia by vám chcela posielať upozornenia",
         "MESSAGE": "Oznámenia môžu obsahovať zvuky výstrah a odznaky ikon.",

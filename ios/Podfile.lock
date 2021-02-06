@@ -214,6 +214,8 @@ PODS:
     - abseil/meta/type_traits
   - audioplayers (0.0.1):
     - Flutter
+  - background_locator (0.0.1):
+    - Flutter
   - BoringSSL-GRPC (0.0.7):
     - BoringSSL-GRPC/Implementation (= 0.0.7)
     - BoringSSL-GRPC/Interface (= 0.0.7)
@@ -440,6 +442,7 @@ PODS:
 
 DEPENDENCIES:
   - audioplayers (from `.symlinks/plugins/audioplayers/ios`)
+  - background_locator (from `.symlinks/plugins/background_locator/ios`)
   - camera (from `.symlinks/plugins/camera/ios`)
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
@@ -497,6 +500,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   audioplayers:
     :path: ".symlinks/plugins/audioplayers/ios"
+  background_locator:
+    :path: ".symlinks/plugins/background_locator/ios"
   camera:
     :path: ".symlinks/plugins/camera/ios"
   cloud_firestore:
@@ -553,6 +558,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
   audioplayers: 53f0f30789b10ab2009771c6c79def00980945e4
+  background_locator: d8daad218f2282920654de8a649b430d75c218d9
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
   camera: a0ca5080336f7af47b88436e5e26da3dee5568f0
   cloud_firestore: b8c0e15fa49dfff87c2817d288b577e5dca2df13

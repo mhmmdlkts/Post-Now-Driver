@@ -201,7 +201,12 @@
       },
       "LOCATION": {
         "TITLE": "Allow Post Now Delivery to access this device's location.",
-        "MESSAGE": "Incoming orders are forwarded to the nearest Deliverer. Allow Post Now Delivery to acces your location so that you can get orders. ",
+        "MESSAGE": "Incoming orders are forwarded to the nearest Deliverer. Allow Post Now Delivery to access your location so that you can get orders. ",
+        "ALLOW": "Allow"
+      },
+      "LOCATION_ALWAYS": {
+        "TITLE": "Allow Post Now Delivery to access this device's location.",
+        "MESSAGE": "Incoming orders are forwarded to the nearest Deliverer. Allow Post Now Delivery to access your location so that you can get orders. ",
         "ALLOW": "Allow"
       },
       "NOTIFICATION": {

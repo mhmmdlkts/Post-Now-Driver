@@ -86,9 +86,7 @@
 	<string>This app needs access to Speech Recognite to provide the best possible user experience</string>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>fetch</string>
 		<string>location</string>
-		<string>processing</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>

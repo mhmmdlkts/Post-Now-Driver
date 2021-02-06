@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:dart_geohash/dart_geohash.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'dart:math' show cos, sqrt, asin;
 import 'package:flutter/cupertino.dart';
@@ -29,9 +30,10 @@ class MapsService with WidgetsBindingObserver {
   bool sendMyLocToDB(myPosition) {
     if (myPosition == null)
       return false;
-    var data = new Map<String, double>();
+    var data = new Map<String, dynamic>();
     data['lat'] = myPosition.latitude;
     data['long'] = myPosition.longitude;
+    data['geoHash'] = GeoHash.fromDecimalDegrees(myPosition.longitude, myPosition.latitude).geohash.substring(0,5);
     driverRef.child(uid).update(data);
     return true;
   }

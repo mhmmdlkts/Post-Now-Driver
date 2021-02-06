@@ -208,6 +208,11 @@
         "TITLE": "Diese App möchte Ihnen Benachrichtigungen senden",
         "MESSAGE": "Benachrichtigungen können Warntöne und Symbolabzeichen enthalten.",
         "ALLOW": "Zulassen"
+      },
+      "LOCATION_ALWAYS": {
+        "TITLE": "Diese App möchte Ihnen Benachrichtigungen senden",
+        "MESSAGE": "Benachrichtigungen können Warntöne und Symbolabzeichen enthalten.",
+        "ALLOW": "Zulassen"
       }
     },
     "NO_ACCOUNT": {

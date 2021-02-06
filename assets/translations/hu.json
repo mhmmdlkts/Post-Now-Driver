@@ -203,6 +203,11 @@
         "TITLE": "Engedje meg, hogy a Post Now Delivery hozzáférjen a tartózkodási helyéhez.",
         "MESSAGE": "A beérkező megrendeléseket továbbítjuk a legközelebbi Szállítóhoz. Engedje meg, hogy a Post Now Delivery hozzáférjen a tartózkodási helyéhez, hogy megrendeléseket kaphasson.",
         "ALLOW": "Engedélyez"
+      },
+      "LOCATION_ALWAYS": {
+        "TITLE": "Engedje meg, hogy a Post Now Delivery hozzáférjen a tartózkodási helyéhez.",
+        "MESSAGE": "A beérkező megrendeléseket továbbítjuk a legközelebbi Szállítóhoz. Engedje meg, hogy a Post Now Delivery hozzáférjen a tartózkodási helyéhez, hogy megrendeléseket kaphasson.",
+        "ALLOW": "Engedélyez"
       }
     },
     "NO_ACCOUNT": {

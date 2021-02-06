@@ -204,6 +204,11 @@
         "MESSAGE": "Gelen siparişler en yakın teslimatçıya iletilir. Siparişleri alabilmeniz için Post Now Delivery'nin konumunuza erişmesine izin verin.",
         "ALLOW": "İzin ver"
       },
+      "LOCATION_ALWAYS": {
+        "TITLE": "Post Now Delivery'nin bu cihazın konumuna erişmesine izin verin.",
+        "MESSAGE": "Gelen siparişler en yakın teslimatçıya iletilir. Siparişleri alabilmeniz için Post Now Delivery'nin konumunuza erişmesine izin verin.",
+        "ALLOW": "İzin ver"
+      },
       "NOTIFICATION": {
         "TITLE": "Bu uygulama size bildirim göndermek istiyor",
         "MESSAGE": "Bildirimler, uyarı sesleri ve görseller içerebilir.",

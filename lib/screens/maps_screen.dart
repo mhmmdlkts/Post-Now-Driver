@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:carp_background_location/carp_background_location.dart' as bgLoc;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -23,6 +24,7 @@ import 'package:postnow/screens/settings_screen.dart';
 import 'package:postnow/screens/signing_screen.dart';
 import 'package:postnow/Dialogs/message_toast.dart';
 import 'package:postnow/screens/slpash_screen.dart';
+import 'package:postnow/services/background_location_service.dart';
 import 'package:postnow/services/global_service.dart';
 import 'package:postnow/services/legal_service.dart';
 import 'package:postnow/services/maps_service.dart';
@@ -54,6 +56,7 @@ class MapsScreen extends StatefulWidget {
 }
 
 class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
+  final BackgroundLocationService _backgroundLocationService = BackgroundLocationService();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey _mapKey = GlobalKey();
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
@@ -183,6 +186,8 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     );
   }
 
+  DateTime _lastStartMoving = DateTime.now();
+
   Widget _content() => new OKToast(
       child: Scaffold(
           key: _scaffoldKey,
@@ -207,10 +212,15 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
                     myLocationEnabled: _myPosition != null,
                     markers: _createMarker(),
                     myLocationButtonEnabled: false,
-                    onCameraMoveStarted: () => {
-                      setState(() {
-                        _locationFocused = _locationFocused == null;
-                      })
+                    onCameraIdle: () {
+                      int timeDiff = DateTime.now().millisecondsSinceEpoch - _lastStartMoving.millisecondsSinceEpoch;
+                        setState(() {
+                          _locationFocused = timeDiff < 1000;
+                        });
+                    },
+                    onCameraMoveStarted: () {
+                      _locationFocused = false;
+                      _lastStartMoving = DateTime.now();
                     },
                   ),
                 ),
@@ -301,22 +311,26 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     if (_isInitDone)
       return false;
     _isInitDone = true;
-    _initMyPosition().then((val) => {
-      print(val),
-      Future.delayed(Duration(milliseconds: 400), () =>
-          setState((){
-            _isInitialized = true;
-          })
-      )
-    });
+
+    _initMyPosition();
+    Future.delayed(Duration(milliseconds: 600), () =>
+        setState((){
+          _isInitialized = true;
+        })
+    );
     return true;
   }
   
-  void _onPositionChanged(Position position) {
+  void _onPositionChanged(locationDto, {bool sendData = true}) {
+    Position position;
+    if (locationDto is bgLoc.LocationDto)
+      position = Position(latitude: locationDto.latitude, longitude: locationDto.longitude);
+    else
+      position = locationDto;
     _setMyPosition(position);
     if (_locationFocused)
       _mapsService.setNewCameraPosition(_mapController, LatLng(_myPosition.latitude, _myPosition.longitude), null, true);
-    if (_onlineStatus == OnlineStatus.ONLINE)
+    if (_onlineStatus == OnlineStatus.ONLINE && sendData)
       _mapsService.sendMyLocToDB(_myPosition);
     if (_job != null && _isInRange(_job.getOrigin())) {
       setState(() {
@@ -341,12 +355,16 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     Future.delayed(Duration(milliseconds: delayMS), () {
       if (mounted) setState(() {
         _onlineOfflineButtonState = ButtonState.idle;
-        if (!_isInitialized)
-          return;
         if (_onlineStatus == OnlineStatus.ONLINE) {
+          _backgroundLocationService.start(_onPositionChanged);
+          if (!_isInitialized)
+            return;
           _audioCache.play('sounds/positive.mp3');
           VibrationService.vibrateGoOnline();
         } else if (_onlineStatus == OnlineStatus.OFFLINE) {
+          _backgroundLocationService.stop();
+          if (!_isInitialized)
+            return;
           _audioCache.play('sounds/negative.mp3');
           VibrationService.vibrateGoOffline();
         }
@@ -554,7 +572,7 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   );
 
   Future<bool> _initMyPosition() async {
-    if(await PermissionService.positionIsNotGranted(PermissionTypEnum.LOCATION, context: context)) {
+    if(await PermissionService.positionIsNotGranted(PermissionTypEnum.LOCATION, context: context)) { // TODO PermissionTypEnum.LOCATION_ALWAYS
       await _changeStatus(value: OnlineStatus.OFFLINE);
       return false;
     }
@@ -565,8 +583,8 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
     });
 
     var locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
-
-    Geolocator().getPositionStream(locationOptions).listen(_onPositionChanged);
+    Geolocator().getPositionStream(locationOptions).listen((pos) => _onPositionChanged(pos, sendData: false));
+    // _backgroundLocationService.start(_onPositionChanged);
 
     await _mapController.moveCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: LatLng(_myPosition.latitude, _myPosition.longitude), zoom: 13)
@@ -678,14 +696,16 @@ class _MapsScreenState extends State<MapsScreen> with WidgetsBindingObserver {
   }
 
   FloatingActionButton _currentPositionFButton() {
-    if (_myPosition == null)
+    if (_myPosition == null || _locationFocused == true)
       return null;
     return FloatingActionButton(
       heroTag: "current_position_fab",
       onPressed: () {
         if (_myPosition == null)
           return;
-        _locationFocused = null;
+        setState(() {
+          _locationFocused = true;
+        });
         _mapsService.setNewCameraPosition(
             _mapController, LatLng(_myPosition.latitude, _myPosition.longitude),
             null, true);

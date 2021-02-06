@@ -34,6 +34,10 @@ class AuthService {
     signIn(authCredential);
   }
 
+  sendPasswordResetEmail(email) {
+    FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+  }
+
   FirebaseAuth getAuth() {
     return FirebaseAuth.instance;
   }

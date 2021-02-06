@@ -1,9 +1,9 @@
 name: postnow
-description: A new Flutter project.
+description: Post Now Delivery
 
 publish_to: 'none'
 
-version: 1.0.0+2
+version: 1.0.1+8
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -51,6 +51,9 @@ dependencies:
   flutter_cupertino_settings: ^0.3.1
   flutter_inappwebview: ^4.0.0+4
   fl_chart: ^0.12.0
+  dart_geohash: ^1.0.2
+
+  carp_background_location: ^1.0.2+1
 
 dev_dependencies:
   flutter_test:

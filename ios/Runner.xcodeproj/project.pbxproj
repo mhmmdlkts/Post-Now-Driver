@@ -385,7 +385,7 @@
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 33ZTKVABMB;
 				ENABLE_BITCODE = NO;
 				FLUTTER_ROOT = /Users/mali/Flutter/flutter;
@@ -403,7 +403,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.postnow.delivery;
 				PRODUCT_NAME = "Post Now Runner";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -529,7 +529,7 @@
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 33ZTKVABMB;
 				ENABLE_BITCODE = NO;
 				FLUTTER_ROOT = /Users/mali/Flutter/flutter;
@@ -547,7 +547,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.postnow.delivery;
 				PRODUCT_NAME = "Post Now Runner";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -567,7 +567,7 @@
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 33ZTKVABMB;
 				ENABLE_BITCODE = NO;
 				FLUTTER_ROOT = /Users/mali/Flutter/flutter;
@@ -585,7 +585,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.postnow.delivery;
 				PRODUCT_NAME = "Post Now Runner";
 				PROVISIONING_PROFILE_SPECIFIER = "";
